@@ -119,7 +119,7 @@ export default function Starfield() {
         const dx = driftedX - mouse.x;
         const dy = driftedY - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        const maxDist = 120;
+        const maxDist = 250;
         
         let offsetX = 0;
         let offsetY = 0;
