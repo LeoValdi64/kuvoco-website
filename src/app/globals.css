@@ -18,6 +18,14 @@ html {
   scroll-behavior: smooth;
 }
 
+/* All clickable elements must show pointer cursor */
+a, button, select, input[type="submit"], input[type="button"], input[type="checkbox"], input[type="radio"],
+[role="button"], [role="tab"], [role="link"], [role="menuitem"], [role="option"],
+summary, label[for], .cursor-pointer,
+[data-state], [data-radix-collection-item] {
+  cursor: pointer !important;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
