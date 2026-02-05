@@ -75,7 +75,7 @@ export default function ContactContent() {
             className="lg:col-span-2"
           >
             {isSubmitted ? (
-              <Card className="bg-[#1A1A2E]/50 border-white/5 p-8 text-center">
+              <Card className="bg-[#1A1A2E]/30 backdrop-blur-xl border-white/10 p-8 text-center">
                 <div className="flex flex-col items-center justify-center py-12">
                   <div className="w-16 h-16 bg-[#3B82F6]/10 rounded-full flex items-center justify-center mb-4">
                     <Mail className="w-8 h-8 text-[#3B82F6]" />
@@ -90,220 +90,217 @@ export default function ContactContent() {
                 </div>
               </Card>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Name Field */}
-                <div className="space-y-2">
-                  <Label htmlFor="name" className="text-white">
-                    Full Name
-                  </Label>
-                  <Input
-                    id="name"
-                    type="text"
-                    required
-                    placeholder="John Smith"
-                    value={formData.name}
-                    onChange={(e) =>
-                      setFormData({ ...formData, name: e.target.value })
-                    }
-                    className={cn(
-                      "bg-[#1A1A2E]/50 border-white/10 text-white",
-                      "placeholder:text-[#6B7280]",
-                      "focus:border-[#3B82F6] focus:ring-[#3B82F6]/20"
-                    )}
-                  />
-                </div>
-
-                {/* Email Field */}
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-white">
-                    Email Address
-                  </Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    required
-                    placeholder="john@business.com"
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                    className={cn(
-                      "bg-[#1A1A2E]/50 border-white/10 text-white",
-                      "placeholder:text-[#6B7280]",
-                      "focus:border-[#3B82F6] focus:ring-[#3B82F6]/20"
-                    )}
-                  />
-                </div>
-
-                {/* Phone Field */}
-                <div className="space-y-2">
-                  <Label htmlFor="phone" className="text-white">
-                    Phone Number
-                  </Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    placeholder="(555) 123-4567"
-                    value={formData.phone}
-                    onChange={(e) =>
-                      setFormData({ ...formData, phone: e.target.value })
-                    }
-                    className={cn(
-                      "bg-[#1A1A2E]/50 border-white/10 text-white",
-                      "placeholder:text-[#6B7280]",
-                      "focus:border-[#3B82F6] focus:ring-[#3B82F6]/20"
-                    )}
-                  />
-                </div>
-
-                {/* Business Type Select */}
-                <div className="space-y-2">
-                  <Label htmlFor="businessType" className="text-white">
-                    Business Type
-                  </Label>
-                  <Select
-                    value={formData.businessType}
-                    onValueChange={(value) =>
-                      setFormData({ ...formData, businessType: value })
-                    }
-                  >
-                    <SelectTrigger
-                      id="businessType"
-                      className={cn(
-                        "bg-[#1A1A2E]/50 border-white/10 text-white w-full",
-                        "focus:border-[#3B82F6] focus:ring-[#3B82F6]/20",
-                        !formData.businessType && "text-[#6B7280]"
-                      )}
+              <div className="bg-[#1A1A2E]/30 backdrop-blur-xl border border-white/10 rounded-2xl p-8 sm:p-10">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Name Field */}
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="name"
+                      className="text-sm font-medium text-[#E5E7EB]"
                     >
-                      <SelectValue placeholder="Select your business type" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#1A1A2E] border-white/10">
-                      <SelectItem
-                        value="restaurant"
-                        className="text-white hover:bg-white/10 focus:bg-white/10"
-                      >
-                        Restaurant
-                      </SelectItem>
-                      <SelectItem
-                        value="healthcare"
-                        className="text-white hover:bg-white/10 focus:bg-white/10"
-                      >
-                        Healthcare
-                      </SelectItem>
-                      <SelectItem
-                        value="home-services"
-                        className="text-white hover:bg-white/10 focus:bg-white/10"
-                      >
-                        Home Services
-                      </SelectItem>
-                      <SelectItem
-                        value="automotive"
-                        className="text-white hover:bg-white/10 focus:bg-white/10"
-                      >
-                        Automotive
-                      </SelectItem>
-                      <SelectItem
-                        value="professional-services"
-                        className="text-white hover:bg-white/10 focus:bg-white/10"
-                      >
-                        Professional Services
-                      </SelectItem>
-                      <SelectItem
-                        value="retail"
-                        className="text-white hover:bg-white/10 focus:bg-white/10"
-                      >
-                        Retail
-                      </SelectItem>
-                      <SelectItem
-                        value="other"
-                        className="text-white hover:bg-white/10 focus:bg-white/10"
-                      >
-                        Other
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                      Full Name
+                    </Label>
+                    <Input
+                      id="name"
+                      type="text"
+                      required
+                      placeholder="John Smith"
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
+                      className="bg-[#1A1A2E] border-[#3B82F6]/20 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
+                    />
+                  </div>
 
-                {/* Budget Range Select */}
-                <div className="space-y-2">
-                  <Label htmlFor="budgetRange" className="text-white">
-                    Budget Range
-                  </Label>
-                  <Select
-                    value={formData.budgetRange}
-                    onValueChange={(value) =>
-                      setFormData({ ...formData, budgetRange: value })
-                    }
-                  >
-                    <SelectTrigger
-                      id="budgetRange"
-                      className={cn(
-                        "bg-[#1A1A2E]/50 border-white/10 text-white w-full",
-                        "focus:border-[#3B82F6] focus:ring-[#3B82F6]/20",
-                        !formData.budgetRange && "text-[#6B7280]"
-                      )}
+                  {/* Email Field */}
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="email"
+                      className="text-sm font-medium text-[#E5E7EB]"
                     >
-                      <SelectValue placeholder="Select your budget range" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#1A1A2E] border-white/10">
-                      <SelectItem
-                        value="starter"
-                        className="text-white hover:bg-white/10 focus:bg-white/10"
-                      >
-                        Starter ($399)
-                      </SelectItem>
-                      <SelectItem
-                        value="business"
-                        className="text-white hover:bg-white/10 focus:bg-white/10"
-                      >
-                        Business ($699)
-                      </SelectItem>
-                      <SelectItem
-                        value="professional"
-                        className="text-white hover:bg-white/10 focus:bg-white/10"
-                      >
-                        Professional ($999)
-                      </SelectItem>
-                      <SelectItem
-                        value="custom"
-                        className="text-white hover:bg-white/10 focus:bg-white/10"
-                      >
-                        Custom (Let&apos;s Talk)
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                      Email Address
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      required
+                      placeholder="john@business.com"
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
+                      className="bg-[#1A1A2E] border-[#3B82F6]/20 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
+                    />
+                  </div>
 
-                {/* Message Field */}
-                <div className="space-y-2">
-                  <Label htmlFor="message" className="text-white">
-                    Message
-                  </Label>
-                  <Textarea
-                    id="message"
-                    required
-                    placeholder="Tell us about your project..."
-                    rows={5}
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({ ...formData, message: e.target.value })
-                    }
-                    className={cn(
-                      "bg-[#1A1A2E]/50 border-white/10 text-white",
-                      "placeholder:text-[#6B7280]",
-                      "focus:border-[#3B82F6] focus:ring-[#3B82F6]/20"
-                    )}
-                  />
-                </div>
+                  {/* Phone Field */}
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="phone"
+                      className="text-sm font-medium text-[#E5E7EB]"
+                    >
+                      Phone Number
+                    </Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      placeholder="(555) 123-4567"
+                      value={formData.phone}
+                      onChange={(e) =>
+                        setFormData({ ...formData, phone: e.target.value })
+                      }
+                      className="bg-[#1A1A2E] border-[#3B82F6]/20 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
+                    />
+                  </div>
 
-                {/* Submit Button */}
-                <Button
-                  type="submit"
-                  className="w-full bg-[#3B82F6] hover:bg-[#2563EB] text-white hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all duration-200"
-                >
-                  Send Message
-                </Button>
-              </form>
+                  {/* Business Type Select */}
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="businessType"
+                      className="text-sm font-medium text-[#E5E7EB]"
+                    >
+                      Business Type
+                    </Label>
+                    <Select
+                      value={formData.businessType}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, businessType: value })
+                      }
+                    >
+                      <SelectTrigger
+                        id="businessType"
+                        className="bg-[#1A1A2E] border-[#3B82F6]/20 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 transition-all data-[placeholder]:text-[#6B7280]"
+                      >
+                        <SelectValue placeholder="Select your business type" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#1A1A2E] border-white/10">
+                        <SelectItem
+                          value="restaurant"
+                          className="text-white hover:bg-white/10 focus:bg-white/10"
+                        >
+                          Restaurant
+                        </SelectItem>
+                        <SelectItem
+                          value="healthcare"
+                          className="text-white hover:bg-white/10 focus:bg-white/10"
+                        >
+                          Healthcare
+                        </SelectItem>
+                        <SelectItem
+                          value="home-services"
+                          className="text-white hover:bg-white/10 focus:bg-white/10"
+                        >
+                          Home Services
+                        </SelectItem>
+                        <SelectItem
+                          value="automotive"
+                          className="text-white hover:bg-white/10 focus:bg-white/10"
+                        >
+                          Automotive
+                        </SelectItem>
+                        <SelectItem
+                          value="professional-services"
+                          className="text-white hover:bg-white/10 focus:bg-white/10"
+                        >
+                          Professional Services
+                        </SelectItem>
+                        <SelectItem
+                          value="retail"
+                          className="text-white hover:bg-white/10 focus:bg-white/10"
+                        >
+                          Retail
+                        </SelectItem>
+                        <SelectItem
+                          value="other"
+                          className="text-white hover:bg-white/10 focus:bg-white/10"
+                        >
+                          Other
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Budget Range Select */}
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="budgetRange"
+                      className="text-sm font-medium text-[#E5E7EB]"
+                    >
+                      Budget Range
+                    </Label>
+                    <Select
+                      value={formData.budgetRange}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, budgetRange: value })
+                      }
+                    >
+                      <SelectTrigger
+                        id="budgetRange"
+                        className="bg-[#1A1A2E] border-[#3B82F6]/20 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 transition-all data-[placeholder]:text-[#6B7280]"
+                      >
+                        <SelectValue placeholder="Select your budget range" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#1A1A2E] border-white/10">
+                        <SelectItem
+                          value="starter"
+                          className="text-white hover:bg-white/10 focus:bg-white/10"
+                        >
+                          Starter ($399)
+                        </SelectItem>
+                        <SelectItem
+                          value="business"
+                          className="text-white hover:bg-white/10 focus:bg-white/10"
+                        >
+                          Business ($699)
+                        </SelectItem>
+                        <SelectItem
+                          value="professional"
+                          className="text-white hover:bg-white/10 focus:bg-white/10"
+                        >
+                          Professional ($999)
+                        </SelectItem>
+                        <SelectItem
+                          value="custom"
+                          className="text-white hover:bg-white/10 focus:bg-white/10"
+                        >
+                          Custom (Let&apos;s Talk)
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Message Field */}
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="message"
+                      className="text-sm font-medium text-[#E5E7EB]"
+                    >
+                      Message
+                    </Label>
+                    <Textarea
+                      id="message"
+                      required
+                      placeholder="Tell us about your project..."
+                      rows={5}
+                      value={formData.message}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
+                      className="bg-[#1A1A2E] border-[#3B82F6]/20 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
+                    />
+                  </div>
+
+                  {/* Submit Button */}
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="w-full bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:from-[#2563EB] hover:to-[#0891B2] text-white font-semibold py-3 rounded-lg transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]"
+                  >
+                    Send Message
+                  </Button>
+                </form>
+              </div>
             )}
           </motion.div>
 
