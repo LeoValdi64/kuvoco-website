@@ -100,10 +100,10 @@ export default function Navbar() {
               </Button>
             </div>
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Menu Toggle - fixed position to ensure visibility */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden relative z-[9999] p-2 text-[#9CA3AF] hover:text-white transition-colors"
+              className="md:hidden fixed top-4 right-4 z-[9999] p-2 text-[#9CA3AF] hover:text-white transition-colors bg-[#0A0A0F]/50 backdrop-blur-sm rounded-lg"
               aria-label="Toggle menu"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
