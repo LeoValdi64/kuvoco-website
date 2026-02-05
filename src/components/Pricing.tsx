@@ -81,7 +81,7 @@ export default function Pricing() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.3 }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
@@ -99,7 +99,7 @@ export default function Pricing() {
               key={tier.name}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.25, delay: index * 0.05 }}
             >
               <Card
                 className={`relative p-0 rounded-xl border transition-all duration-300 hover:-translate-y-1 ${
@@ -175,7 +175,7 @@ export default function Pricing() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
         >
           <div className="text-center mb-8">
             <h3 className="text-xl font-semibold mb-2">

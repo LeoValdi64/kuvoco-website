@@ -40,7 +40,7 @@ export default function Testimonials() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.3 }}
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
@@ -58,7 +58,7 @@ export default function Testimonials() {
               key={testimonial.name}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
+              transition={{ duration: 0.25, delay: index * 0.07 }}
             >
               <Card className="relative p-6 rounded-xl bg-[#1A1A2E]/50 border-white/5 hover:border-white/10 transition-all duration-300">
                 {/* Stars */}

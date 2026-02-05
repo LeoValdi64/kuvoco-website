@@ -27,7 +27,7 @@ function FadeIn({ children, delay = 0, className = "" }: { children: React.React
       ref={ref}
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.5, delay }}
+      transition={{ duration: 0.25, delay }}
       className={className}
     >
       {children}

@@ -96,7 +96,7 @@ function FadeIn({ children, delay = 0, className = "" }: { children: React.React
       ref={ref}
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.5, delay }}
+      transition={{ duration: 0.25, delay }}
       className={className}
     >
       {children}
@@ -159,7 +159,7 @@ export default function PortfolioContent() {
                       key={`${project.name}-${index}`}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, delay: index * 0.1 }}
+                      transition={{ duration: 0.4, delay: index * 0.05 }}
                     >
                       <Card className="bg-[#1A1A2E]/50 border-white/5 hover:border-[#3B82F6]/30 transition-all duration-300 overflow-hidden group hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(59,130,246,0.15)] h-full flex flex-col">
                         {/* Accent gradient bar at top */}

@@ -86,7 +86,7 @@ export default function ServicesContent() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.3 }}
         >
           <div className="text-center relative">
             <div className="mx-auto w-24 h-1 bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] rounded-full mb-8" />
@@ -168,7 +168,7 @@ function ServiceCard({
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-      transition={{ duration: 0.5, delay: 0.1 }}
+      transition={{ duration: 0.25, delay: 0.1 }}
     >
       <Card className="bg-[#1A1A2E]/50 border-white/5 hover:border-[#3B82F6]/20 transition-all duration-300 group">
         <div className={cn(

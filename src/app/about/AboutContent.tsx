@@ -77,7 +77,7 @@ function FadeIn({ children, delay = 0, className = "" }: { children: React.React
       ref={ref}
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.5, delay }}
+      transition={{ duration: 0.25, delay }}
       className={className}
     >
       {children}
@@ -121,7 +121,7 @@ export default function AboutContent() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ duration: 0.25, delay: index * 0.05 }}
                   className="bg-[#1A1A2E]/30 border border-white/5 rounded-2xl p-6 text-center hover:border-[#3B82F6]/30 transition-all duration-300"
                 >
                   <Icon className="w-8 h-8 text-[#3B82F6] mx-auto mb-3" />
@@ -233,7 +233,7 @@ export default function AboutContent() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
                 >
                   <Card className="bg-[#1A1A2E]/50 border-white/5 hover:border-[#3B82F6]/30 transition-all duration-300 h-full group">
                     <CardHeader>
@@ -270,7 +270,7 @@ export default function AboutContent() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
               >
                 <Card className="bg-[#1A1A2E]/50 border-white/5 hover:border-[#3B82F6]/30 transition-all duration-300 group hover:scale-[1.02]">
                   <CardHeader>

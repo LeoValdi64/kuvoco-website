@@ -159,7 +159,7 @@ function FadeIn({ children, delay = 0, className = "" }: { children: React.React
       ref={ref}
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.5, delay }}
+      transition={{ duration: 0.25, delay }}
       className={className}
     >
       {children}
@@ -175,7 +175,7 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: index * 0.1 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -248,7 +248,7 @@ export default function PricingContent() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
                   className="relative"
                 >
                   {tier.popular && (
@@ -341,7 +341,7 @@ export default function PricingContent() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
                 >
                   <Card className="bg-[#1A1A2E]/50 border border-white/5 rounded-2xl p-6 hover:border-[#3B82F6]/30 transition-all duration-300 h-full">
                     <div className="flex flex-col h-full">
