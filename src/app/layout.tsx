@@ -116,6 +116,9 @@ export default function RootLayout({
         ))}
       </head>
       <body className="font-sans bg-[#0A0A0F] text-white antialiased">
+        <div className="starfield" aria-hidden="true">
+          <span className="starfield-layer" />
+        </div>
         <Navbar />
         {children}
         <Footer />
