@@ -41,9 +41,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
+        url: "/og-image.jpg",
+        width: 1280,
+        height: 720,
         alt: "Kuvo Co. — Professional Web Development",
       },
     ],
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     title: "Kuvo Co. — Professional Web Development",
     description:
       "Professional websites for local businesses. Built fast. Built right.",
-    images: ["/og-image.png"],
+    images: ["/og-image.jpg"],
   },
   metadataBase: new URL("https://kuvoco-website.vercel.app"),
   alternates: {

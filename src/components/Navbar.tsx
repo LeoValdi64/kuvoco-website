@@ -103,10 +103,10 @@ export default function Navbar() {
               />
               <div className="flex items-center gap-0.5">
                 <span className="text-xl font-bold tracking-tight text-[#3B82F6]">
-                  KUVO
+                  uvo
                 </span>
                 <span className="text-xl font-normal tracking-tight text-[#6B7280]">
-                  CO.
+                  Co.
                 </span>
               </div>
             </Link>
