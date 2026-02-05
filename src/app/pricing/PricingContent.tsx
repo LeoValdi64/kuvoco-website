@@ -141,10 +141,11 @@ export default function PricingContent() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
+              className={cn(tier.popular && "pt-4")}
             >
               <Card
                 className={cn(
-                  "relative overflow-hidden transition-all duration-300 hover:-translate-y-1",
+                  "relative overflow-visible transition-all duration-300 hover:-translate-y-1",
                   tier.popular
                     ? "bg-[#1A1A2E] border-[#3B82F6]/50 glow-blue"
                     : "bg-[#1A1A2E]/50 border-white/5 hover:border-white/10"
@@ -152,7 +153,7 @@ export default function PricingContent() {
               >
                 {tier.popular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                    <Badge className="bg-[#3B82F6] text-white border-0 px-3 py-1">
+                    <Badge className="bg-[#3B82F6] text-white border-0 px-3 py-1 shadow-lg shadow-[#3B82F6]/25">
                       <Sparkles size={12} className="mr-1" />
                       Most Popular
                     </Badge>

@@ -142,12 +142,12 @@ export default function PortfolioContent() {
           className="mb-12"
         >
           <Tabs defaultValue="All" className="w-full" onValueChange={setActiveTab}>
-            <TabsList className="bg-[#1A1A2E]/50 border border-white/5 h-auto flex-wrap justify-center gap-2 p-2">
+            <TabsList className="bg-[#1A1A2E]/80 border border-white/10 h-auto flex-wrap justify-center gap-2 p-2 rounded-xl backdrop-blur-sm">
               {categories.map((category) => (
                 <TabsTrigger
                   key={category}
                   value={category}
-                  className="data-[state=active]:bg-[#3B82F6] data-[state=active]:text-white text-[#9CA3AF] px-4 py-2 rounded-md transition-all"
+                  className="data-[state=active]:bg-[#3B82F6] data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:shadow-[#3B82F6]/25 text-[#9CA3AF] hover:text-white hover:bg-white/5 px-4 py-2 rounded-lg transition-all duration-200"
                 >
                   {category}
                 </TabsTrigger>
@@ -156,7 +156,7 @@ export default function PortfolioContent() {
 
             {categories.map((category) => (
               <TabsContent key={category} value={category} className="mt-12">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                   {allProjects.map((project, index) => (
                     <motion.div
                       key={`${project.name}-${index}`}
@@ -165,7 +165,7 @@ export default function PortfolioContent() {
                       transition={{ duration: 0.5, delay: index * 0.1 }}
                     >
                       {project.isComingSoon ? (
-                        <Card className="group relative overflow-hidden border border-white/5 hover:border-white/10 transition-all duration-300 hover:-translate-y-1 bg-[#1A1A2E]/30">
+                        <Card className="group relative overflow-hidden border border-white/5 hover:border-white/15 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] bg-[#1A1A2E]/30">
                           <div
                             className={cn(
                               "h-48 bg-gradient-to-br relative",
@@ -203,7 +203,7 @@ export default function PortfolioContent() {
                           rel="noopener noreferrer"
                           className="block"
                         >
-                          <Card className="group relative overflow-hidden border border-white/5 hover:border-[#3B82F6]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(59,130,246,0.1)] bg-[#1A1A2E]/30">
+                          <Card className="group relative overflow-hidden border border-white/5 hover:border-[#3B82F6]/40 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(59,130,246,0.15)] bg-[#1A1A2E]/30">
                             <div
                               className={cn(
                                 "h-48 bg-gradient-to-br relative",
