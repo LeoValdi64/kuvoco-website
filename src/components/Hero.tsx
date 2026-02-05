@@ -2,6 +2,9 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export default function Hero() {
   return (
@@ -47,12 +50,14 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 mb-8"
         >
-          <span className="w-2 h-2 rounded-full bg-[#3B82F6] animate-pulse" />
-          <span className="text-sm text-[#9CA3AF]">
+          <Badge
+            variant="outline"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border-white/10 bg-white/5 mb-8 text-[#9CA3AF]"
+          >
+            <span className="w-2 h-2 rounded-full bg-[#3B82F6] animate-pulse" />
             Trusted by 90+ businesses
-          </span>
+          </Badge>
         </motion.div>
 
         {/* Headline */}
@@ -86,26 +91,31 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.7 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <a
-            href="#contact"
-            className="group inline-flex items-center gap-2 px-7 py-3.5 text-sm font-medium text-white bg-[#3B82F6] rounded-lg hover:bg-[#2563EB] transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.4)]"
+          <Button
+            asChild
+            className="group px-7 py-3.5 text-sm font-medium bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.4)]"
           >
-            Get Started
-            <ArrowRight
-              size={16}
-              className="transition-transform group-hover:translate-x-1"
-            />
-          </a>
-          <a
-            href="#portfolio"
-            className="group inline-flex items-center gap-2 px-7 py-3.5 text-sm font-medium text-[#9CA3AF] border border-white/10 rounded-lg hover:text-white hover:border-white/20 hover:bg-white/5 transition-all duration-300"
+            <Link href="/contact">
+              Get Started
+              <ArrowRight
+                size={16}
+                className="transition-transform group-hover:translate-x-1"
+              />
+            </Link>
+          </Button>
+          <Button
+            variant="outline"
+            asChild
+            className="group px-7 py-3.5 text-sm font-medium text-[#9CA3AF] border-white/10 rounded-lg hover:text-white hover:border-white/20 hover:bg-white/5 transition-all duration-300"
           >
-            View Our Work
-            <ChevronRight
-              size={16}
-              className="transition-transform group-hover:translate-x-1"
-            />
-          </a>
+            <Link href="/portfolio">
+              View Our Work
+              <ChevronRight
+                size={16}
+                className="transition-transform group-hover:translate-x-1"
+              />
+            </Link>
+          </Button>
         </motion.div>
       </div>
 

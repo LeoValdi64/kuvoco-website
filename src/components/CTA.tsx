@@ -3,6 +3,8 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function CTA() {
   const ref = useRef(null);
@@ -46,16 +48,19 @@ export default function CTA() {
             Get a professional website that drives results. No complicated
             process, no hidden fees --- just a great site delivered fast.
           </p>
-          <a
-            href="mailto:hello@kuvoco.com"
-            className="group inline-flex items-center gap-2 px-8 py-4 text-base font-medium text-white bg-[#3B82F6] rounded-lg hover:bg-[#2563EB] transition-all duration-300 hover:shadow-[0_0_40px_rgba(59,130,246,0.4)]"
+          <Button
+            asChild
+            size="lg"
+            className="group px-8 py-4 text-base font-medium bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition-all duration-300 hover:shadow-[0_0_40px_rgba(59,130,246,0.4)]"
           >
-            Get Started Today
-            <ArrowRight
-              size={18}
-              className="transition-transform group-hover:translate-x-1"
-            />
-          </a>
+            <Link href="/contact">
+              Get Started Today
+              <ArrowRight
+                size={18}
+                className="transition-transform group-hover:translate-x-1"
+              />
+            </Link>
+          </Button>
         </motion.div>
       </div>
     </section>

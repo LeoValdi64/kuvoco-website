@@ -1,17 +1,18 @@
+import Link from "next/link";
 import { Github, Twitter, Linkedin, Instagram } from "lucide-react";
 
 const footerLinks = {
   services: [
-    { label: "Web Design", href: "#services" },
-    { label: "Web Development", href: "#services" },
-    { label: "Maintenance", href: "#pricing" },
-    { label: "SEO", href: "#services" },
+    { label: "Web Design", href: "/services" },
+    { label: "Web Development", href: "/services" },
+    { label: "Maintenance", href: "/pricing" },
+    { label: "SEO", href: "/services" },
   ],
   company: [
-    { label: "Portfolio", href: "#portfolio" },
-    { label: "Process", href: "#services" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "FAQ", href: "#faq" },
+    { label: "About", href: "/about" },
+    { label: "Portfolio", href: "/portfolio" },
+    { label: "Pricing", href: "/pricing" },
+    { label: "Contact", href: "/contact" },
   ],
 };
 
@@ -29,14 +30,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <a href="#" className="inline-flex items-center gap-0.5 mb-4">
+            <Link href="/" className="inline-flex items-center gap-0.5 mb-4">
               <span className="text-xl font-bold tracking-tight text-[#3B82F6]">
                 KUVO
               </span>
               <span className="text-xl font-normal tracking-tight text-[#6B7280]">
                 CO.
               </span>
-            </a>
+            </Link>
             <p className="text-sm text-[#6B7280] leading-relaxed mb-6 max-w-xs">
               Professional websites for local businesses. Built fast. Built
               right.
@@ -62,12 +63,12 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.services.map((link) => (
                 <li key={link.label}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-sm text-[#6B7280] hover:text-white transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -79,12 +80,12 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.label}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-sm text-[#6B7280] hover:text-white transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

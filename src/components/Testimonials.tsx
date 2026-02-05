@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Star } from "lucide-react";
+import { Card } from "@/components/ui/card";
 
 const testimonials = [
   {
@@ -58,40 +59,41 @@ export default function Testimonials() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.15 }}
-              className="relative p-6 rounded-xl bg-[#1A1A2E]/50 border border-white/5 hover:border-white/10 transition-all duration-300"
             >
-              {/* Stars */}
-              <div className="flex gap-1 mb-4">
-                {Array.from({ length: testimonial.rating }).map((_, i) => (
-                  <Star
-                    key={i}
-                    size={16}
-                    className="text-[#3B82F6] fill-[#3B82F6]"
-                  />
-                ))}
-              </div>
-
-              {/* Quote */}
-              <p className="text-sm text-[#9CA3AF] leading-relaxed mb-6">
-                &ldquo;{testimonial.quote}&rdquo;
-              </p>
-
-              {/* Author */}
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#3B82F6]/10 flex items-center justify-center">
-                  <span className="text-sm font-semibold text-[#3B82F6]">
-                    {testimonial.name.charAt(0)}
-                  </span>
+              <Card className="relative p-6 rounded-xl bg-[#1A1A2E]/50 border-white/5 hover:border-white/10 transition-all duration-300">
+                {/* Stars */}
+                <div className="flex gap-1 mb-4">
+                  {Array.from({ length: testimonial.rating }).map((_, i) => (
+                    <Star
+                      key={i}
+                      size={16}
+                      className="text-[#3B82F6] fill-[#3B82F6]"
+                    />
+                  ))}
                 </div>
-                <div>
-                  <p className="text-sm font-medium text-white">
-                    {testimonial.name}
-                  </p>
-                  <p className="text-xs text-[#6B7280]">
-                    {testimonial.company}
-                  </p>
+
+                {/* Quote */}
+                <p className="text-sm text-[#9CA3AF] leading-relaxed mb-6">
+                  &ldquo;{testimonial.quote}&rdquo;
+                </p>
+
+                {/* Author */}
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-[#3B82F6]/10 flex items-center justify-center">
+                    <span className="text-sm font-semibold text-[#3B82F6]">
+                      {testimonial.name.charAt(0)}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-white">
+                      {testimonial.name}
+                    </p>
+                    <p className="text-xs text-[#6B7280]">
+                      {testimonial.company}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </Card>
             </motion.div>
           ))}
         </div>

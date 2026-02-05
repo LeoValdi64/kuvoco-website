@@ -1,8 +1,13 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/accordion";
 
 const faqs = [
   {
@@ -47,54 +52,9 @@ const faqs = [
   },
 ];
 
-function FAQItem({
-  faq,
-  isOpen,
-  onToggle,
-}: {
-  faq: { question: string; answer: string };
-  isOpen: boolean;
-  onToggle: () => void;
-}) {
-  return (
-    <div className="border-b border-white/5 last:border-b-0">
-      <button
-        onClick={onToggle}
-        className="flex items-center justify-between w-full py-5 text-left group"
-      >
-        <span className="text-sm sm:text-base font-medium text-white group-hover:text-[#3B82F6] transition-colors pr-4">
-          {faq.question}
-        </span>
-        <ChevronDown
-          size={18}
-          className={`text-[#6B7280] shrink-0 transition-transform duration-300 ${
-            isOpen ? "rotate-180 text-[#3B82F6]" : ""
-          }`}
-        />
-      </button>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-          >
-            <p className="text-sm text-[#9CA3AF] leading-relaxed pb-5">
-              {faq.answer}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
 export default function FAQ() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
     <section id="faq" className="relative py-24 sm:py-32 bg-[#111827]/30">
@@ -119,18 +79,28 @@ export default function FAQ() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="rounded-xl bg-[#1A1A2E]/50 border border-white/5 px-6"
         >
-          {faqs.map((faq, index) => (
-            <FAQItem
-              key={index}
-              faq={faq}
-              isOpen={openIndex === index}
-              onToggle={() =>
-                setOpenIndex(openIndex === index ? null : index)
-              }
-            />
-          ))}
+          <Accordion
+            type="single"
+            collapsible
+            defaultValue="item-0"
+            className="rounded-xl bg-[#1A1A2E]/50 border border-white/5 px-6"
+          >
+            {faqs.map((faq, index) => (
+              <AccordionItem
+                key={index}
+                value={`item-${index}`}
+                className="border-b border-white/5 last:border-b-0"
+              >
+                <AccordionTrigger className="text-sm sm:text-base font-medium text-white hover:text-[#3B82F6] hover:no-underline transition-colors">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm text-[#9CA3AF] leading-relaxed">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </motion.div>
       </div>
     </section>

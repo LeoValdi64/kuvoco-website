@@ -1,20 +1,32 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { motion } from "framer-motion";
+import { Menu } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 const navLinks = [
-  { label: "Services", href: "#services" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Services", href: "/services" },
+  { label: "Portfolio", href: "/portfolio" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -36,81 +48,88 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-0.5">
+          <Link href="/" className="flex items-center gap-0.5">
             <span className="text-xl font-bold tracking-tight text-[#3B82F6]">
               KUVO
             </span>
             <span className="text-xl font-normal tracking-tight text-[#6B7280]">
               CO.
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Links */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-[#9CA3AF] hover:text-white transition-colors duration-200"
+                className={`text-sm transition-colors duration-200 ${
+                  pathname === link.href
+                    ? "text-[#3B82F6]"
+                    : "text-[#9CA3AF] hover:text-white"
+                }`}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </div>
 
           {/* Desktop CTA */}
           <div className="hidden md:block">
-            <a
-              href="#contact"
-              className="inline-flex items-center px-5 py-2.5 text-sm font-medium text-white bg-[#3B82F6] rounded-lg hover:bg-[#2563EB] transition-all duration-200 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]"
+            <Button
+              asChild
+              className="px-5 py-2.5 text-sm font-medium bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition-all duration-200 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]"
             >
-              Get Started
-            </a>
+              <Link href="/contact">Get Started</Link>
+            </Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileOpen(!isMobileOpen)}
-            className="md:hidden p-2 text-[#9CA3AF] hover:text-white transition-colors"
-            aria-label="Toggle menu"
-          >
-            {isMobileOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
+          {/* Mobile Menu */}
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden p-2 text-[#9CA3AF] hover:text-white hover:bg-transparent"
+              >
+                <Menu size={22} />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent
+              side="right"
+              className="bg-[#0A0A0F] border-l border-white/5"
+            >
+              <SheetHeader>
+                <SheetTitle className="sr-only">Menu</SheetTitle>
+              </SheetHeader>
+              <div className="flex flex-col gap-4 mt-8">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`text-sm transition-colors py-2 ${
+                      pathname === link.href
+                        ? "text-[#3B82F6]"
+                        : "text-[#9CA3AF] hover:text-white"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+                <Button
+                  asChild
+                  className="w-full mt-4 bg-[#3B82F6] hover:bg-[#2563EB] text-white"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Link href="/contact">Get Started</Link>
+                </Button>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-[#0A0A0F]/95 backdrop-blur-xl border-b border-white/5 overflow-hidden"
-          >
-            <div className="px-4 py-4 space-y-3">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsMobileOpen(false)}
-                  className="block text-sm text-[#9CA3AF] hover:text-white transition-colors py-2"
-                >
-                  {link.label}
-                </a>
-              ))}
-              <a
-                href="#contact"
-                onClick={() => setIsMobileOpen(false)}
-                className="block w-full text-center px-5 py-2.5 text-sm font-medium text-white bg-[#3B82F6] rounded-lg hover:bg-[#2563EB] transition-colors mt-4"
-              >
-                Get Started
-              </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.nav>
   );
 }
