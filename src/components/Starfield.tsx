@@ -5,16 +5,27 @@ import { useEffect, useRef } from "react";
 interface Star {
   x: number;
   y: number;
+  baseX: number;
+  baseY: number;
   size: number;
   opacity: number;
   speed: number;
+  // Autonomous movement
+  driftX: number;
+  driftY: number;
+  driftSpeed: number;
+  phase: number;
+  // Twinkle
+  twinkleSpeed: number;
+  twinklePhase: number;
 }
 
 export default function Starfield() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const starsRef = useRef<Star[]>([]);
   const scrollRef = useRef(0);
-  const mouseRef = useRef({ x: 0, y: 0 });
+  const mouseRef = useRef({ x: -1000, y: -1000 });
+  const timeRef = useRef(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -27,27 +38,40 @@ export default function Starfield() {
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      createStars();
     };
-    resize();
-    window.addEventListener("resize", resize);
 
-    // Create stars - fewer, larger
+    // Create stars - fewer, smaller
     const createStars = () => {
       const stars: Star[] = [];
-      const numStars = 40; // Fewer stars
+      const numStars = 25; // Even fewer stars
       
       for (let i = 0; i < numStars; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height * 3;
         stars.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height * 3, // Spread across 3x viewport for scroll
-          size: Math.random() * 2 + 1.5, // Larger: 1.5-3.5px
-          opacity: Math.random() * 0.4 + 0.6, // More opaque: 0.6-1.0
-          speed: Math.random() * 0.3 + 0.1, // Parallax speed multiplier
+          x,
+          y,
+          baseX: x,
+          baseY: y,
+          size: Math.random() * 1 + 0.5, // Smaller: 0.5-1.5px
+          opacity: Math.random() * 0.3 + 0.7, // 0.7-1.0
+          speed: Math.random() * 0.3 + 0.1,
+          // Autonomous drift
+          driftX: (Math.random() - 0.5) * 30, // How far it drifts
+          driftY: (Math.random() - 0.5) * 30,
+          driftSpeed: Math.random() * 0.0005 + 0.0003, // How fast it drifts
+          phase: Math.random() * Math.PI * 2, // Starting phase
+          // Twinkle
+          twinkleSpeed: Math.random() * 0.002 + 0.001,
+          twinklePhase: Math.random() * Math.PI * 2,
         });
       }
       starsRef.current = stars;
     };
-    createStars();
+
+    resize();
+    window.addEventListener("resize", resize);
 
     // Track scroll
     const handleScroll = () => {
@@ -55,7 +79,7 @@ export default function Starfield() {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
 
-    // Track mouse for reactivity
+    // Track mouse
     const handleMouse = (e: MouseEvent) => {
       mouseRef.current = { x: e.clientX, y: e.clientY };
     };
@@ -63,49 +87,68 @@ export default function Starfield() {
 
     // Animation loop
     let animationId: number;
-    const animate = () => {
+    let lastTime = performance.now();
+    
+    const animate = (currentTime: number) => {
+      const deltaTime = currentTime - lastTime;
+      lastTime = currentTime;
+      timeRef.current += deltaTime;
+      
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const scroll = scrollRef.current;
       const mouse = mouseRef.current;
+      const time = timeRef.current;
 
       starsRef.current.forEach((star) => {
-        // Parallax: stars move at different speeds based on their speed property
-        const parallaxY = star.y - scroll * star.speed;
+        // Autonomous drifting movement
+        const driftOffsetX = Math.sin(time * star.driftSpeed + star.phase) * star.driftX;
+        const driftOffsetY = Math.cos(time * star.driftSpeed + star.phase * 0.7) * star.driftY;
         
-        // Wrap stars vertically
+        // Parallax on scroll
+        const parallaxY = star.baseY - scroll * star.speed;
+        
+        // Wrap vertically
         const wrappedY = ((parallaxY % (canvas.height * 3)) + canvas.height * 3) % (canvas.height * 3) - canvas.height;
         
-        // Mouse reactivity - subtle push away from cursor
-        const dx = star.x - mouse.x;
-        const dy = wrappedY - mouse.y;
+        // Apply drift
+        const driftedX = star.baseX + driftOffsetX;
+        const driftedY = wrappedY + driftOffsetY;
+        
+        // Mouse reactivity
+        const dx = driftedX - mouse.x;
+        const dy = driftedY - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        const maxDist = 150;
+        const maxDist = 120;
         
         let offsetX = 0;
         let offsetY = 0;
-        if (dist < maxDist) {
-          const force = (1 - dist / maxDist) * 15;
+        if (dist < maxDist && dist > 0) {
+          const force = (1 - dist / maxDist) * 20;
           offsetX = (dx / dist) * force;
           offsetY = (dy / dist) * force;
         }
 
-        const finalX = star.x + offsetX;
-        const finalY = wrappedY + offsetY;
+        const finalX = driftedX + offsetX;
+        const finalY = driftedY + offsetY;
+
+        // Twinkle effect
+        const twinkle = Math.sin(time * star.twinkleSpeed + star.twinklePhase) * 0.3 + 0.7;
+        const currentOpacity = star.opacity * twinkle;
 
         // Only draw if in viewport
-        if (finalY > -50 && finalY < canvas.height + 50) {
-          // Create gradient for soft glow
+        if (finalY > -20 && finalY < canvas.height + 20) {
+          // Soft glow
           const gradient = ctx.createRadialGradient(
             finalX, finalY, 0,
-            finalX, finalY, star.size * 2
+            finalX, finalY, star.size * 3
           );
-          gradient.addColorStop(0, `rgba(255, 255, 255, ${star.opacity})`);
-          gradient.addColorStop(0.5, `rgba(200, 220, 255, ${star.opacity * 0.5})`);
+          gradient.addColorStop(0, `rgba(255, 255, 255, ${currentOpacity})`);
+          gradient.addColorStop(0.4, `rgba(200, 220, 255, ${currentOpacity * 0.4})`);
           gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
 
           ctx.beginPath();
-          ctx.arc(finalX, finalY, star.size * 2, 0, Math.PI * 2);
+          ctx.arc(finalX, finalY, star.size * 3, 0, Math.PI * 2);
           ctx.fillStyle = gradient;
           ctx.fill();
         }
@@ -113,7 +156,7 @@ export default function Starfield() {
 
       animationId = requestAnimationFrame(animate);
     };
-    animate();
+    animationId = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener("resize", resize);
@@ -129,7 +172,7 @@ export default function Starfield() {
       className="fixed inset-0 pointer-events-none"
       style={{ 
         zIndex: 1,
-        mixBlendMode: "screen" // Blend with background colors
+        mixBlendMode: "screen"
       }}
       aria-hidden="true"
     />
