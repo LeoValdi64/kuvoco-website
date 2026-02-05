@@ -34,7 +34,8 @@ export default function Navbar() {
 
       // Determine scroll direction for navbar visibility
       // Only hide on mobile devices (below md breakpoint)
-      if (isMobile && currentScrollY > 100) {
+      // Lower threshold (50px) for faster navbar reveal on scroll up
+      if (isMobile && currentScrollY > 50) {
         if (currentScrollY > lastScrollY) {
           // Scrolling down - hide navbar (mobile only)
           setIsHidden(true);
@@ -82,7 +83,7 @@ export default function Navbar() {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: isHidden && !isOpen ? -100 : 0 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
+        transition={{ duration: 0.15, ease: "easeOut" }}
         className={`fixed top-0 left-0 right-0 z-[9998] transition-all duration-300 ${
           isScrolled
             ? "bg-[#0A0A0F]/80 backdrop-blur-xl border-b border-white/5"
