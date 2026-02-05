@@ -20,13 +20,38 @@ const navLinks = [
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Update isScrolled for navbar background
+      setIsScrolled(currentScrollY > 20);
+
+      // Determine scroll direction for hamburger visibility
+      // Only hide after scrolling down past 100px threshold
+      if (currentScrollY > 100) {
+        if (currentScrollY > lastScrollY) {
+          // Scrolling down - hide the hamburger
+          setIsHidden(true);
+        } else {
+          // Scrolling up - show the hamburger
+          setIsHidden(false);
+        }
+      } else {
+        // Near top of page - always show
+        setIsHidden(false);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -100,14 +125,21 @@ export default function Navbar() {
               </Button>
             </div>
 
-            {/* Mobile Menu Toggle - fixed position to ensure visibility */}
-            <button
+            {/* Mobile Menu Toggle */}
+            <motion.button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden fixed top-4 right-4 z-[9999] p-2 text-[#9CA3AF] hover:text-white transition-colors bg-[#0A0A0F]/50 backdrop-blur-sm rounded-lg"
+              className="md:hidden relative z-[10] p-2 text-[#9CA3AF] hover:text-white transition-colors"
               aria-label="Toggle menu"
+              initial={false}
+              animate={{
+                opacity: isOpen ? 1 : isHidden ? 0 : 1,
+                y: isOpen ? 0 : isHidden ? -20 : 0,
+                pointerEvents: isOpen ? "auto" : isHidden ? "none" : "auto",
+              }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            </motion.button>
           </div>
         </div>
       </motion.nav>
