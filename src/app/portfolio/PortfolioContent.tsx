@@ -139,17 +139,20 @@ export default function PortfolioContent() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <FadeIn delay={0.1}>
           <Tabs defaultValue="All" className="w-full" onValueChange={setActiveTab}>
-            <TabsList className="bg-transparent border-0 h-auto flex-wrap justify-center gap-3 p-0">
-              {categories.map((category) => (
-                <TabsTrigger
-                  key={category}
-                  value={category}
-                  className="bg-[#1A1A2E]/60 border border-white/10 rounded-full data-[state=active]:bg-[#3B82F6] data-[state=active]:border-[#3B82F6] data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-[#3B82F6]/25 text-[#9CA3AF] hover:text-white hover:bg-[#1A1A2E] hover:border-white/20 px-5 py-2.5 transition-all duration-200"
-                >
-                  {category}
-                </TabsTrigger>
+            {/* Mobile: horizontal scroll, Desktop: wrap */}
+            <div className="overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible">
+              <TabsList className="bg-transparent border-0 h-auto inline-flex sm:flex sm:flex-wrap sm:justify-center gap-2 sm:gap-3 p-0 min-w-max sm:min-w-0">
+                {categories.map((category) => (
+                  <TabsTrigger
+                    key={category}
+                    value={category}
+                    className="bg-[#1A1A2E]/60 border border-white/10 rounded-full data-[state=active]:bg-[#3B82F6] data-[state=active]:border-[#3B82F6] data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-[#3B82F6]/25 text-[#9CA3AF] hover:text-white hover:bg-[#1A1A2E] hover:border-white/20 px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base transition-all duration-200 whitespace-nowrap"
+                  >
+                    {category}
+                  </TabsTrigger>
               ))}
-            </TabsList>
+              </TabsList>
+            </div>
 
             {categories.map((category) => (
               <TabsContent key={category} value={category} className="mt-12">
