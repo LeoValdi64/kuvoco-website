@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Starfield from "@/components/Starfield";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -116,7 +117,7 @@ export default function RootLayout({
         ))}
       </head>
       <body className="font-sans bg-[#0A0A0F] text-white antialiased">
-        <div className="starfield-overlay" aria-hidden="true" />
+        <Starfield />
         <Navbar />
         {children}
         <Footer />
