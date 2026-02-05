@@ -5,7 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { ExternalLink, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -16,14 +16,6 @@ type Project = {
   url: string;
   gradient: string;
   accent: string;
-  isComingSoon?: false;
-};
-
-type ComingSoonProject = {
-  name: string;
-  category: string;
-  isComingSoon: true;
-  gradient: string;
 };
 
 const projects: Project[] = [
@@ -71,27 +63,6 @@ const projects: Project[] = [
   },
 ];
 
-const comingSoonProjects: ComingSoonProject[] = [
-  {
-    name: "Your Business Here",
-    category: "Coming Soon",
-    isComingSoon: true,
-    gradient: "from-gray-600/20 to-gray-700/20",
-  },
-  {
-    name: "Your Business Here",
-    category: "Coming Soon",
-    isComingSoon: true,
-    gradient: "from-gray-600/20 to-gray-700/20",
-  },
-  {
-    name: "Your Business Here",
-    category: "Coming Soon",
-    isComingSoon: true,
-    gradient: "from-gray-600/20 to-gray-700/20",
-  },
-];
-
 const categories = [
   "All",
   "Home Services",
@@ -111,8 +82,6 @@ export default function PortfolioContent() {
     activeTab === "All"
       ? projects
       : projects.filter((project) => project.category === activeTab);
-
-  const allProjects: (Project | ComingSoonProject)[] = [...filteredProjects, ...comingSoonProjects];
 
   return (
     <div className="relative pt-32 pb-24 sm:pb-32 min-h-screen">
@@ -142,12 +111,12 @@ export default function PortfolioContent() {
           className="mb-12"
         >
           <Tabs defaultValue="All" className="w-full" onValueChange={setActiveTab}>
-            <TabsList className="bg-[#1A1A2E]/80 border border-white/10 h-auto flex-wrap justify-center gap-2 p-2 rounded-xl backdrop-blur-sm">
+            <TabsList className="bg-transparent border-0 h-auto flex-wrap justify-center gap-2 p-0">
               {categories.map((category) => (
                 <TabsTrigger
                   key={category}
                   value={category}
-                  className="data-[state=active]:bg-[#3B82F6] data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:shadow-[#3B82F6]/25 text-[#9CA3AF] hover:text-white hover:bg-white/5 px-4 py-2 rounded-lg transition-all duration-200"
+                  className="bg-[#1A1A2E]/60 border border-white/10 data-[state=active]:bg-[#3B82F6] data-[state=active]:border-[#3B82F6] data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:shadow-[#3B82F6]/25 text-[#9CA3AF] hover:text-white hover:bg-[#1A1A2E] hover:border-white/20 px-4 py-2 rounded-full transition-all duration-200"
                 >
                   {category}
                 </TabsTrigger>
@@ -157,15 +126,20 @@ export default function PortfolioContent() {
             {categories.map((category) => (
               <TabsContent key={category} value={category} className="mt-12">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {allProjects.map((project, index) => (
+                  {filteredProjects.map((project, index) => (
                     <motion.div
                       key={`${project.name}-${index}`}
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
                     >
-                      {project.isComingSoon ? (
-                        <Card className="group relative overflow-hidden border border-white/5 hover:border-white/15 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] bg-[#1A1A2E]/30">
+                      <a
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block"
+                      >
+                        <Card className="group relative overflow-hidden border border-white/5 hover:border-[#3B82F6]/40 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(59,130,246,0.15)] bg-[#1A1A2E]/30">
                           <div
                             className={cn(
                               "h-48 bg-gradient-to-br relative",
@@ -174,9 +148,15 @@ export default function PortfolioContent() {
                           >
                             <div className="absolute inset-0 bg-[#0A0A0F]/40" />
                             <div className="absolute inset-0 flex items-center justify-center">
-                              <span className="text-2xl font-bold text-[#9CA3AF]">
-                                Coming Soon
+                              <span className="text-6xl font-bold text-white/20 group-hover:text-white/40 transition-colors">
+                                {project.name.charAt(0)}
                               </span>
+                            </div>
+                            <div className="absolute inset-0 bg-[#3B82F6]/0 group-hover:bg-[#3B82F6]/10 transition-colors duration-300 flex items-center justify-center">
+                              <ExternalLink
+                                size={24}
+                                className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              />
                             </div>
                           </div>
                           <CardFooter className="p-5 bg-[#1A1A2E]/50 flex items-center justify-between">
@@ -186,66 +166,21 @@ export default function PortfolioContent() {
                               </h3>
                               <Badge
                                 variant="secondary"
-                                className="bg-[#9CA3AF]/10 text-[#9CA3AF] border-0"
+                                className={cn(
+                                  "border-0 text-white",
+                                  project.accent
+                                )}
                               >
                                 {project.category}
                               </Badge>
                             </div>
-                            <Button asChild size="sm" variant="outline">
-                              <Link href="/contact">Get Started</Link>
-                            </Button>
+                            <span className="text-xs text-[#6B7280] group-hover:text-[#3B82F6] transition-colors flex items-center gap-1">
+                              Visit Site
+                              <ExternalLink size={12} />
+                            </span>
                           </CardFooter>
                         </Card>
-                      ) : (
-                        <a
-                          href={project.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block"
-                        >
-                          <Card className="group relative overflow-hidden border border-white/5 hover:border-[#3B82F6]/40 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(59,130,246,0.15)] bg-[#1A1A2E]/30">
-                            <div
-                              className={cn(
-                                "h-48 bg-gradient-to-br relative",
-                                project.gradient
-                              )}
-                            >
-                              <div className="absolute inset-0 bg-[#0A0A0F]/40" />
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <span className="text-6xl font-bold text-white/20 group-hover:text-white/40 transition-colors">
-                                  {project.name.charAt(0)}
-                                </span>
-                              </div>
-                              <div className="absolute inset-0 bg-[#3B82F6]/0 group-hover:bg-[#3B82F6]/10 transition-colors duration-300 flex items-center justify-center">
-                                <ExternalLink
-                                  size={24}
-                                  className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                />
-                              </div>
-                            </div>
-                            <CardFooter className="p-5 bg-[#1A1A2E]/50 flex items-center justify-between">
-                              <div>
-                                <h3 className="font-semibold text-white mb-1">
-                                  {project.name}
-                                </h3>
-                                <Badge
-                                  variant="secondary"
-                                  className={cn(
-                                    "border-0 text-white",
-                                    project.accent
-                                  )}
-                                >
-                                  {project.category}
-                                </Badge>
-                              </div>
-                              <span className="text-xs text-[#6B7280] group-hover:text-[#3B82F6] transition-colors flex items-center gap-1">
-                                Visit Site
-                                <ExternalLink size={12} />
-                              </span>
-                            </CardFooter>
-                          </Card>
-                        </a>
-                      )}
+                      </a>
                     </motion.div>
                   ))}
                 </div>

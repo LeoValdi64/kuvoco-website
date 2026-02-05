@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone, Clock } from "lucide-react";
+import { Mail, MapPin, Phone, Clock, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export default function ContactContent() {
   const [formData, setFormData] = useState({
@@ -31,7 +31,6 @@ export default function ContactContent() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitted(true);
-    // Reset form after 5 seconds
     setTimeout(() => {
       setIsSubmitted(false);
       setFormData({
@@ -170,53 +169,18 @@ export default function ContactContent() {
                     >
                       <SelectTrigger
                         id="businessType"
-                        className="bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30 transition-all data-[placeholder]:text-[#6B7280]"
+                        className="w-full bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30 transition-all data-[placeholder]:text-[#6B7280]"
                       >
                         <SelectValue placeholder="Select your business type" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#1A1A2E] border-white/10">
-                        <SelectItem
-                          value="restaurant"
-                          className="text-white hover:bg-white/10 focus:bg-white/10"
-                        >
-                          Restaurant
-                        </SelectItem>
-                        <SelectItem
-                          value="healthcare"
-                          className="text-white hover:bg-white/10 focus:bg-white/10"
-                        >
-                          Healthcare
-                        </SelectItem>
-                        <SelectItem
-                          value="home-services"
-                          className="text-white hover:bg-white/10 focus:bg-white/10"
-                        >
-                          Home Services
-                        </SelectItem>
-                        <SelectItem
-                          value="automotive"
-                          className="text-white hover:bg-white/10 focus:bg-white/10"
-                        >
-                          Automotive
-                        </SelectItem>
-                        <SelectItem
-                          value="professional-services"
-                          className="text-white hover:bg-white/10 focus:bg-white/10"
-                        >
-                          Professional Services
-                        </SelectItem>
-                        <SelectItem
-                          value="retail"
-                          className="text-white hover:bg-white/10 focus:bg-white/10"
-                        >
-                          Retail
-                        </SelectItem>
-                        <SelectItem
-                          value="other"
-                          className="text-white hover:bg-white/10 focus:bg-white/10"
-                        >
-                          Other
-                        </SelectItem>
+                        <SelectItem value="restaurant" className="text-white hover:bg-white/10 focus:bg-white/10">Restaurant</SelectItem>
+                        <SelectItem value="healthcare" className="text-white hover:bg-white/10 focus:bg-white/10">Healthcare</SelectItem>
+                        <SelectItem value="home-services" className="text-white hover:bg-white/10 focus:bg-white/10">Home Services</SelectItem>
+                        <SelectItem value="automotive" className="text-white hover:bg-white/10 focus:bg-white/10">Automotive</SelectItem>
+                        <SelectItem value="professional-services" className="text-white hover:bg-white/10 focus:bg-white/10">Professional Services</SelectItem>
+                        <SelectItem value="retail" className="text-white hover:bg-white/10 focus:bg-white/10">Retail</SelectItem>
+                        <SelectItem value="other" className="text-white hover:bg-white/10 focus:bg-white/10">Other</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -237,35 +201,15 @@ export default function ContactContent() {
                     >
                       <SelectTrigger
                         id="budgetRange"
-                        className="bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30 transition-all data-[placeholder]:text-[#6B7280]"
+                        className="w-full bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30 transition-all data-[placeholder]:text-[#6B7280]"
                       >
                         <SelectValue placeholder="Select your budget range" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#1A1A2E] border-white/10">
-                        <SelectItem
-                          value="starter"
-                          className="text-white hover:bg-white/10 focus:bg-white/10"
-                        >
-                          Starter ($399)
-                        </SelectItem>
-                        <SelectItem
-                          value="business"
-                          className="text-white hover:bg-white/10 focus:bg-white/10"
-                        >
-                          Business ($699)
-                        </SelectItem>
-                        <SelectItem
-                          value="professional"
-                          className="text-white hover:bg-white/10 focus:bg-white/10"
-                        >
-                          Professional ($999)
-                        </SelectItem>
-                        <SelectItem
-                          value="custom"
-                          className="text-white hover:bg-white/10 focus:bg-white/10"
-                        >
-                          Custom (Let&apos;s Talk)
-                        </SelectItem>
+                        <SelectItem value="starter" className="text-white hover:bg-white/10 focus:bg-white/10">Starter ($399)</SelectItem>
+                        <SelectItem value="business" className="text-white hover:bg-white/10 focus:bg-white/10">Business ($699)</SelectItem>
+                        <SelectItem value="professional" className="text-white hover:bg-white/10 focus:bg-white/10">Professional ($999)</SelectItem>
+                        <SelectItem value="custom" className="text-white hover:bg-white/10 focus:bg-white/10">Custom (Let&apos;s Talk)</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -287,7 +231,7 @@ export default function ContactContent() {
                       onChange={(e) =>
                         setFormData({ ...formData, message: e.target.value })
                       }
-                      className="bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30 transition-all"
+                      className="resize-none bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30 transition-all"
                     />
                   </div>
 
@@ -335,9 +279,7 @@ export default function ContactContent() {
                   <MapPin className="w-6 h-6 text-[#3B82F6]" />
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold mb-1">
-                    Our Location
-                  </h3>
+                  <h3 className="text-white font-semibold mb-1">Our Location</h3>
                   <p className="text-[#9CA3AF] text-sm">Everett, WA</p>
                 </div>
               </div>
@@ -368,14 +310,24 @@ export default function ContactContent() {
                   <Clock className="w-6 h-6 text-[#3B82F6]" />
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold mb-1">
-                    Business Hours
-                  </h3>
-                  <p className="text-[#9CA3AF] text-sm">
-                    Mon-Fri: 9am - 6pm PST
-                  </p>
+                  <h3 className="text-white font-semibold mb-1">Business Hours</h3>
+                  <p className="text-[#9CA3AF] text-sm">Mon-Fri: 9am - 6pm PST</p>
                 </div>
               </div>
+            </Card>
+
+            {/* CTA Card to balance column height */}
+            <Card className="bg-gradient-to-br from-[#3B82F6]/10 to-[#06B6D4]/10 border-[#3B82F6]/20 p-6">
+              <h3 className="text-white font-semibold mb-2">Need a Quick Quote?</h3>
+              <p className="text-[#9CA3AF] text-sm mb-4">
+                Check out our transparent pricing plans and find the perfect fit for your business.
+              </p>
+              <Button asChild variant="outline" className="w-full border-[#3B82F6]/30 hover:bg-[#3B82F6]/10 text-white">
+                <Link href="/pricing" className="inline-flex items-center gap-2">
+                  View Pricing
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </Button>
             </Card>
           </motion.div>
         </div>

@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { Check, X, ArrowRight, Sparkles } from "lucide-react";
+import { useRef, useState } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { Check, X, ArrowRight, Sparkles, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -107,6 +107,73 @@ const maintenancePlans = [
   },
 ];
 
+const faqs = [
+  {
+    question: "How long does it take to build my website?",
+    answer: "Most websites are delivered within 48 hours to 5 days, depending on the plan you choose. Starter sites ship in 48 hours, Business in 3 days, and Professional in 5 days. Custom projects have dedicated timelines.",
+  },
+  {
+    question: "Do I need to provide my own hosting?",
+    answer: "No. We handle the hosting setup as part of every plan. Your site will be deployed on fast, reliable infrastructure with SSL included at no extra cost.",
+  },
+  {
+    question: "Can I update the website myself after launch?",
+    answer: "Yes! We build with modern CMS options when needed. You can also choose one of our maintenance plans and we'll handle all updates for you.",
+  },
+  {
+    question: "What if I need changes after the site is delivered?",
+    answer: "Minor revisions are included during the delivery process. For ongoing changes, our maintenance plans cover content updates, performance monitoring, and priority support.",
+  },
+  {
+    question: "Is there a contract or commitment?",
+    answer: "No long-term contracts. Website builds are a one-time payment. Maintenance plans are month-to-month and can be cancelled anytime.",
+  },
+];
+
+function FAQItem({ faq, index }: { faq: (typeof faqs)[number]; index: number }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+    >
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full text-left bg-[#1A1A2E]/50 border border-white/5 hover:border-white/10 rounded-xl p-5 transition-all duration-200"
+      >
+        <div className="flex items-center justify-between gap-4">
+          <h3 className="text-white font-medium">{faq.question}</h3>
+          <ChevronDown
+            size={18}
+            className={cn(
+              "text-[#9CA3AF] shrink-0 transition-transform duration-200",
+              isOpen && "rotate-180"
+            )}
+          />
+        </div>
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="overflow-hidden"
+            >
+              <p className="text-[#9CA3AF] text-sm mt-3 leading-relaxed">
+                {faq.answer}
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </button>
+    </motion.div>
+  );
+}
+
 export default function PricingContent() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -141,13 +208,13 @@ export default function PricingContent() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={cn(tier.popular && "pt-4")}
+              className="flex"
             >
               <Card
                 className={cn(
-                  "relative overflow-visible transition-all duration-300 hover:-translate-y-1",
+                  "relative overflow-visible transition-all duration-300 hover:-translate-y-1 flex flex-col w-full",
                   tier.popular
-                    ? "bg-[#1A1A2E] border-[#3B82F6]/50 glow-blue"
+                    ? "bg-[#1A1A2E] border-[#3B82F6]/50 glow-blue mt-0 pt-4"
                     : "bg-[#1A1A2E]/50 border-white/5 hover:border-white/10"
                 )}
               >
@@ -173,7 +240,7 @@ export default function PricingContent() {
                   </div>
                 </CardHeader>
 
-                <CardContent className="pb-6">
+                <CardContent className="pb-6 flex-1">
                   <ul className="space-y-3">
                     {tier.features.map((feature) => (
                       <li
@@ -286,11 +353,30 @@ export default function PricingContent() {
           </div>
         </motion.div>
 
+        {/* FAQ Section */}
+        <div className="mb-20">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-[#9CA3AF]">
+              Everything you need to know about our services
+            </p>
+          </div>
+
+          <div className="max-w-3xl mx-auto space-y-3">
+            {faqs.map((faq, index) => (
+              <FAQItem key={faq.question} faq={faq} index={index} />
+            ))}
+          </div>
+        </div>
+
         {/* Bottom CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={isTableInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
           className="text-center"
         >
           <div className="max-w-2xl mx-auto">
