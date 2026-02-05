@@ -31,14 +31,14 @@ export default function Navbar() {
       // Update isScrolled for navbar background
       setIsScrolled(currentScrollY > 20);
 
-      // Determine scroll direction for hamburger visibility
+      // Determine scroll direction for navbar visibility
       // Only hide after scrolling down past 100px threshold
       if (currentScrollY > 100) {
         if (currentScrollY > lastScrollY) {
-          // Scrolling down - hide the hamburger
+          // Scrolling down - hide navbar
           setIsHidden(true);
         } else {
-          // Scrolling up - show the hamburger
+          // Scrolling up - show navbar
           setIsHidden(false);
         }
       } else {
@@ -69,7 +69,7 @@ export default function Navbar() {
     <>
       <motion.nav
         initial={{ y: -100 }}
-        animate={{ y: 0 }}
+        animate={{ y: isHidden && !isOpen ? -100 : 0 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
         className={`fixed top-0 left-0 right-0 z-[9998] transition-all duration-300 ${
           isScrolled
@@ -126,20 +126,13 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Menu Toggle - simple icon only, no background */}
-            <motion.button
+            <button
               onClick={() => setIsOpen(!isOpen)}
               className="md:hidden relative z-[9999] p-0 bg-transparent border-none text-[#9CA3AF] hover:text-white transition-colors"
               aria-label="Toggle menu"
-              initial={false}
-              animate={{
-                opacity: isOpen ? 1 : isHidden ? 0 : 1,
-                y: isOpen ? 0 : isHidden ? -20 : 0,
-                pointerEvents: isOpen ? "auto" : isHidden ? "none" : "auto",
-              }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </motion.button>
+            </button>
           </div>
         </div>
       </motion.nav>
