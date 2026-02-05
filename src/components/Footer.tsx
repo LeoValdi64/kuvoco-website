@@ -40,12 +40,12 @@ export default function Footer() {
                 height={32}
                 className="h-8 w-auto"
               />
-              <div className="flex items-center gap-0.5">
+              <div className="flex items-center">
                 <span className="text-lg font-bold tracking-tight text-[#3B82F6]">
-                  KUVO
+                  Kuvo
                 </span>
                 <span className="text-lg font-normal tracking-tight text-[#6B7280]">
-                  CO.
+                  Co.
                 </span>
               </div>
             </Link>
@@ -141,12 +141,12 @@ export default function Footer() {
                   height={36}
                   className="h-9 w-auto"
                 />
-                <div className="flex items-center gap-0.5">
+                <div className="flex items-center">
                   <span className="text-xl font-bold tracking-tight text-[#3B82F6]">
-                    KUVO
+                    Kuvo
                   </span>
                   <span className="text-xl font-normal tracking-tight text-[#6B7280]">
-                    CO.
+                    Co.
                   </span>
                 </div>
               </Link>
