@@ -370,3 +370,49 @@ summary, label[for], .cursor-pointer,
     background-attachment: fixed;
   }
 }
+
+/* Starfield overlay - appears on top of everything */
+.starfield-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: 
+    radial-gradient(2px 2px at 50px 80px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(2px 2px at 120px 160px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 200px 60px, rgba(255,255,255,1), transparent),
+    radial-gradient(2px 2px at 280px 200px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 380px 120px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(2px 2px at 450px 280px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 550px 180px, rgba(255,255,255,1), transparent),
+    radial-gradient(2px 2px at 650px 340px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 750px 240px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(2px 2px at 850px 400px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 950px 300px, rgba(255,255,255,1), transparent),
+    radial-gradient(2px 2px at 1050px 460px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 100px 380px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(2px 2px at 220px 500px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 340px 420px, rgba(255,255,255,1), transparent),
+    radial-gradient(2px 2px at 460px 560px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 580px 480px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(2px 2px at 700px 620px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 820px 540px, rgba(255,255,255,1), transparent),
+    radial-gradient(2px 2px at 940px 680px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 180px 700px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(2px 2px at 300px 780px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 420px 720px, rgba(255,255,255,1), transparent),
+    radial-gradient(2px 2px at 540px 840px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 660px 760px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(2px 2px at 780px 880px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 900px 800px, rgba(255,255,255,1), transparent),
+    radial-gradient(2px 2px at 1020px 920px, rgba(255,255,255,0.8), transparent);
+  background-size: 1100px 1000px;
+  background-repeat: repeat;
+  animation: twinkle-overlay 4s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle-overlay {
+  0% { opacity: 0.6; }
+  50% { opacity: 0.9; }
+  100% { opacity: 0.7; }
+}
