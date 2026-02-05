@@ -109,7 +109,7 @@ export default function ContactContent() {
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
-                      className="bg-[#1A1A2E] border-[#3B82F6]/20 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
+                      className="bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30 transition-all"
                     />
                   </div>
 
@@ -130,7 +130,7 @@ export default function ContactContent() {
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
                       }
-                      className="bg-[#1A1A2E] border-[#3B82F6]/20 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
+                      className="bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30 transition-all"
                     />
                   </div>
 
@@ -150,7 +150,7 @@ export default function ContactContent() {
                       onChange={(e) =>
                         setFormData({ ...formData, phone: e.target.value })
                       }
-                      className="bg-[#1A1A2E] border-[#3B82F6]/20 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
+                      className="bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30 transition-all"
                     />
                   </div>
 
@@ -170,7 +170,7 @@ export default function ContactContent() {
                     >
                       <SelectTrigger
                         id="businessType"
-                        className="bg-[#1A1A2E] border-[#3B82F6]/20 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 transition-all data-[placeholder]:text-[#6B7280]"
+                        className="bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30 transition-all data-[placeholder]:text-[#6B7280]"
                       >
                         <SelectValue placeholder="Select your business type" />
                       </SelectTrigger>
@@ -237,7 +237,7 @@ export default function ContactContent() {
                     >
                       <SelectTrigger
                         id="budgetRange"
-                        className="bg-[#1A1A2E] border-[#3B82F6]/20 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 transition-all data-[placeholder]:text-[#6B7280]"
+                        className="bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30 transition-all data-[placeholder]:text-[#6B7280]"
                       >
                         <SelectValue placeholder="Select your budget range" />
                       </SelectTrigger>
@@ -287,7 +287,7 @@ export default function ContactContent() {
                       onChange={(e) =>
                         setFormData({ ...formData, message: e.target.value })
                       }
-                      className="bg-[#1A1A2E] border-[#3B82F6]/20 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
+                      className="bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30 transition-all"
                     />
                   </div>
 

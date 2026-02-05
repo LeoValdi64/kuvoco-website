@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Github, Twitter, Linkedin, Instagram } from "lucide-react";
 
 const footerLinks = {
@@ -30,13 +31,22 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link href="/" className="inline-flex items-center gap-0.5 mb-4">
-              <span className="text-xl font-bold tracking-tight text-[#3B82F6]">
-                KUVO
-              </span>
-              <span className="text-xl font-normal tracking-tight text-[#6B7280]">
-                CO.
-              </span>
+            <Link href="/" className="inline-flex items-center gap-2 mb-4">
+              <Image
+                src="/logo.png"
+                alt="Kuvo Co. logo"
+                width={36}
+                height={36}
+                className="h-9 w-auto"
+              />
+              <div className="flex items-center gap-0.5">
+                <span className="text-xl font-bold tracking-tight text-[#3B82F6]">
+                  KUVO
+                </span>
+                <span className="text-xl font-normal tracking-tight text-[#6B7280]">
+                  CO.
+                </span>
+              </div>
             </Link>
             <p className="text-sm text-[#6B7280] leading-relaxed mb-6 max-w-xs">
               Professional websites for local businesses. Built fast. Built

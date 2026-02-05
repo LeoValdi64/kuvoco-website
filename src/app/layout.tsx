@@ -52,7 +52,8 @@ export const metadata: Metadata = {
     canonical: "https://kuvoco-website.vercel.app",
   },
   icons: {
-    icon: "/icon.svg",
+    icon: "/logo.png",
+    apple: "/logo.png",
   },
 };
 

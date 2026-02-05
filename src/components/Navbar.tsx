@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Menu } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -48,13 +49,22 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-0.5">
-            <span className="text-xl font-bold tracking-tight text-[#3B82F6]">
-              KUVO
-            </span>
-            <span className="text-xl font-normal tracking-tight text-[#6B7280]">
-              CO.
-            </span>
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/logo.png"
+              alt="Kuvo Co. logo"
+              width={36}
+              height={36}
+              className="h-9 w-auto"
+            />
+            <div className="flex items-center gap-0.5">
+              <span className="text-xl font-bold tracking-tight text-[#3B82F6]">
+                KUVO
+              </span>
+              <span className="text-xl font-normal tracking-tight text-[#6B7280]">
+                CO.
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Links */}
