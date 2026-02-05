@@ -121,12 +121,33 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-[55] md:hidden"
+            style={{
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              width: "100vw",
+              height: "100vh",
+              paddingTop: "env(safe-area-inset-top)",
+              paddingBottom: "env(safe-area-inset-bottom)",
+              paddingLeft: "env(safe-area-inset-left)",
+              paddingRight: "env(safe-area-inset-right)",
+            }}
           >
             {/* Background */}
             <div className="absolute inset-0 bg-[#0A0A0F]">
               {/* Gradient accent */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[#3B82F6]/10 rounded-full blur-[120px]" />
             </div>
+
+            {/* Close button - fixed position */}
+            <button
+              onClick={() => setIsOpen(false)}
+              className="absolute top-5 right-5 z-[60] p-2 text-white/60 hover:text-white transition-colors"
+              aria-label="Close menu"
+            >
+              <X size={28} />
+            </button>
 
             {/* Menu Content */}
             <div className="relative h-full flex flex-col items-center justify-center px-6">

@@ -197,3 +197,20 @@ summary, label[for], .cursor-pointer,
   }
 }
 
+
+/* Safe area padding for notched devices */
+html, body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Ensure full viewport coverage */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
