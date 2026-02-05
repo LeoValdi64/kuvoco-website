@@ -27,30 +27,42 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      const isMobile = window.innerWidth < 768; // md breakpoint
 
       // Update isScrolled for navbar background
       setIsScrolled(currentScrollY > 20);
 
       // Determine scroll direction for navbar visibility
-      // Only hide after scrolling down past 100px threshold
-      if (currentScrollY > 100) {
+      // Only hide on mobile devices (below md breakpoint)
+      if (isMobile && currentScrollY > 100) {
         if (currentScrollY > lastScrollY) {
-          // Scrolling down - hide navbar
+          // Scrolling down - hide navbar (mobile only)
           setIsHidden(true);
         } else {
           // Scrolling up - show navbar
           setIsHidden(false);
         }
       } else {
-        // Near top of page - always show
+        // Desktop or near top of page - always show
         setIsHidden(false);
       }
 
       setLastScrollY(currentScrollY);
     };
 
+    // Handle window resize - show navbar when switching to desktop
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsHidden(false);
+      }
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
   }, [lastScrollY]);
 
   // Prevent body scroll when menu is open
