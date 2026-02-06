@@ -16,12 +16,20 @@ const tiers = [
     popular: false,
     isFree: true,
     includesGrowth: false,
+    isEnterprise: false,
     features: [
       "1 basic page",
       "Subdomain (business.kuvoco.com)",
       "Mobile responsive",
       "Requires $29/mo plan",
     ],
+    colorTheme: {
+      iconColor: "text-gray-400",
+      borderGlow: "border-gray-500/30",
+      buttonBg: "bg-transparent text-gray-400 border-gray-600 hover:bg-gray-800/50",
+      checkColor: "text-gray-500",
+      priceColor: "text-gray-400",
+    },
   },
   {
     name: "Starter",
@@ -30,12 +38,20 @@ const tiers = [
     popular: false,
     isFree: false,
     includesGrowth: true,
+    isEnterprise: false,
     features: [
       "1 page + custom domain",
       "Design preview before deploy",
       "Basic SEO + 2 revisions",
       "48-hour delivery",
     ],
+    colorTheme: {
+      iconColor: "text-emerald-400",
+      borderGlow: "border-emerald-500/30 hover:border-emerald-500/50",
+      buttonBg: "bg-white/5 text-emerald-400 border-emerald-500/50 hover:bg-emerald-500/10 hover:border-emerald-500",
+      checkColor: "text-emerald-500",
+      priceColor: "text-emerald-400",
+    },
   },
   {
     name: "Business",
@@ -44,12 +60,20 @@ const tiers = [
     popular: true,
     isFree: false,
     includesGrowth: true,
+    isEnterprise: false,
     features: [
       "Up to 3 pages + domain",
       "Design preview + Google Maps",
       "Enhanced SEO + 3 revisions",
       "3-day delivery",
     ],
+    colorTheme: {
+      iconColor: "text-[#3B82F6]",
+      borderGlow: "border-[#3B82F6]/50 glow-blue",
+      buttonBg: "bg-[#3B82F6] hover:bg-[#2563EB] text-white hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]",
+      checkColor: "text-[#3B82F6]",
+      priceColor: "",
+    },
   },
   {
     name: "Professional",
@@ -58,33 +82,49 @@ const tiers = [
     popular: false,
     isFree: false,
     includesGrowth: true,
+    isEnterprise: false,
     features: [
       "Up to 5 pages + domain",
       "Custom animations",
       "Advanced SEO + priority support",
       "5 revisions + 5-day delivery",
     ],
+    colorTheme: {
+      iconColor: "text-violet-400",
+      borderGlow: "border-violet-500/30 hover:border-violet-500/50",
+      buttonBg: "bg-white/5 text-violet-400 border-violet-500/50 hover:bg-violet-500/10 hover:border-violet-500",
+      checkColor: "text-violet-500",
+      priceColor: "text-violet-400",
+    },
   },
   {
-    name: "Custom",
+    name: "Enterprise",
     price: "Let's Talk",
-    description: "Tailored to your exact needs",
+    description: "Complete digital transformation",
     popular: false,
     isFree: false,
     includesGrowth: true,
+    isEnterprise: true,
     features: [
-      "E-commerce solutions",
-      "Web applications",
-      "Complex integrations",
-      "Dedicated timeline",
+      "Multi-page web application",
+      "Your dedicated tech partner",
+      "Custom integrations & APIs",
+      "Priority development queue",
     ],
+    colorTheme: {
+      iconColor: "text-amber-400",
+      borderGlow: "border-amber-500/30 hover:border-amber-500/50",
+      buttonBg: "bg-gradient-to-r from-amber-500 to-yellow-500 hover:opacity-90 text-white",
+      checkColor: "text-amber-500",
+      priceColor: "bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent",
+    },
   },
 ];
 
 const maintenance = [
-  { name: "Basic", basePrice: 29, features: "2 changes + hosting + SSL" },
-  { name: "Growth", basePrice: 59, features: "5 changes + analytics + weekly backups" },
-  { name: "Pro", basePrice: 149, features: "12 changes + priority + A/B testing" },
+  { name: "Basic", basePrice: 29, features: "2 changes + hosting + SSL", colorTheme: { borderColor: "border-gray-600/30 hover:border-gray-500/50", priceColor: "text-gray-400" } },
+  { name: "Growth", basePrice: 59, features: "5 changes + analytics + weekly backups", colorTheme: { borderColor: "border-emerald-500/30 hover:border-emerald-500/50", priceColor: "text-emerald-400" } },
+  { name: "Pro", basePrice: 149, features: "12 changes + priority + A/B testing", colorTheme: { borderColor: "border-[#3B82F6]/30 hover:border-[#3B82F6]/50", priceColor: "text-[#3B82F6]" } },
 ];
 
 const enterprisePlan = {
@@ -148,13 +188,18 @@ export default function Pricing() {
             >
               <Card
                 className={`relative p-0 rounded-xl border transition-all duration-300 hover:-translate-y-1 ${
-                  tier.popular
-                    ? "bg-[#1A1A2E] border-[#3B82F6]/50 glow-blue"
+                  tier.isEnterprise
+                    ? "bg-gradient-to-br from-[#1A1A2E]/70 via-[#1A1A2E]/50 to-amber-900/20 " + tier.colorTheme.borderGlow
+                    : tier.popular
+                    ? "bg-[#1A1A2E] " + tier.colorTheme.borderGlow
                     : tier.isFree
-                    ? "bg-[#1A1A2E]/30 border-white/10"
-                    : "bg-[#1A1A2E]/50 border-white/5 hover:border-white/10"
+                    ? "bg-[#1A1A2E]/30 " + tier.colorTheme.borderGlow
+                    : "bg-[#1A1A2E]/50 " + tier.colorTheme.borderGlow
                 }`}
               >
+                {tier.isEnterprise && (
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-yellow-500/5 rounded-xl" />
+                )}
                 {/* Popular badge */}
                 {tier.popular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
@@ -164,8 +209,16 @@ export default function Pricing() {
                     </Badge>
                   </div>
                 )}
+                {/* Premium badge for Enterprise */}
+                {tier.isEnterprise && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <Badge className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white hover:from-amber-500 hover:to-yellow-500 text-xs px-2">
+                      Premium
+                    </Badge>
+                  </div>
+                )}
                 {/* Growth FREE badge */}
-                {tier.includesGrowth && !tier.popular && (
+                {tier.includesGrowth && !tier.popular && !tier.isEnterprise && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                     <Badge className="bg-emerald-500 text-white hover:bg-emerald-500 text-xs px-2">
                       3mo Growth FREE
@@ -173,17 +226,18 @@ export default function Pricing() {
                   </div>
                 )}
 
-                <CardContent className="p-5">
+                <CardContent className={`p-5 ${tier.isEnterprise ? "relative" : ""}`}>
                   <div className="mb-4">
                     <div className="flex items-center gap-2 mb-1">
-                      {tier.isFree && <Gift size={16} className="text-gray-400" />}
+                      {tier.isFree && <Gift size={16} className={tier.colorTheme.iconColor} />}
+                      {tier.isEnterprise && <Crown size={16} className={tier.colorTheme.iconColor} />}
                       <h3 className="text-base font-semibold">{tier.name}</h3>
                     </div>
                     <p className="text-xs text-[#6B7280] mb-3">
                       {tier.description}
                     </p>
                     <div className="flex items-baseline gap-1">
-                      <span className={`text-2xl font-bold ${tier.isFree ? "text-gray-400" : ""}`}>
+                      <span className={`text-2xl font-bold ${tier.colorTheme.priceColor}`}>
                         {tier.price}
                       </span>
                       {tier.price !== "Let's Talk" && (
@@ -200,34 +254,30 @@ export default function Pricing() {
                       >
                         <Check
                           size={14}
-                          className={`mt-0.5 shrink-0 ${tier.isFree ? "text-gray-500" : "text-[#3B82F6]"}`}
+                          className={`mt-0.5 shrink-0 ${tier.colorTheme.checkColor}`}
                         />
                         {feature}
                       </li>
                     ))}
                   </ul>
 
-                  {tier.popular ? (
+                  {tier.popular || tier.isEnterprise ? (
                     <Button
                       asChild
                       size="sm"
-                      className="w-full bg-[#3B82F6] hover:bg-[#2563EB] text-white hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]"
+                      className={`w-full ${tier.colorTheme.buttonBg}`}
                     >
-                      <Link href="/contact">Get Started</Link>
+                      <Link href="/contact">{tier.isEnterprise ? "Contact Us" : "Get Started"}</Link>
                     </Button>
                   ) : (
                     <Button
                       variant="outline"
                       size="sm"
                       asChild
-                      className={`w-full ${
-                        tier.isFree
-                          ? "bg-transparent text-gray-400 border-gray-600 hover:bg-gray-800/50"
-                          : "bg-white/5 text-white border-white/10 hover:bg-white/10 hover:border-white/20"
-                      }`}
+                      className={`w-full ${tier.colorTheme.buttonBg}`}
                     >
                       <Link href="/contact">
-                        {tier.price === "Let's Talk" ? "Contact Us" : "Get Started"}
+                        Get Started
                       </Link>
                     </Button>
                   )}
@@ -312,7 +362,7 @@ export default function Pricing() {
               return (
                 <Card
                   key={plan.name}
-                  className="p-0 rounded-lg bg-[#1A1A2E]/30 border-white/5 hover:border-white/10 transition-colors text-center"
+                  className={`p-0 rounded-lg bg-[#1A1A2E]/30 transition-colors text-center ${plan.colorTheme.borderColor}`}
                 >
                   <CardContent className="p-4">
                     <p className="text-sm font-medium text-white mb-1">
@@ -323,7 +373,7 @@ export default function Pricing() {
                         ${plan.basePrice}/mo
                       </p>
                     )}
-                    <p className="text-xl font-bold text-[#3B82F6]">
+                    <p className={`text-xl font-bold ${plan.colorTheme.priceColor}`}>
                       ${discountedPrice}
                       <span className="text-xs font-normal text-[#6B7280]">
                         /mo
@@ -336,23 +386,24 @@ export default function Pricing() {
             })}
 
             {/* Enterprise Card */}
-            <Card className="p-0 rounded-lg bg-gradient-to-br from-[#1A1A2E]/50 to-purple-900/20 border-purple-500/30 hover:border-purple-500/50 transition-colors text-center relative overflow-hidden">
+            <Card className="p-0 rounded-lg bg-gradient-to-br from-[#1A1A2E]/50 to-amber-900/20 border-amber-500/30 hover:border-amber-500/50 transition-colors text-center relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-yellow-500/5 rounded-lg" />
               <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-10">
-                <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0 text-[10px] px-2 py-0.5">
+                <Badge className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-0 text-[10px] px-2 py-0.5">
                   Premium
                 </Badge>
               </div>
-              <CardContent className="p-4 pt-5">
+              <CardContent className="p-4 pt-5 relative">
                 <div className="flex items-center justify-center gap-1 mb-1">
-                  <Crown size={14} className="text-purple-400" />
+                  <Crown size={14} className="text-amber-400" />
                   <p className="text-sm font-medium text-white">
                     {enterprisePlan.name}
                   </p>
                 </div>
-                <p className="text-[10px] text-purple-300 mb-1">
+                <p className="text-[10px] text-amber-300 mb-1">
                   {enterprisePlan.tagline}
                 </p>
-                <p className="text-lg font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                <p className="text-lg font-bold bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent">
                   Let&apos;s Talk
                 </p>
                 <p className="text-xs text-[#9CA3AF] mt-2">{enterprisePlan.features}</p>

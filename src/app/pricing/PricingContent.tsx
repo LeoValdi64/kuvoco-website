@@ -27,6 +27,15 @@ const pricingTiers = [
     popular: false,
     isFree: true,
     includesGrowth: false,
+    isEnterprise: false,
+    colorTheme: {
+      iconBg: "bg-gray-500/20",
+      iconColor: "text-gray-400",
+      borderGlow: "border-gray-500/30",
+      buttonBg: "border-gray-600 hover:bg-gray-800/50 text-gray-300",
+      checkColor: "text-gray-500",
+      priceColor: "text-gray-400",
+    },
   },
   {
     icon: Rocket,
@@ -46,6 +55,15 @@ const pricingTiers = [
     popular: false,
     isFree: false,
     includesGrowth: true,
+    isEnterprise: false,
+    colorTheme: {
+      iconBg: "bg-emerald-500/20",
+      iconColor: "text-emerald-400",
+      borderGlow: "border-emerald-500/30 hover:border-emerald-500/50 shadow-[0_0_20px_rgba(16,185,129,0.1)]",
+      buttonBg: "border-emerald-500/50 hover:bg-emerald-500/10 text-emerald-400",
+      checkColor: "text-emerald-500",
+      priceColor: "text-emerald-400",
+    },
   },
   {
     icon: Building2,
@@ -66,6 +84,15 @@ const pricingTiers = [
     popular: true,
     isFree: false,
     includesGrowth: true,
+    isEnterprise: false,
+    colorTheme: {
+      iconBg: "bg-[#3B82F6]/20",
+      iconColor: "text-[#3B82F6]",
+      borderGlow: "border-[#3B82F6]/50 glow-blue",
+      buttonBg: "bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90 text-white",
+      checkColor: "text-[#3B82F6]",
+      priceColor: "gradient-text",
+    },
   },
   {
     icon: Crown,
@@ -87,24 +114,42 @@ const pricingTiers = [
     popular: false,
     isFree: false,
     includesGrowth: true,
+    isEnterprise: false,
+    colorTheme: {
+      iconBg: "bg-violet-500/20",
+      iconColor: "text-violet-400",
+      borderGlow: "border-violet-500/30 hover:border-violet-500/50 shadow-[0_0_20px_rgba(139,92,246,0.1)]",
+      buttonBg: "border-violet-500/50 hover:bg-violet-500/10 text-violet-400",
+      checkColor: "text-violet-500",
+      priceColor: "text-violet-400",
+    },
   },
   {
-    icon: Puzzle,
-    name: "Custom",
+    icon: Crown,
+    name: "Enterprise",
     price: "Let's Talk",
     period: "",
-    description: "Tailored to your exact needs",
+    description: "Complete digital transformation",
     features: [
-      "E-commerce solutions",
-      "Web applications",
-      "Complex integrations",
-      "Custom requirements",
-      "Dedicated timeline",
+      "Multi-page web application",
+      "Your dedicated tech partner",
+      "Custom integrations & APIs",
+      "Ongoing strategic support",
+      "Priority development queue",
     ],
     cta: "Contact Us",
     popular: false,
     isFree: false,
     includesGrowth: true,
+    isEnterprise: true,
+    colorTheme: {
+      iconBg: "bg-gradient-to-br from-amber-500/20 to-yellow-500/20",
+      iconColor: "text-amber-400",
+      borderGlow: "border-amber-500/30 hover:border-amber-500/50 shadow-[0_0_25px_rgba(245,158,11,0.15)]",
+      buttonBg: "bg-gradient-to-r from-amber-500 to-yellow-500 hover:opacity-90 text-white",
+      checkColor: "text-amber-500",
+      priceColor: "bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent",
+    },
   },
 ];
 
@@ -120,6 +165,14 @@ const maintenancePlans = [
       "Monthly backups",
     ],
     isMinimum: true,
+    colorTheme: {
+      iconBg: "bg-gray-500/20",
+      iconColor: "text-gray-400",
+      borderColor: "border-gray-600/30 hover:border-gray-500/50",
+      dotColor: "bg-gray-500",
+      priceColor: "text-gray-400",
+      cardBg: "bg-[#1A1A2E]/30",
+    },
   },
   {
     icon: TrendingUp,
@@ -132,6 +185,14 @@ const maintenancePlans = [
       "Weekly backups",
     ],
     isMinimum: false,
+    colorTheme: {
+      iconBg: "bg-emerald-500/20",
+      iconColor: "text-emerald-400",
+      borderColor: "border-emerald-500/30 hover:border-emerald-500/50",
+      dotColor: "bg-emerald-500",
+      priceColor: "text-emerald-400",
+      cardBg: "bg-[#1A1A2E]/50",
+    },
   },
   {
     icon: Zap,
@@ -144,6 +205,14 @@ const maintenancePlans = [
       "Daily backups",
     ],
     isMinimum: false,
+    colorTheme: {
+      iconBg: "bg-[#3B82F6]/20",
+      iconColor: "text-[#3B82F6]",
+      borderColor: "border-[#3B82F6]/30 hover:border-[#3B82F6]/50",
+      dotColor: "bg-[#3B82F6]",
+      priceColor: "gradient-text",
+      cardBg: "bg-[#1A1A2E]/50",
+    },
   },
 ];
 
@@ -324,7 +393,12 @@ export default function PricingContent() {
                       Most Popular
                     </Badge>
                   )}
-                  {tier.includesGrowth && !tier.popular && (
+                  {tier.isEnterprise && (
+                    <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-0 px-3 py-1 text-xs shadow-lg shadow-amber-500/25">
+                      Premium
+                    </Badge>
+                  )}
+                  {tier.includesGrowth && !tier.popular && !tier.isEnterprise && (
                     <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-emerald-500 text-white border-0 px-2 py-1 text-xs shadow-lg shadow-emerald-500/25">
                       3mo Growth FREE
                     </Badge>
@@ -332,19 +406,24 @@ export default function PricingContent() {
                   <Card
                     className={cn(
                       "border rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300 h-full flex flex-col",
-                      tier.popular && "border-[#3B82F6]/50 glow-blue bg-[#1A1A2E]/70",
-                      tier.isFree && "bg-[#1A1A2E]/30 border-white/10",
-                      !tier.popular && !tier.isFree && "bg-[#1A1A2E]/50 border-white/5"
+                      tier.isEnterprise && "bg-gradient-to-br from-[#1A1A2E]/70 via-[#1A1A2E]/50 to-amber-900/20",
+                      tier.popular && "bg-[#1A1A2E]/70",
+                      tier.isFree && "bg-[#1A1A2E]/30",
+                      !tier.popular && !tier.isFree && !tier.isEnterprise && "bg-[#1A1A2E]/50",
+                      tier.colorTheme.borderGlow
                     )}
                   >
-                    <CardHeader className="text-center pb-4">
+                    {tier.isEnterprise && (
+                      <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-yellow-500/5" />
+                    )}
+                    <CardHeader className={cn("text-center pb-4", tier.isEnterprise && "relative")}>
                       <div className={cn(
                         "w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3",
-                        tier.isFree ? "bg-gray-500/20" : "bg-[#3B82F6]/10"
+                        tier.colorTheme.iconBg
                       )}>
                         <Icon className={cn(
                           "w-6 h-6",
-                          tier.isFree ? "text-gray-400" : "text-[#3B82F6]"
+                          tier.colorTheme.iconColor
                         )} />
                       </div>
                       <CardTitle className="text-xl text-white mb-1">
@@ -353,7 +432,7 @@ export default function PricingContent() {
                       <div className="mb-2">
                         <span className={cn(
                           "text-3xl font-bold",
-                          tier.isFree ? "text-gray-400" : "gradient-text"
+                          tier.colorTheme.priceColor
                         )}>
                           {tier.price}
                         </span>
@@ -367,13 +446,13 @@ export default function PricingContent() {
                         {tier.description}
                       </p>
                     </CardHeader>
-                    <CardContent className="flex-1 pt-0">
+                    <CardContent className={cn("flex-1 pt-0", tier.isEnterprise && "relative")}>
                       <ul className="space-y-2">
                         {tier.features.map((feature) => (
                           <li key={feature} className="flex items-start gap-2">
                             <Check className={cn(
                               "w-4 h-4 flex-shrink-0 mt-0.5",
-                              tier.isFree ? "text-gray-500" : "text-[#3B82F6]"
+                              tier.colorTheme.checkColor
                             )} />
                             <span className="text-[#9CA3AF] text-xs">
                               {feature}
@@ -382,18 +461,16 @@ export default function PricingContent() {
                         ))}
                       </ul>
                     </CardContent>
-                    <CardFooter className="pt-0">
+                    <CardFooter className={cn("pt-0", tier.isEnterprise && "relative")}>
                       <Link href="/contact" className="w-full">
                         <Button
                           className={cn(
                             "w-full font-semibold text-sm",
-                            tier.popular
-                              ? "bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90 text-white"
-                              : tier.isFree
-                              ? "border-gray-600 hover:bg-gray-800/50 text-gray-300"
-                              : "border-white/20 hover:bg-white/5 text-white"
+                            tier.popular || tier.isEnterprise
+                              ? tier.colorTheme.buttonBg
+                              : tier.colorTheme.buttonBg
                           )}
-                          variant={tier.popular ? "default" : "outline"}
+                          variant={tier.popular || tier.isEnterprise ? "default" : "outline"}
                           size="sm"
                         >
                           {tier.cta}
@@ -512,12 +589,16 @@ export default function PricingContent() {
                     </Badge>
                   )}
                   <Card className={cn(
-                    "border rounded-2xl p-6 hover:border-[#3B82F6]/30 transition-all duration-300 h-full",
-                    plan.isMinimum ? "bg-[#1A1A2E]/30 border-gray-600/30" : "bg-[#1A1A2E]/50 border-white/5"
+                    "border rounded-2xl p-6 transition-all duration-300 h-full",
+                    plan.colorTheme.cardBg,
+                    plan.colorTheme.borderColor
                   )}>
                     <div className="flex flex-col h-full">
-                      <div className="w-12 h-12 rounded-xl bg-[#3B82F6]/10 flex items-center justify-center mb-4">
-                        <Icon className="w-6 h-6 text-[#3B82F6]" />
+                      <div className={cn(
+                        "w-12 h-12 rounded-xl flex items-center justify-center mb-4",
+                        plan.colorTheme.iconBg
+                      )}>
+                        <Icon className={cn("w-6 h-6", plan.colorTheme.iconColor)} />
                       </div>
                       <h3 className="text-xl font-bold text-white mb-2">
                         {plan.name}
@@ -528,7 +609,7 @@ export default function PricingContent() {
                             ${plan.basePrice}/mo
                           </div>
                         )}
-                        <span className="text-3xl font-bold gradient-text">
+                        <span className={cn("text-3xl font-bold", plan.colorTheme.priceColor)}>
                           ${discountedPrice}
                         </span>
                         <span className="text-[#9CA3AF] text-sm ml-1">
@@ -538,7 +619,7 @@ export default function PricingContent() {
                       <ul className="space-y-2 flex-1">
                         {plan.features.map((feature) => (
                           <li key={feature} className="flex items-start gap-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-[#3B82F6] flex-shrink-0 mt-2" />
+                            <div className={cn("w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2", plan.colorTheme.dotColor)} />
                             <span className="text-[#9CA3AF] text-sm">
                               {feature}
                             </span>
@@ -559,42 +640,42 @@ export default function PricingContent() {
               transition={{ duration: 0.4, delay: 0.15 }}
               className="relative"
             >
-              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0 px-3 py-1 text-xs shadow-lg shadow-purple-500/25">
+              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-0 px-3 py-1 text-xs shadow-lg shadow-amber-500/25">
                 Premium
               </Badge>
-              <Card className="border rounded-2xl p-6 h-full bg-gradient-to-br from-[#1A1A2E]/70 via-[#1A1A2E]/50 to-purple-900/20 border-purple-500/30 hover:border-purple-500/50 transition-all duration-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-pink-500/5" />
+              <Card className="border rounded-2xl p-6 h-full bg-gradient-to-br from-[#1A1A2E]/70 via-[#1A1A2E]/50 to-amber-900/20 border-amber-500/30 hover:border-amber-500/50 transition-all duration-300 relative overflow-hidden shadow-[0_0_25px_rgba(245,158,11,0.1)]">
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-yellow-500/5" />
                 <div className="relative flex flex-col h-full">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center mb-4">
-                    <enterprisePlan.icon className="w-6 h-6 text-purple-400" />
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-yellow-500/20 flex items-center justify-center mb-4">
+                    <enterprisePlan.icon className="w-6 h-6 text-amber-400" />
                   </div>
                   <h3 className="text-xl font-bold text-white mb-1">
                     {enterprisePlan.name}
                   </h3>
-                  <p className="text-sm text-purple-300 mb-4">
+                  <p className="text-sm text-amber-300 mb-4">
                     We become your tech team
                   </p>
                   <div className="mb-4">
-                    <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    <span className="text-2xl font-bold bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent">
                       Let&apos;s Talk
                     </span>
                   </div>
                   <ul className="space-y-2 flex-1 mb-4">
                     {enterprisePlan.features.map((feature) => (
                       <li key={feature} className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-2" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0 mt-2" />
                         <span className="text-[#9CA3AF] text-sm">
                           {feature}
                         </span>
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-auto pt-4 border-t border-purple-500/20">
+                  <div className="mt-auto pt-4 border-t border-amber-500/20">
                     <p className="text-xs text-[#6B7280] mb-3">
                       Skip the cost of an internal tech team. Focus on your business, we handle the technology.
                     </p>
                     <Link href="/contact" className="w-full">
-                      <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90 text-white font-semibold text-sm">
+                      <Button className="w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:opacity-90 text-white font-semibold text-sm">
                         Contact Us
                         <ArrowRight className="w-3 h-3 ml-1" />
                       </Button>
