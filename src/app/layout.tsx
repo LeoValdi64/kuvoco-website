@@ -19,16 +19,32 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Kuvo Co. — Professional Web Development",
+  title: {
+    default: "Kuvo Co. — Web Development in Everett, WA | Fast & Affordable Websites",
+    template: "%s | Kuvo Co.",
+  },
   description:
-    "We design and develop stunning websites for local businesses. Launch in as little as 48 hours. Professional, fast, and affordable web development by Kuvo Co.",
+    "Professional web development for local businesses in Everett, Seattle, and Snohomish County. Modern websites delivered in 48 hours. Starting at $399. 90+ sites launched.",
   keywords: [
-    "web development",
-    "web design",
-    "website builder",
-    "local business websites",
+    // Primary keywords
+    "web development everett wa",
+    "website design seattle",
+    "web developer snohomish county",
+    "small business website washington",
+    // Service keywords
+    "affordable web design",
     "fast website delivery",
+    "professional website development",
+    "local business websites",
+    "modern website design",
+    // Long-tail keywords
+    "website for small business near me",
+    "best web developer everett",
+    "cheap website design seattle area",
+    "quick website builder washington",
+    // Brand
     "Kuvo Co",
+    "kuvoco",
   ],
   authors: [{ name: "Kuvo Co.", url: "https://kuvoco.com" }],
   openGraph: {
@@ -68,53 +84,113 @@ export const metadata: Metadata = {
 const jsonLd = [
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": "ProfessionalService",
+    "@id": "https://kuvoco.com/#business",
     name: "Kuvo Co.",
     url: "https://kuvoco.com",
-    description: "Professional web development for local businesses",
-    location: {
-      "@type": "Place",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "Everett",
-        addressRegion: "WA",
-        addressCountry: "US",
-      },
-    },
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Kuvo Co.",
-    url: "https://kuvoco.com",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: "https://kuvoco.com/?q={search_term_string}",
-      "query-input": "required name=search_term_string",
-    },
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: "Kuvo Co.",
-    url: "https://kuvoco.com",
-    description: "Professional web development for local businesses. Fast, affordable, and modern websites for small businesses.",
-    priceRange: "$$",
+    logo: "https://kuvoco.com/logo.png",
+    image: "https://kuvoco.com/og-image.jpg",
+    description: "Professional web development for local businesses in Everett, Seattle, and Snohomish County, WA. Modern, fast, and affordable websites delivered in 48 hours.",
+    priceRange: "$399-$999",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Everett",
       addressRegion: "WA",
+      postalCode: "98201",
       addressCountry: "US",
     },
-    areaServed: {
-      "@type": "GeoCircle",
-      geoMidpoint: {
-        "@type": "GeoCoordinates",
-        latitude: 47.9790,
-        longitude: -122.2021,
-      },
-      geoRadius: "50000",
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 47.9790,
+      longitude: -122.2021,
     },
+    areaServed: [
+      {
+        "@type": "City",
+        name: "Everett",
+        "@id": "https://www.wikidata.org/wiki/Q588879",
+      },
+      {
+        "@type": "City",
+        name: "Seattle",
+        "@id": "https://www.wikidata.org/wiki/Q5083",
+      },
+      {
+        "@type": "AdministrativeArea",
+        name: "Snohomish County",
+      },
+      {
+        "@type": "State",
+        name: "Washington",
+      },
+    ],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Web Development Services",
+      itemListElement: [
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Starter Website",
+            description: "1-page professional website with custom domain",
+          },
+          price: "399",
+          priceCurrency: "USD",
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Business Website",
+            description: "Up to 3 pages with Google Maps and enhanced SEO",
+          },
+          price: "699",
+          priceCurrency: "USD",
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Professional Website",
+            description: "Up to 5 pages with custom animations and advanced SEO",
+          },
+          price: "999",
+          priceCurrency: "USD",
+        },
+      ],
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "5",
+      reviewCount: "90",
+      bestRating: "5",
+      worstRating: "1",
+    },
+    sameAs: [],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://kuvoco.com/#website",
+    name: "Kuvo Co.",
+    url: "https://kuvoco.com",
+    publisher: {
+      "@id": "https://kuvoco.com/#business",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "@id": "https://kuvoco.com/#breadcrumb",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://kuvoco.com",
+      },
+    ],
   },
 ];
 
