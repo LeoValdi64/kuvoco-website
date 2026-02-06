@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { ExternalLink, ArrowRight, Sparkles } from "lucide-react";
+import { ExternalLink, ArrowRight } from "lucide-react";
 import { useRef, useState } from "react";
 import Link from "next/link";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -22,15 +22,6 @@ type Project = {
 
 const allProjects: Project[] = [
   // Featured projects first
-  {
-    name: "Fast Paving Service",
-    category: "Construction",
-    description: "Professional paving company website with service showcase, quote request system, and project gallery. Our first paid client project.",
-    url: "https://fastpavingservice.com",
-    tech: ["Next.js", "Tailwind CSS", "Vercel"],
-    gradient: "from-orange-500 via-amber-500 to-yellow-500",
-    featured: true,
-  },
   {
     name: "FlowBoard SaaS",
     category: "Technology",
@@ -251,12 +242,6 @@ function FeaturedProjectCard({ project, index }: { project: Project; index: numb
               <Badge className={cn("bg-gradient-to-r text-white border-0", project.gradient)}>
                 {project.category}
               </Badge>
-              {index === 0 && (
-                <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">
-                  <Sparkles className="w-3 h-3 mr-1" />
-                  Client Project
-                </Badge>
-              )}
             </div>
 
             <h3 className="text-2xl lg:text-3xl font-bold text-white mb-3">
