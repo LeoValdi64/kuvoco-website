@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Check, Sparkles } from "lucide-react";
+import { Check, Sparkles, Gift, ArrowRight, Star, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -10,15 +10,30 @@ import { Button } from "@/components/ui/button";
 
 const tiers = [
   {
+    name: "Free",
+    price: "$0",
+    description: "Get started at no cost",
+    popular: false,
+    isFree: true,
+    includesGrowth: false,
+    features: [
+      "1 basic page",
+      "Subdomain (business.kuvoco.com)",
+      "Mobile responsive",
+      "Requires $29/mo plan",
+    ],
+  },
+  {
     name: "Starter",
     price: "$399",
     description: "Perfect for getting started online",
     popular: false,
+    isFree: false,
+    includesGrowth: true,
     features: [
-      "Single page website",
-      "Mobile responsive design",
-      "Basic SEO setup",
-      "Contact form",
+      "1 page + custom domain",
+      "Design preview before deploy",
+      "Basic SEO + 2 revisions",
       "48-hour delivery",
     ],
   },
@@ -27,11 +42,12 @@ const tiers = [
     price: "$699",
     description: "Most popular for local businesses",
     popular: true,
+    isFree: false,
+    includesGrowth: true,
     features: [
-      "Up to 3 pages",
-      "Contact form integration",
-      "Google Maps embed",
-      "Enhanced SEO",
+      "Up to 3 pages + domain",
+      "Design preview + Google Maps",
+      "Enhanced SEO + 3 revisions",
       "3-day delivery",
     ],
   },
@@ -40,12 +56,13 @@ const tiers = [
     price: "$999",
     description: "For businesses that need more",
     popular: false,
+    isFree: false,
+    includesGrowth: true,
     features: [
-      "Up to 5 pages",
+      "Up to 5 pages + domain",
       "Custom animations",
-      "Advanced SEO",
-      "Priority support",
-      "5-day delivery",
+      "Advanced SEO + priority support",
+      "5 revisions + 5-day delivery",
     ],
   },
   {
@@ -53,20 +70,21 @@ const tiers = [
     price: "Let's Talk",
     description: "Tailored to your exact needs",
     popular: false,
+    isFree: false,
+    includesGrowth: true,
     features: [
       "E-commerce solutions",
       "Web applications",
-      "Complex requirements",
-      "Custom integrations",
+      "Complex integrations",
       "Dedicated timeline",
     ],
   },
 ];
 
 const maintenance = [
-  { name: "Basic", price: "$29", period: "/mo", features: "2 content changes per month" },
-  { name: "Growth", price: "$59", period: "/mo", features: "5 changes + analytics dashboard" },
-  { name: "Pro", price: "$149", period: "/mo", features: "12 changes + priority support" },
+  { name: "Basic", price: "$29", period: "/mo", features: "2 changes + hosting + SSL" },
+  { name: "Growth", price: "$59", period: "/mo", features: "5 changes + analytics + weekly backups" },
+  { name: "Pro", price: "$149", period: "/mo", features: "12 changes + priority + A/B testing" },
   { name: "Enterprise", price: "$349+", period: "/mo", features: "30 changes + dedicated manager" },
 ];
 
@@ -82,18 +100,24 @@ export default function Pricing() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.3 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
             Simple, Transparent Pricing
           </h2>
-          <p className="text-[#9CA3AF] max-w-2xl mx-auto">
+          <p className="text-[#9CA3AF] max-w-2xl mx-auto mb-6">
             No hidden fees. No surprises. Just great websites.
           </p>
+
+          {/* 3 Months Growth FREE Badge */}
+          <Badge className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-0 px-4 py-2 text-sm shadow-lg shadow-emerald-500/25">
+            <Star size={14} className="mr-2 inline" />
+            Paid tiers include 3 months of Growth plan FREE ($177 value)
+          </Badge>
         </motion.div>
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-12">
           {tiers.map((tier, index) => (
             <motion.div
               key={tier.name}
@@ -105,6 +129,8 @@ export default function Pricing() {
                 className={`relative p-0 rounded-xl border transition-all duration-300 hover:-translate-y-1 ${
                   tier.popular
                     ? "bg-[#1A1A2E] border-[#3B82F6]/50 glow-blue"
+                    : tier.isFree
+                    ? "bg-[#1A1A2E]/30 border-white/10"
                     : "bg-[#1A1A2E]/50 border-white/5 hover:border-white/10"
                 }`}
               >
@@ -117,30 +143,43 @@ export default function Pricing() {
                     </Badge>
                   </div>
                 )}
+                {/* Growth FREE badge */}
+                {tier.includesGrowth && !tier.popular && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <Badge className="bg-emerald-500 text-white hover:bg-emerald-500 text-xs px-2">
+                      3mo Growth FREE
+                    </Badge>
+                  </div>
+                )}
 
-                <CardContent className="p-6">
-                  <div className="mb-6">
-                    <h3 className="text-lg font-semibold mb-1">{tier.name}</h3>
-                    <p className="text-xs text-[#6B7280] mb-4">
+                <CardContent className="p-5">
+                  <div className="mb-4">
+                    <div className="flex items-center gap-2 mb-1">
+                      {tier.isFree && <Gift size={16} className="text-gray-400" />}
+                      <h3 className="text-base font-semibold">{tier.name}</h3>
+                    </div>
+                    <p className="text-xs text-[#6B7280] mb-3">
                       {tier.description}
                     </p>
                     <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-bold">{tier.price}</span>
+                      <span className={`text-2xl font-bold ${tier.isFree ? "text-gray-400" : ""}`}>
+                        {tier.price}
+                      </span>
                       {tier.price !== "Let's Talk" && (
-                        <span className="text-sm text-[#6B7280]">one-time</span>
+                        <span className="text-xs text-[#6B7280]">one-time</span>
                       )}
                     </div>
                   </div>
 
-                  <ul className="space-y-3 mb-8">
+                  <ul className="space-y-2 mb-6">
                     {tier.features.map((feature) => (
                       <li
                         key={feature}
-                        className="flex items-start gap-2 text-sm text-[#9CA3AF]"
+                        className="flex items-start gap-2 text-xs text-[#9CA3AF]"
                       >
                         <Check
-                          size={16}
-                          className="text-[#3B82F6] mt-0.5 shrink-0"
+                          size={14}
+                          className={`mt-0.5 shrink-0 ${tier.isFree ? "text-gray-500" : "text-[#3B82F6]"}`}
                         />
                         {feature}
                       </li>
@@ -150,6 +189,7 @@ export default function Pricing() {
                   {tier.popular ? (
                     <Button
                       asChild
+                      size="sm"
                       className="w-full bg-[#3B82F6] hover:bg-[#2563EB] text-white hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]"
                     >
                       <Link href="/contact">Get Started</Link>
@@ -157,8 +197,13 @@ export default function Pricing() {
                   ) : (
                     <Button
                       variant="outline"
+                      size="sm"
                       asChild
-                      className="w-full bg-white/5 text-white border-white/10 hover:bg-white/10 hover:border-white/20"
+                      className={`w-full ${
+                        tier.isFree
+                          ? "bg-transparent text-gray-400 border-gray-600 hover:bg-gray-800/50"
+                          : "bg-white/5 text-white border-white/10 hover:bg-white/10 hover:border-white/20"
+                      }`}
                     >
                       <Link href="/contact">
                         {tier.price === "Let's Talk" ? "Contact Us" : "Get Started"}
@@ -171,22 +216,68 @@ export default function Pricing() {
           ))}
         </div>
 
+        {/* Switch & Save Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.3, delay: 0.15 }}
+          className="mb-16"
+        >
+          <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-orange-500/10 via-amber-500/10 to-yellow-500/10 border border-orange-500/30 p-6">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-lg shadow-orange-500/25">
+                  <RefreshCw size={24} className="text-white" />
+                </div>
+                <div>
+                  <h4 className="text-lg font-bold text-white">
+                    Already have a website? <span className="text-orange-400">Save $300</span>
+                  </h4>
+                  <p className="text-sm text-[#9CA3AF]">
+                    Switch to us with a 1-year plan commitment. Starter just $99!
+                  </p>
+                </div>
+              </div>
+              <Link href="/pricing">
+                <Button size="sm" className="bg-gradient-to-r from-orange-500 to-amber-500 hover:opacity-90 text-white">
+                  Learn More
+                  <ArrowRight size={16} className="ml-1" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+
         {/* Maintenance Plans */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.3, delay: 0.1 }}
+          transition={{ duration: 0.3, delay: 0.2 }}
         >
           <div className="text-center mb-8">
+            <Badge className="mb-3 bg-[#3B82F6]/20 text-[#3B82F6] border-[#3B82F6]/30">
+              Required with every site
+            </Badge>
             <h3 className="text-xl font-semibold mb-2">
-              Monthly Maintenance Add-ons
+              Monthly Maintenance Plans
             </h3>
-            <p className="text-sm text-[#6B7280]">
-              Keep your site fresh and performing at its best
+            <p className="text-sm text-[#6B7280] mb-3">
+              Hosting, SSL, backups, and content changes included
             </p>
+            <div className="flex flex-wrap gap-2 justify-center">
+              <Badge variant="outline" className="border-emerald-500/50 text-emerald-400 bg-emerald-500/10 text-xs">
+                Quarterly: 10% off
+              </Badge>
+              <Badge variant="outline" className="border-emerald-500/50 text-emerald-400 bg-emerald-500/10 text-xs">
+                Semi-annual: 15% off
+              </Badge>
+              <Badge variant="outline" className="border-emerald-500/50 text-emerald-400 bg-emerald-500/10 text-xs">
+                Annual: 25% off
+              </Badge>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             {maintenance.map((plan) => (
               <Card
                 key={plan.name}
@@ -206,6 +297,16 @@ export default function Pricing() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+
+          {/* View Full Pricing Link */}
+          <div className="text-center">
+            <Link href="/pricing">
+              <Button variant="outline" className="border-white/20 hover:bg-white/5 text-white">
+                View Full Pricing Details
+                <ArrowRight size={16} className="ml-2" />
+              </Button>
+            </Link>
           </div>
         </motion.div>
       </div>

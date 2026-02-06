@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { Check, Sparkles, ChevronDown, ArrowRight, Rocket, Building2, Crown, Puzzle, Shield, TrendingUp, Zap } from "lucide-react";
+import { Check, Sparkles, ChevronDown, ArrowRight, Rocket, Building2, Crown, Puzzle, Shield, TrendingUp, Zap, Gift, RefreshCw, Star } from "lucide-react";
 import { useRef, useState } from "react";
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
@@ -11,20 +11,41 @@ import { cn } from "@/lib/utils";
 
 const pricingTiers = [
   {
+    icon: Gift,
+    name: "Free",
+    price: "$0",
+    period: "one-time",
+    description: "Get started at no cost",
+    features: [
+      "1 basic page",
+      "Subdomain only (business.kuvoco.com)",
+      "Mobile responsive design",
+      "5-day delivery",
+      "Requires monthly plan ($29/mo min)",
+    ],
+    cta: "Get Started",
+    popular: false,
+    isFree: true,
+    includesGrowth: false,
+  },
+  {
     icon: Rocket,
     name: "Starter",
     price: "$399",
     period: "one-time",
     description: "Perfect for getting started online",
     features: [
-      "Single page website",
-      "Mobile responsive design",
+      "1 page website",
+      "Custom domain included",
+      "Design preview before deploy",
       "Basic SEO setup",
-      "Contact form",
+      "2 revisions included",
       "48-hour delivery",
     ],
     cta: "Get Started",
     popular: false,
+    isFree: false,
+    includesGrowth: true,
   },
   {
     icon: Building2,
@@ -34,13 +55,17 @@ const pricingTiers = [
     description: "Most popular for local businesses",
     features: [
       "Up to 3 pages",
-      "Contact form integration",
-      "Google Maps embed",
+      "Custom domain included",
+      "Design preview before deploy",
+      "Google Maps integration",
       "Enhanced SEO",
+      "3 revisions included",
       "3-day delivery",
     ],
     cta: "Get Started",
     popular: true,
+    isFree: false,
+    includesGrowth: true,
   },
   {
     icon: Crown,
@@ -50,13 +75,18 @@ const pricingTiers = [
     description: "For businesses that need more",
     features: [
       "Up to 5 pages",
+      "Custom domain included",
+      "Design preview before deploy",
       "Custom animations",
       "Advanced SEO",
       "Priority support",
+      "5 revisions included",
       "5-day delivery",
     ],
     cta: "Get Started",
     popular: false,
+    isFree: false,
+    includesGrowth: true,
   },
   {
     icon: Puzzle,
@@ -67,12 +97,14 @@ const pricingTiers = [
     features: [
       "E-commerce solutions",
       "Web applications",
-      "Complex requirements",
-      "Custom integrations",
+      "Complex integrations",
+      "Custom requirements",
       "Dedicated timeline",
     ],
     cta: "Contact Us",
     popular: false,
+    isFree: false,
+    includesGrowth: true,
   },
 ];
 
@@ -88,6 +120,7 @@ const maintenancePlans = [
       "SSL certificate",
       "Monthly backups",
     ],
+    isMinimum: true,
   },
   {
     icon: TrendingUp,
@@ -100,6 +133,7 @@ const maintenancePlans = [
       "Performance monitoring",
       "Weekly backups",
     ],
+    isMinimum: false,
   },
   {
     icon: Zap,
@@ -112,6 +146,7 @@ const maintenancePlans = [
       "A/B testing",
       "Daily backups",
     ],
+    isMinimum: false,
   },
   {
     icon: Building2,
@@ -124,29 +159,44 @@ const maintenancePlans = [
       "Custom reporting",
       "Real-time backups",
     ],
+    isMinimum: false,
   },
+];
+
+const commitmentDiscounts = [
+  { period: "Quarterly", discount: "10% off" },
+  { period: "Semi-annual", discount: "15% off" },
+  { period: "Annual", discount: "25% off" },
 ];
 
 const faqs = [
   {
+    question: "Is the monthly maintenance plan required?",
+    answer: "Yes, every website requires a monthly maintenance plan to keep it running, secure, and performing well. This includes hosting, SSL, backups, and content changes. The Basic plan starts at just $29/month. Commit quarterly, semi-annually, or annually to save up to 25%.",
+  },
+  {
+    question: "What's included in the FREE tier?",
+    answer: "The FREE tier gives you a basic 1-page website on a subdomain (yourbusiness.kuvoco.com). It's perfect for testing the waters. To get a custom domain, design preview, and faster delivery, upgrade to a paid tier. FREE tier requires the Basic monthly plan ($29/mo).",
+  },
+  {
+    question: "What is 'Switch & Save'?",
+    answer: "Already have a website? Switch to Kuvo Co. and save $300 off any paid tier (Starter, Business, or Professional). This makes Starter just $99! The only requirement is a 1-year commitment to any monthly plan. You can pay monthly or save more by paying annually.",
+  },
+  {
+    question: "What's included with the 3 months of Growth plan?",
+    answer: "Every paid website tier (Starter, Business, Professional) includes 3 months of our Growth plan ($59/mo value) completely FREE. This includes analytics dashboard, performance monitoring, 5 content changes per month, and weekly backups. After 3 months, you can continue on Growth or switch to any plan.",
+  },
+  {
     question: "How long does it take to build my website?",
-    answer: "Most websites are delivered within 48 hours to 5 days, depending on the plan you choose. Starter sites ship in 48 hours, Business in 3 days, and Professional in 5 days. Custom projects have dedicated timelines.",
+    answer: "Delivery times vary by tier: FREE tier in 5 days, Starter in 48 hours, Business in 3 days, and Professional in 5 days. All paid tiers include a design preview before final deployment so you can approve the look before we go live.",
   },
   {
-    question: "Do I need to provide my own hosting?",
-    answer: "No. We handle the hosting setup as part of every plan. Your site will be deployed on fast, reliable infrastructure with SSL included at no extra cost.",
+    question: "Do I get to approve the design before it goes live?",
+    answer: "Yes! All paid tiers (Starter, Business, Professional) include a design preview. We'll show you the design and you can request revisions (2-5 depending on your tier) before we deploy. The FREE tier is deployed directly.",
   },
   {
-    question: "Can I update the website myself after launch?",
-    answer: "Yes! We build with modern CMS options when needed. You can also choose one of our maintenance plans and we'll handle all updates for you.",
-  },
-  {
-    question: "What if I need changes after the site is delivered?",
-    answer: "Minor revisions are included during the delivery process. For ongoing changes, our maintenance plans cover content updates, performance monitoring, and priority support.",
-  },
-  {
-    question: "Is there a contract or commitment?",
-    answer: "No long-term contracts. Website builds are a one-time payment. Maintenance plans are month-to-month and can be cancelled anytime.",
+    question: "What commitment discounts are available?",
+    answer: "Save on your monthly maintenance plan by committing longer: Quarterly saves 10%, Semi-annual saves 15%, and Annual saves 25%. These discounts apply to all maintenance plans (Basic, Growth, Pro, Enterprise).",
   },
 ];
 
@@ -237,9 +287,17 @@ export default function PricingContent() {
       </section>
 
       {/* Pricing Tiers */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <FadeIn delay={0.1}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* 3 Months Growth FREE Banner */}
+          <div className="text-center mb-8">
+            <Badge className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-0 px-4 py-2 text-sm shadow-lg shadow-emerald-500/25">
+              <Star className="w-4 h-4 mr-2 inline" />
+              All paid tiers include 3 months of Growth plan FREE ($177 value)
+            </Badge>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
             {pricingTiers.map((tier, index) => {
               const Icon = tier.icon;
               return (
@@ -257,58 +315,80 @@ export default function PricingContent() {
                       Most Popular
                     </Badge>
                   )}
+                  {tier.includesGrowth && !tier.popular && (
+                    <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-emerald-500 text-white border-0 px-2 py-1 text-xs shadow-lg shadow-emerald-500/25">
+                      3mo Growth FREE
+                    </Badge>
+                  )}
                   <Card
                     className={cn(
-                      "bg-[#1A1A2E]/50 border border-white/5 rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300 h-full flex flex-col",
-                      tier.popular && "border-[#3B82F6]/50 glow-blue"
+                      "border rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300 h-full flex flex-col",
+                      tier.popular && "border-[#3B82F6]/50 glow-blue bg-[#1A1A2E]/70",
+                      tier.isFree && "bg-[#1A1A2E]/30 border-white/10",
+                      !tier.popular && !tier.isFree && "bg-[#1A1A2E]/50 border-white/5"
                     )}
                   >
-                    <CardHeader className="text-center pb-6">
-                      <div className="w-14 h-14 rounded-xl bg-[#3B82F6]/10 flex items-center justify-center mx-auto mb-4">
-                        <Icon className="w-7 h-7 text-[#3B82F6]" />
+                    <CardHeader className="text-center pb-4">
+                      <div className={cn(
+                        "w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3",
+                        tier.isFree ? "bg-gray-500/20" : "bg-[#3B82F6]/10"
+                      )}>
+                        <Icon className={cn(
+                          "w-6 h-6",
+                          tier.isFree ? "text-gray-400" : "text-[#3B82F6]"
+                        )} />
                       </div>
-                      <CardTitle className="text-2xl text-white mb-2">
+                      <CardTitle className="text-xl text-white mb-1">
                         {tier.name}
                       </CardTitle>
                       <div className="mb-2">
-                        <span className="text-4xl font-bold gradient-text">
+                        <span className={cn(
+                          "text-3xl font-bold",
+                          tier.isFree ? "text-gray-400" : "gradient-text"
+                        )}>
                           {tier.price}
                         </span>
                         {tier.period && (
-                          <span className="text-[#9CA3AF] text-sm ml-2">
+                          <span className="text-[#9CA3AF] text-xs ml-1">
                             {tier.period}
                           </span>
                         )}
                       </div>
-                      <p className="text-[#9CA3AF] text-sm">
+                      <p className="text-[#9CA3AF] text-xs">
                         {tier.description}
                       </p>
                     </CardHeader>
-                    <CardContent className="flex-1">
-                      <ul className="space-y-3">
+                    <CardContent className="flex-1 pt-0">
+                      <ul className="space-y-2">
                         {tier.features.map((feature) => (
                           <li key={feature} className="flex items-start gap-2">
-                            <Check className="w-5 h-5 text-[#3B82F6] flex-shrink-0 mt-0.5" />
-                            <span className="text-[#9CA3AF] text-sm">
+                            <Check className={cn(
+                              "w-4 h-4 flex-shrink-0 mt-0.5",
+                              tier.isFree ? "text-gray-500" : "text-[#3B82F6]"
+                            )} />
+                            <span className="text-[#9CA3AF] text-xs">
                               {feature}
                             </span>
                           </li>
                         ))}
                       </ul>
                     </CardContent>
-                    <CardFooter>
+                    <CardFooter className="pt-0">
                       <Link href="/contact" className="w-full">
                         <Button
                           className={cn(
-                            "w-full font-semibold",
+                            "w-full font-semibold text-sm",
                             tier.popular
                               ? "bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90 text-white"
+                              : tier.isFree
+                              ? "border-gray-600 hover:bg-gray-800/50 text-gray-300"
                               : "border-white/20 hover:bg-white/5 text-white"
                           )}
                           variant={tier.popular ? "default" : "outline"}
+                          size="sm"
                         >
                           {tier.cta}
-                          <ArrowRight className="w-4 h-4 ml-2" />
+                          <ArrowRight className="w-3 h-3 ml-1" />
                         </Button>
                       </Link>
                     </CardFooter>
@@ -320,16 +400,82 @@ export default function PricingContent() {
         </FadeIn>
       </section>
 
+      {/* Switch & Save Section */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <FadeIn delay={0.15}>
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500/10 via-amber-500/10 to-yellow-500/10 border border-orange-500/30 p-8">
+            <div className="absolute top-0 right-0 w-40 h-40 bg-orange-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-40 h-40 bg-amber-500/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+
+            <div className="relative z-10 flex flex-col lg:flex-row items-center gap-8">
+              <div className="flex-shrink-0">
+                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-xl shadow-orange-500/30">
+                  <RefreshCw className="w-10 h-10 text-white" />
+                </div>
+              </div>
+
+              <div className="flex-1 text-center lg:text-left">
+                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+                  Switch & Save <span className="gradient-text">$300</span>
+                </h3>
+                <p className="text-[#9CA3AF] mb-4">
+                  Already have a website? Time to upgrade. Switch to Kuvo Co. and save $300 off any paid tier.
+                </p>
+                <div className="flex flex-wrap gap-3 justify-center lg:justify-start mb-4">
+                  <Badge variant="outline" className="border-orange-500/50 text-orange-400 bg-orange-500/10">
+                    Starter: $399 → $99
+                  </Badge>
+                  <Badge variant="outline" className="border-orange-500/50 text-orange-400 bg-orange-500/10">
+                    Business: $699 → $399
+                  </Badge>
+                  <Badge variant="outline" className="border-orange-500/50 text-orange-400 bg-orange-500/10">
+                    Professional: $999 → $699
+                  </Badge>
+                </div>
+                <p className="text-xs text-[#6B7280]">
+                  Requires 1-year commitment to any monthly plan. Pay monthly or save more with annual payment.
+                </p>
+              </div>
+
+              <div className="flex-shrink-0">
+                <Link href="/contact">
+                  <Button className="bg-gradient-to-r from-orange-500 to-amber-500 hover:opacity-90 text-white font-semibold px-6">
+                    Claim $300 Off
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </FadeIn>
+      </section>
+
       {/* Maintenance Plans Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
         <FadeIn delay={0.2}>
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
+            <Badge className="mb-4 bg-[#3B82F6]/20 text-[#3B82F6] border-[#3B82F6]/30">
+              Required with every website
+            </Badge>
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
               Monthly Maintenance Plans
             </h2>
-            <p className="text-lg text-[#9CA3AF] max-w-2xl mx-auto">
-              Keep your site fresh and performing at its best
+            <p className="text-lg text-[#9CA3AF] max-w-2xl mx-auto mb-6">
+              Your website needs care to keep running, secure, and performing. We handle it all.
             </p>
+
+            {/* Commitment Discounts */}
+            <div className="flex flex-wrap gap-3 justify-center">
+              {commitmentDiscounts.map((discount) => (
+                <Badge
+                  key={discount.period}
+                  variant="outline"
+                  className="border-emerald-500/50 text-emerald-400 bg-emerald-500/10"
+                >
+                  {discount.period}: {discount.discount}
+                </Badge>
+              ))}
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -342,8 +488,17 @@ export default function PricingContent() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: index * 0.05 }}
+                  className="relative"
                 >
-                  <Card className="bg-[#1A1A2E]/50 border border-white/5 rounded-2xl p-6 hover:border-[#3B82F6]/30 transition-all duration-300 h-full">
+                  {plan.isMinimum && (
+                    <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-gray-600 text-white border-0 px-2 py-1 text-xs">
+                      FREE tier minimum
+                    </Badge>
+                  )}
+                  <Card className={cn(
+                    "border rounded-2xl p-6 hover:border-[#3B82F6]/30 transition-all duration-300 h-full",
+                    plan.isMinimum ? "bg-[#1A1A2E]/30 border-gray-600/30" : "bg-[#1A1A2E]/50 border-white/5"
+                  )}>
                     <div className="flex flex-col h-full">
                       <div className="w-12 h-12 rounded-xl bg-[#3B82F6]/10 flex items-center justify-center mb-4">
                         <Icon className="w-6 h-6 text-[#3B82F6]" />
@@ -374,6 +529,53 @@ export default function PricingContent() {
                 </motion.div>
               );
             })}
+          </div>
+        </FadeIn>
+      </section>
+
+      {/* Despreocúpate / Don't Worry Section */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <FadeIn delay={0.25}>
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#3B82F6]/10 via-[#06B6D4]/10 to-[#3B82F6]/5 border border-[#3B82F6]/20 p-10">
+            <div className="absolute top-0 left-0 w-64 h-64 bg-[#3B82F6]/10 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2" />
+            <div className="absolute bottom-0 right-0 w-64 h-64 bg-[#06B6D4]/10 rounded-full blur-3xl translate-y-1/2 translate-x-1/2" />
+
+            <div className="relative z-10 text-center">
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
+                Don&apos;t Worry, <span className="gradient-text">We&apos;ve Got This</span>
+              </h2>
+
+              <div className="grid md:grid-cols-2 gap-6 text-left max-w-4xl mx-auto mb-8">
+                <div className="bg-white/5 rounded-xl p-5 border border-white/10">
+                  <h4 className="text-lg font-semibold text-white mb-2">Focus on your business</h4>
+                  <p className="text-[#9CA3AF] text-sm">
+                    You&apos;re great at what you do. We&apos;re great at websites. Let us handle your online presence while you do what you do best.
+                  </p>
+                </div>
+                <div className="bg-white/5 rounded-xl p-5 border border-white/10">
+                  <h4 className="text-lg font-semibold text-white mb-2">We know what works</h4>
+                  <p className="text-[#9CA3AF] text-sm">
+                    Don&apos;t worry about what changes to make — we understand the market and SEO. We constantly update your site to increase visitor flow.
+                  </p>
+                </div>
+                <div className="bg-white/5 rounded-xl p-5 border border-white/10">
+                  <h4 className="text-lg font-semibold text-white mb-2">More visitors = More customers</h4>
+                  <p className="text-[#9CA3AF] text-sm">
+                    Your website isn&apos;t just an online presence — it&apos;s your main source of new clients. We turn it into a lead-generating machine.
+                  </p>
+                </div>
+                <div className="bg-white/5 rounded-xl p-5 border border-white/10">
+                  <h4 className="text-lg font-semibold text-white mb-2">24-48hr support for changes</h4>
+                  <p className="text-[#9CA3AF] text-sm">
+                    Need something updated? We respond fast. Modern design, new technology, and a team that actually cares about your success.
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-[#6B7280] text-sm italic">
+                &quot;It costs less to join us than to keep losing customers with an outdated site.&quot;
+              </p>
+            </div>
           </div>
         </FadeIn>
       </section>
