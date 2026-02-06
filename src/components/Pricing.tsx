@@ -122,15 +122,86 @@ const tiers = [
 ];
 
 const maintenance = [
-  { name: "Basic", basePrice: 29, features: "2 changes + hosting + SSL", colorTheme: { borderColor: "border-gray-600/30 hover:border-gray-500/50", priceColor: "text-gray-400" } },
-  { name: "Growth", basePrice: 59, features: "5 changes + analytics + weekly backups", colorTheme: { borderColor: "border-emerald-500/30 hover:border-emerald-500/50", priceColor: "text-emerald-400" } },
-  { name: "Pro", basePrice: 149, features: "12 changes + priority + A/B testing", colorTheme: { borderColor: "border-[#3B82F6]/30 hover:border-[#3B82F6]/50", priceColor: "text-[#3B82F6]" } },
+  {
+    name: "Basic",
+    description: "Essential maintenance for your website",
+    basePrice: 29,
+    features: [
+      "2 content changes/month",
+      "Hosting included",
+      "SSL certificate",
+      "Monthly backups",
+      "Uptime monitoring",
+      "Email support",
+      "Security updates",
+      "Mobile responsive maintained",
+    ],
+    cta: "Get Started",
+    colorTheme: {
+      borderColor: "border-gray-600/30 hover:border-gray-500/50",
+      priceColor: "text-gray-400",
+      dotColor: "bg-gray-500",
+      buttonBg: "border-gray-600 hover:bg-gray-800/50 text-gray-300",
+    },
+  },
+  {
+    name: "Growth",
+    description: "For businesses ready to scale",
+    basePrice: 59,
+    features: [
+      "5 content changes/month",
+      "Analytics dashboard",
+      "Performance monitoring",
+      "Weekly backups",
+      "SEO monitoring",
+      "Priority email support",
+      "Speed optimization",
+      "Monthly performance report",
+    ],
+    cta: "Get Started",
+    colorTheme: {
+      borderColor: "border-emerald-500/30 hover:border-emerald-500/50",
+      priceColor: "text-emerald-400",
+      dotColor: "bg-emerald-500",
+      buttonBg: "border-emerald-500/50 hover:bg-emerald-500/10 text-emerald-400",
+    },
+  },
+  {
+    name: "Pro",
+    description: "Maximum performance and support",
+    basePrice: 149,
+    features: [
+      "12 content changes/month",
+      "Priority support",
+      "A/B testing",
+      "Daily backups",
+      "Advanced analytics",
+      "Conversion tracking",
+      "Dedicated support channel",
+      "Quarterly strategy call",
+      "Custom integrations",
+    ],
+    cta: "Get Started",
+    colorTheme: {
+      borderColor: "border-[#3B82F6]/30 hover:border-[#3B82F6]/50",
+      priceColor: "text-[#3B82F6]",
+      dotColor: "bg-[#3B82F6]",
+      buttonBg: "bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90 text-white",
+    },
+  },
 ];
 
 const enterprisePlan = {
   name: "Enterprise",
   tagline: "We become your tech team",
-  features: "Dedicated tech partner + unlimited consultations",
+  features: [
+    "Your dedicated tech partner",
+    "Personal agent for direct communication",
+    "Like having an employee, but more affordable",
+    "We handle all the tech logistics",
+    "Unlimited strategic consultations",
+    "Priority 24-hour response",
+  ],
 };
 
 type BillingPeriod = "monthly" | "quarterly" | "semiannual" | "annual";
@@ -362,51 +433,93 @@ export default function Pricing() {
               return (
                 <Card
                   key={plan.name}
-                  className={`p-0 rounded-lg bg-[#1A1A2E]/30 transition-colors text-center ${plan.colorTheme.borderColor}`}
+                  className={`p-0 rounded-xl bg-[#1A1A2E]/30 transition-all duration-300 hover:-translate-y-1 ${plan.colorTheme.borderColor}`}
                 >
-                  <CardContent className="p-4">
-                    <p className="text-sm font-medium text-white mb-1">
+                  <CardContent className="p-5 flex flex-col h-full">
+                    <p className="text-lg font-bold text-white mb-1">
                       {plan.name}
+                    </p>
+                    <p className="text-xs text-[#9CA3AF] mb-3">
+                      {plan.description}
                     </p>
                     {showDiscount && (
                       <p className="text-xs text-[#6B7280] line-through">
                         ${plan.basePrice}/mo
                       </p>
                     )}
-                    <p className={`text-xl font-bold ${plan.colorTheme.priceColor}`}>
+                    <p className={`text-2xl font-bold mb-4 ${plan.colorTheme.priceColor}`}>
                       ${discountedPrice}
                       <span className="text-xs font-normal text-[#6B7280]">
                         /mo
                       </span>
                     </p>
-                    <p className="text-xs text-[#9CA3AF] mt-2">{plan.features}</p>
+                    <ul className="space-y-2 flex-1 mb-4 text-left">
+                      {plan.features.map((feature) => (
+                        <li key={feature} className="flex items-start gap-2">
+                          <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 mt-1.5 ${plan.colorTheme.dotColor}`} />
+                          <span className="text-xs text-[#9CA3AF]">
+                            {feature}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    <Button
+                      variant={plan.name === "Pro" ? "default" : "outline"}
+                      size="sm"
+                      asChild
+                      className={`w-full ${plan.colorTheme.buttonBg}`}
+                    >
+                      <Link href="/contact">
+                        {plan.cta}
+                        <ArrowRight size={14} className="ml-1" />
+                      </Link>
+                    </Button>
                   </CardContent>
                 </Card>
               );
             })}
 
             {/* Enterprise Card */}
-            <Card className="p-0 rounded-lg bg-gradient-to-br from-[#1A1A2E]/50 to-amber-900/20 border-amber-500/30 hover:border-amber-500/50 transition-colors text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-yellow-500/5 rounded-lg" />
+            <Card className="p-0 rounded-xl bg-gradient-to-br from-[#1A1A2E]/50 to-amber-900/20 border-amber-500/30 hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-1 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-yellow-500/5 rounded-xl" />
               <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-10">
                 <Badge className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-0 text-[10px] px-2 py-0.5">
                   Premium
                 </Badge>
               </div>
-              <CardContent className="p-4 pt-5 relative">
+              <CardContent className="p-5 pt-6 relative flex flex-col h-full">
                 <div className="flex items-center justify-center gap-1 mb-1">
-                  <Crown size={14} className="text-amber-400" />
-                  <p className="text-sm font-medium text-white">
+                  <Crown size={16} className="text-amber-400" />
+                  <p className="text-lg font-bold text-white">
                     {enterprisePlan.name}
                   </p>
                 </div>
-                <p className="text-[10px] text-amber-300 mb-1">
+                <p className="text-xs text-amber-300 mb-3 text-center">
                   {enterprisePlan.tagline}
                 </p>
-                <p className="text-lg font-bold bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent">
+                <p className="text-2xl font-bold bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent mb-4 text-center">
                   Let&apos;s Talk
                 </p>
-                <p className="text-xs text-[#9CA3AF] mt-2">{enterprisePlan.features}</p>
+                <ul className="space-y-2 flex-1 mb-4 text-left">
+                  {enterprisePlan.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-1.5 bg-amber-400" />
+                      <span className="text-xs text-[#9CA3AF]">
+                        {feature}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <Button
+                  size="sm"
+                  asChild
+                  className="w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:opacity-90 text-white"
+                >
+                  <Link href="/contact">
+                    Contact Us
+                    <ArrowRight size={14} className="ml-1" />
+                  </Link>
+                </Button>
               </CardContent>
             </Card>
           </div>

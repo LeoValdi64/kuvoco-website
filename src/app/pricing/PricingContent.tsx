@@ -157,13 +157,19 @@ const maintenancePlans = [
   {
     icon: Shield,
     name: "Basic",
+    description: "Essential maintenance for your website",
     basePrice: 29,
     features: [
       "2 content changes/month",
       "Hosting included",
       "SSL certificate",
       "Monthly backups",
+      "Uptime monitoring",
+      "Email support",
+      "Security updates",
+      "Mobile responsive maintained",
     ],
+    cta: "Get Started",
     isMinimum: true,
     colorTheme: {
       iconBg: "bg-gray-500/20",
@@ -172,18 +178,25 @@ const maintenancePlans = [
       dotColor: "bg-gray-500",
       priceColor: "text-gray-400",
       cardBg: "bg-[#1A1A2E]/30",
+      buttonBg: "border-gray-600 hover:bg-gray-800/50 text-gray-300",
     },
   },
   {
     icon: TrendingUp,
     name: "Growth",
+    description: "For businesses ready to scale",
     basePrice: 59,
     features: [
       "5 content changes/month",
       "Analytics dashboard",
       "Performance monitoring",
       "Weekly backups",
+      "SEO monitoring",
+      "Priority email support",
+      "Speed optimization",
+      "Monthly performance report",
     ],
+    cta: "Get Started",
     isMinimum: false,
     colorTheme: {
       iconBg: "bg-emerald-500/20",
@@ -192,18 +205,26 @@ const maintenancePlans = [
       dotColor: "bg-emerald-500",
       priceColor: "text-emerald-400",
       cardBg: "bg-[#1A1A2E]/50",
+      buttonBg: "border-emerald-500/50 hover:bg-emerald-500/10 text-emerald-400",
     },
   },
   {
     icon: Zap,
     name: "Pro",
+    description: "Maximum performance and support",
     basePrice: 149,
     features: [
       "12 content changes/month",
       "Priority support",
       "A/B testing",
       "Daily backups",
+      "Advanced analytics",
+      "Conversion tracking",
+      "Dedicated support channel",
+      "Quarterly strategy call",
+      "Custom integrations",
     ],
+    cta: "Get Started",
     isMinimum: false,
     colorTheme: {
       iconBg: "bg-[#3B82F6]/20",
@@ -212,6 +233,7 @@ const maintenancePlans = [
       dotColor: "bg-[#3B82F6]",
       priceColor: "gradient-text",
       cardBg: "bg-[#1A1A2E]/50",
+      buttonBg: "bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90 text-white",
     },
   },
 ];
@@ -589,7 +611,7 @@ export default function PricingContent() {
                     </Badge>
                   )}
                   <Card className={cn(
-                    "border rounded-2xl p-6 transition-all duration-300 h-full",
+                    "border rounded-2xl p-6 transition-all duration-300 h-full hover:-translate-y-1",
                     plan.colorTheme.cardBg,
                     plan.colorTheme.borderColor
                   )}>
@@ -600,9 +622,12 @@ export default function PricingContent() {
                       )}>
                         <Icon className={cn("w-6 h-6", plan.colorTheme.iconColor)} />
                       </div>
-                      <h3 className="text-xl font-bold text-white mb-2">
+                      <h3 className="text-xl font-bold text-white mb-1">
                         {plan.name}
                       </h3>
+                      <p className="text-xs text-[#9CA3AF] mb-3">
+                        {plan.description}
+                      </p>
                       <div className="mb-4">
                         {showDiscount && (
                           <div className="text-sm text-[#6B7280] line-through mb-1">
@@ -616,7 +641,7 @@ export default function PricingContent() {
                           /mo
                         </span>
                       </div>
-                      <ul className="space-y-2 flex-1">
+                      <ul className="space-y-2 flex-1 mb-4">
                         {plan.features.map((feature) => (
                           <li key={feature} className="flex items-start gap-2">
                             <div className={cn("w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2", plan.colorTheme.dotColor)} />
@@ -626,6 +651,19 @@ export default function PricingContent() {
                           </li>
                         ))}
                       </ul>
+                      <Link href="/contact" className="w-full mt-auto">
+                        <Button
+                          className={cn(
+                            "w-full font-semibold text-sm",
+                            plan.colorTheme.buttonBg
+                          )}
+                          variant={plan.name === "Pro" ? "default" : "outline"}
+                          size="sm"
+                        >
+                          {plan.cta}
+                          <ArrowRight className="w-3 h-3 ml-1" />
+                        </Button>
+                      </Link>
                     </div>
                   </Card>
                 </motion.div>
