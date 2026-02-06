@@ -529,17 +529,6 @@ export default function PricingContent() {
                 <p className="text-[#9CA3AF] mb-4">
                   Already have a website? Time to upgrade. Switch to Kuvo Co. and save $300 off any paid tier.
                 </p>
-                <div className="flex flex-wrap gap-3 justify-center lg:justify-start mb-4">
-                  <Badge variant="outline" className="border-orange-500/50 text-orange-400 bg-orange-500/10">
-                    Starter: $399 → $99
-                  </Badge>
-                  <Badge variant="outline" className="border-orange-500/50 text-orange-400 bg-orange-500/10">
-                    Business: $699 → $399
-                  </Badge>
-                  <Badge variant="outline" className="border-orange-500/50 text-orange-400 bg-orange-500/10">
-                    Professional: $999 → $699
-                  </Badge>
-                </div>
                 <p className="text-xs text-[#6B7280]">
                   Requires 1-year commitment to any monthly plan. Pay monthly or save more with annual payment.
                 </p>
