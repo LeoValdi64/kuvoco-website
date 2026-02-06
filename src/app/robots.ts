@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://kuvoco-website.vercel.app/sitemap.xml",
+    sitemap: "https://kuvoco.com/sitemap.xml",
   };
 }

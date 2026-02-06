@@ -30,12 +30,12 @@ export const metadata: Metadata = {
     "fast website delivery",
     "Kuvo Co",
   ],
-  authors: [{ name: "Kuvo Co.", url: "https://kuvoco-website.vercel.app" }],
+  authors: [{ name: "Kuvo Co.", url: "https://kuvoco.com" }],
   openGraph: {
     title: "Kuvo Co. — Professional Web Development",
     description:
       "Professional websites for local businesses. Built fast. Built right. Launch in as little as 48 hours.",
-    url: "https://kuvoco-website.vercel.app",
+    url: "https://kuvoco.com",
     siteName: "Kuvo Co.",
     type: "website",
     locale: "en_US",
@@ -55,9 +55,9 @@ export const metadata: Metadata = {
       "Professional websites for local businesses. Built fast. Built right.",
     images: ["/og-image.jpg"],
   },
-  metadataBase: new URL("https://kuvoco-website.vercel.app"),
+  metadataBase: new URL("https://kuvoco.com"),
   alternates: {
-    canonical: "https://kuvoco-website.vercel.app",
+    canonical: "https://kuvoco.com",
   },
   icons: {
     icon: "/logo.png",

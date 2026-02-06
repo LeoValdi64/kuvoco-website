@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: "Contact Us — Kuvo Co.",
     description:
       "Get in touch with Kuvo Co. for professional web development services. Based in Everett, WA.",
-    url: "https://kuvoco-website.vercel.app/contact",
+    url: "https://kuvoco.com/contact",
     siteName: "Kuvo Co.",
     type: "website",
     locale: "en_US",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
   },
   alternates: {
-    canonical: "https://kuvoco-website.vercel.app/contact",
+    canonical: "https://kuvoco.com/contact",
   },
 };
 
