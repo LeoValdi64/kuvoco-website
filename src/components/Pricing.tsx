@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { Check, Sparkles, Gift, ArrowRight, Star, RefreshCw } from "lucide-react";
+import { Check, Sparkles, Gift, ArrowRight, Star, RefreshCw, Crown } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -82,15 +82,36 @@ const tiers = [
 ];
 
 const maintenance = [
-  { name: "Basic", price: "$29", period: "/mo", features: "2 changes + hosting + SSL" },
-  { name: "Growth", price: "$59", period: "/mo", features: "5 changes + analytics + weekly backups" },
-  { name: "Pro", price: "$149", period: "/mo", features: "12 changes + priority + A/B testing" },
-  { name: "Enterprise", price: "$349+", period: "/mo", features: "30 changes + dedicated manager" },
+  { name: "Basic", basePrice: 29, features: "2 changes + hosting + SSL" },
+  { name: "Growth", basePrice: 59, features: "5 changes + analytics + weekly backups" },
+  { name: "Pro", basePrice: 149, features: "12 changes + priority + A/B testing" },
 ];
+
+const enterprisePlan = {
+  name: "Enterprise",
+  tagline: "We become your tech team",
+  features: "Dedicated tech partner + unlimited consultations",
+};
+
+type BillingPeriod = "monthly" | "quarterly" | "semiannual" | "annual";
+
+const billingOptions: { key: BillingPeriod; label: string; shortLabel: string; discount: number }[] = [
+  { key: "monthly", label: "Monthly", shortLabel: "Monthly", discount: 0 },
+  { key: "quarterly", label: "Quarterly (-10%)", shortLabel: "Qtrly", discount: 0.10 },
+  { key: "semiannual", label: "Semi-annual (-15%)", shortLabel: "Semi", discount: 0.15 },
+  { key: "annual", label: "Annual (-25%)", shortLabel: "Annual", discount: 0.25 },
+];
+
+function calculateDiscountedPrice(basePrice: number, discount: number): string {
+  const discounted = basePrice * (1 - discount);
+  return discounted.toFixed(2);
+}
 
 export default function Pricing() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>("annual");
+  const currentDiscount = billingOptions.find(opt => opt.key === billingPeriod)?.discount || 0;
 
   return (
     <section id="pricing" className="relative py-24 sm:py-32 bg-[#111827]/30">
@@ -261,42 +282,82 @@ export default function Pricing() {
             <h3 className="text-xl font-semibold mb-2">
               Monthly Maintenance Plans
             </h3>
-            <p className="text-sm text-[#6B7280] mb-3">
+            <p className="text-sm text-[#6B7280] mb-4">
               Hosting, SSL, backups, and content changes included
             </p>
-            <div className="flex flex-wrap gap-2 justify-center">
-              <Badge variant="outline" className="border-emerald-500/50 text-emerald-400 bg-emerald-500/10 text-xs">
-                Quarterly: 10% off
-              </Badge>
-              <Badge variant="outline" className="border-emerald-500/50 text-emerald-400 bg-emerald-500/10 text-xs">
-                Semi-annual: 15% off
-              </Badge>
-              <Badge variant="outline" className="border-emerald-500/50 text-emerald-400 bg-emerald-500/10 text-xs">
-                Annual: 25% off
-              </Badge>
+
+            {/* Billing Period Tabs */}
+            <div className="flex flex-wrap gap-1 sm:gap-2 justify-center bg-[#1A1A2E]/50 rounded-xl p-1.5 max-w-fit mx-auto">
+              {billingOptions.map((option) => (
+                <button
+                  key={option.key}
+                  onClick={() => setBillingPeriod(option.key)}
+                  className={`px-2 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 ${
+                    billingPeriod === option.key
+                      ? "bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] text-white shadow-lg shadow-[#3B82F6]/25"
+                      : "text-[#9CA3AF] hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  <span className="hidden sm:inline">{option.label}</span>
+                  <span className="sm:hidden">{option.shortLabel}</span>
+                </button>
+              ))}
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            {maintenance.map((plan) => (
-              <Card
-                key={plan.name}
-                className="p-0 rounded-lg bg-[#1A1A2E]/30 border-white/5 hover:border-white/10 transition-colors text-center"
-              >
-                <CardContent className="p-4">
-                  <p className="text-sm font-medium text-white mb-1">
-                    {plan.name}
+            {maintenance.map((plan) => {
+              const discountedPrice = calculateDiscountedPrice(plan.basePrice, currentDiscount);
+              const showDiscount = currentDiscount > 0;
+              return (
+                <Card
+                  key={plan.name}
+                  className="p-0 rounded-lg bg-[#1A1A2E]/30 border-white/5 hover:border-white/10 transition-colors text-center"
+                >
+                  <CardContent className="p-4">
+                    <p className="text-sm font-medium text-white mb-1">
+                      {plan.name}
+                    </p>
+                    {showDiscount && (
+                      <p className="text-xs text-[#6B7280] line-through">
+                        ${plan.basePrice}/mo
+                      </p>
+                    )}
+                    <p className="text-xl font-bold text-[#3B82F6]">
+                      ${discountedPrice}
+                      <span className="text-xs font-normal text-[#6B7280]">
+                        /mo
+                      </span>
+                    </p>
+                    <p className="text-xs text-[#9CA3AF] mt-2">{plan.features}</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
+
+            {/* Enterprise Card */}
+            <Card className="p-0 rounded-lg bg-gradient-to-br from-[#1A1A2E]/50 to-purple-900/20 border-purple-500/30 hover:border-purple-500/50 transition-colors text-center relative overflow-hidden">
+              <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-10">
+                <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0 text-[10px] px-2 py-0.5">
+                  Premium
+                </Badge>
+              </div>
+              <CardContent className="p-4 pt-5">
+                <div className="flex items-center justify-center gap-1 mb-1">
+                  <Crown size={14} className="text-purple-400" />
+                  <p className="text-sm font-medium text-white">
+                    {enterprisePlan.name}
                   </p>
-                  <p className="text-xl font-bold text-[#3B82F6]">
-                    {plan.price}
-                    <span className="text-xs font-normal text-[#6B7280]">
-                      {plan.period}
-                    </span>
-                  </p>
-                  <p className="text-xs text-[#9CA3AF] mt-2">{plan.features}</p>
-                </CardContent>
-              </Card>
-            ))}
+                </div>
+                <p className="text-[10px] text-purple-300 mb-1">
+                  {enterprisePlan.tagline}
+                </p>
+                <p className="text-lg font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                  Let&apos;s Talk
+                </p>
+                <p className="text-xs text-[#9CA3AF] mt-2">{enterprisePlan.features}</p>
+              </CardContent>
+            </Card>
           </div>
 
           {/* View Full Pricing Link */}

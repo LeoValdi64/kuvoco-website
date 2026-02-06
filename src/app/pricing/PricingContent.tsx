@@ -112,8 +112,7 @@ const maintenancePlans = [
   {
     icon: Shield,
     name: "Basic",
-    price: "$29",
-    period: "/mo",
+    basePrice: 29,
     features: [
       "2 content changes/month",
       "Hosting included",
@@ -125,8 +124,7 @@ const maintenancePlans = [
   {
     icon: TrendingUp,
     name: "Growth",
-    price: "$59",
-    period: "/mo",
+    basePrice: 59,
     features: [
       "5 content changes/month",
       "Analytics dashboard",
@@ -138,8 +136,7 @@ const maintenancePlans = [
   {
     icon: Zap,
     name: "Pro",
-    price: "$149",
-    period: "/mo",
+    basePrice: 149,
     features: [
       "12 content changes/month",
       "Priority support",
@@ -148,26 +145,35 @@ const maintenancePlans = [
     ],
     isMinimum: false,
   },
-  {
-    icon: Building2,
-    name: "Enterprise",
-    price: "$349+",
-    period: "/mo",
-    features: [
-      "30 content changes/month",
-      "Dedicated manager",
-      "Custom reporting",
-      "Real-time backups",
-    ],
-    isMinimum: false,
-  },
 ];
 
-const commitmentDiscounts = [
-  { period: "Quarterly", discount: "10% off" },
-  { period: "Semi-annual", discount: "15% off" },
-  { period: "Annual", discount: "25% off" },
+const enterprisePlan = {
+  icon: Crown,
+  name: "Enterprise",
+  features: [
+    "Your dedicated tech partner",
+    "Personal agent for direct communication",
+    "Like having an employee, but more affordable",
+    "We handle all the tech logistics",
+    "Unlimited strategic consultations",
+    "Priority 24-hour response",
+  ],
+};
+
+type BillingPeriod = "monthly" | "quarterly" | "semiannual" | "annual";
+
+const billingOptions: { key: BillingPeriod; label: string; discount: number }[] = [
+  { key: "monthly", label: "Monthly", discount: 0 },
+  { key: "quarterly", label: "Quarterly (-10%)", discount: 0.10 },
+  { key: "semiannual", label: "Semi-annual (-15%)", discount: 0.15 },
+  { key: "annual", label: "Annual (-25%)", discount: 0.25 },
 ];
+
+function calculateDiscountedPrice(basePrice: number, discount: number): string {
+  const discounted = basePrice * (1 - discount);
+  return discounted.toFixed(2);
+}
+
 
 const faqs = [
   {
@@ -263,6 +269,9 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
 }
 
 export default function PricingContent() {
+  const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>("annual");
+  const currentDiscount = billingOptions.find(opt => opt.key === billingPeriod)?.discount || 0;
+
   return (
     <main className="bg-[#0A0A0F] min-h-screen pt-32 pb-20">
       {/* Hero Section */}
@@ -464,16 +473,21 @@ export default function PricingContent() {
               Your website needs care to keep running, secure, and performing. We handle it all.
             </p>
 
-            {/* Commitment Discounts */}
-            <div className="flex flex-wrap gap-3 justify-center">
-              {commitmentDiscounts.map((discount) => (
-                <Badge
-                  key={discount.period}
-                  variant="outline"
-                  className="border-emerald-500/50 text-emerald-400 bg-emerald-500/10"
+            {/* Billing Period Tabs */}
+            <div className="flex flex-wrap gap-2 justify-center bg-[#1A1A2E]/50 rounded-xl p-2 max-w-fit mx-auto">
+              {billingOptions.map((option) => (
+                <button
+                  key={option.key}
+                  onClick={() => setBillingPeriod(option.key)}
+                  className={cn(
+                    "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300",
+                    billingPeriod === option.key
+                      ? "bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] text-white shadow-lg shadow-[#3B82F6]/25"
+                      : "text-[#9CA3AF] hover:text-white hover:bg-white/5"
+                  )}
                 >
-                  {discount.period}: {discount.discount}
-                </Badge>
+                  {option.label}
+                </button>
               ))}
             </div>
           </div>
@@ -481,6 +495,8 @@ export default function PricingContent() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {maintenancePlans.map((plan, index) => {
               const Icon = plan.icon;
+              const discountedPrice = calculateDiscountedPrice(plan.basePrice, currentDiscount);
+              const showDiscount = currentDiscount > 0;
               return (
                 <motion.div
                   key={plan.name}
@@ -507,11 +523,16 @@ export default function PricingContent() {
                         {plan.name}
                       </h3>
                       <div className="mb-4">
+                        {showDiscount && (
+                          <div className="text-sm text-[#6B7280] line-through mb-1">
+                            ${plan.basePrice}/mo
+                          </div>
+                        )}
                         <span className="text-3xl font-bold gradient-text">
-                          {plan.price}
+                          ${discountedPrice}
                         </span>
                         <span className="text-[#9CA3AF] text-sm ml-1">
-                          {plan.period}
+                          /mo
                         </span>
                       </div>
                       <ul className="space-y-2 flex-1">
@@ -529,6 +550,59 @@ export default function PricingContent() {
                 </motion.div>
               );
             })}
+
+            {/* Enterprise Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.15 }}
+              className="relative"
+            >
+              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0 px-3 py-1 text-xs shadow-lg shadow-purple-500/25">
+                Premium
+              </Badge>
+              <Card className="border rounded-2xl p-6 h-full bg-gradient-to-br from-[#1A1A2E]/70 via-[#1A1A2E]/50 to-purple-900/20 border-purple-500/30 hover:border-purple-500/50 transition-all duration-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-pink-500/5" />
+                <div className="relative flex flex-col h-full">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center mb-4">
+                    <enterprisePlan.icon className="w-6 h-6 text-purple-400" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-1">
+                    {enterprisePlan.name}
+                  </h3>
+                  <p className="text-sm text-purple-300 mb-4">
+                    We become your tech team
+                  </p>
+                  <div className="mb-4">
+                    <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                      Let&apos;s Talk
+                    </span>
+                  </div>
+                  <ul className="space-y-2 flex-1 mb-4">
+                    {enterprisePlan.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-2" />
+                        <span className="text-[#9CA3AF] text-sm">
+                          {feature}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-auto pt-4 border-t border-purple-500/20">
+                    <p className="text-xs text-[#6B7280] mb-3">
+                      Skip the cost of an internal tech team. Focus on your business, we handle the technology.
+                    </p>
+                    <Link href="/contact" className="w-full">
+                      <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90 text-white font-semibold text-sm">
+                        Contact Us
+                        <ArrowRight className="w-3 h-3 ml-1" />
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
           </div>
         </FadeIn>
       </section>
