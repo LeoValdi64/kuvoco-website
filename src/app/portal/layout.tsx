@@ -50,7 +50,7 @@ export default function PortalLayout({
       {/* Desktop Sidebar + Content */}
       <div className="flex">
         {/* Sidebar — Desktop */}
-        <aside className="hidden md:flex w-64 flex-col min-h-[calc(100vh-4rem)] border-r border-white/5 bg-[#0A0A0F]/95 backdrop-blur-sm z-40 flex-shrink-0">
+        <aside className="hidden md:flex w-64 flex-col fixed top-16 left-0 bottom-0 border-r border-white/5 bg-[#0A0A0F]/95 backdrop-blur-sm z-40">
           <nav className="flex-1 px-3 py-4 space-y-1">
             {sidebarLinks.map((link) => {
               const isActive =
@@ -96,7 +96,7 @@ export default function PortalLayout({
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 min-h-[calc(100vh-5rem)] pb-20 md:pb-0">
+        <main className="flex-1 md:ml-64 min-h-[calc(100vh-5rem)] pb-20 md:pb-0">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
