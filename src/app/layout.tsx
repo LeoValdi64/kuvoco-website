@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -200,22 +202,41 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} scroll-smooth`}>
-      <head>
-        {jsonLd.map((schema, i) => (
-          <script
-            key={i}
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-          />
-        ))}
-      </head>
-      <body className="font-sans bg-[#0A0A0F] text-white antialiased">
-        <Starfield />
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+        variables: {
+          colorPrimary: '#3B82F6',
+          colorBackground: '#0A0A0F',
+          colorInputBackground: '#1A1A2E',
+          colorInputText: '#F8FAFC',
+          colorText: '#F8FAFC',
+          colorTextSecondary: '#9CA3AF',
+        },
+        elements: {
+          card: 'bg-[#1A1A2E] border border-white/10',
+          formButtonPrimary: 'bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90',
+          footerActionLink: 'text-[#3B82F6] hover:text-[#06B6D4]',
+        },
+      }}
+    >
+      <html lang="en" className={`${inter.variable} scroll-smooth`}>
+        <head>
+          {jsonLd.map((schema, i) => (
+            <script
+              key={i}
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+            />
+          ))}
+        </head>
+        <body className="font-sans bg-[#0A0A0F] text-white antialiased">
+          <Starfield />
+          <Navbar />
+          {children}
+          <Footer />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
