@@ -150,7 +150,7 @@ export default function Navbar() {
                   asChild
                   className="px-5 py-2.5 text-sm font-medium bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition-all duration-200 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]"
                 >
-                  <Link href="/contact">Get Started</Link>
+                  <Link href="/sign-in">Get Started</Link>
                 </Button>
               </SignedOut>
             </div>
@@ -242,7 +242,7 @@ export default function Navbar() {
                     className="px-8 py-6 text-base font-medium bg-[#3B82F6] hover:bg-[#2563EB] rounded-xl transition-all duration-200 hover:shadow-[0_0_30px_rgba(59,130,246,0.4)]"
                     onClick={() => setIsOpen(false)}
                   >
-                    <Link href="/contact">Get Started</Link>
+                    <Link href="/sign-in">Get Started</Link>
                   </Button>
                 </SignedOut>
               </motion.div>
