@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import PortalNavbar from "@/components/PortalNavbar";
 
 const sidebarLinks = [
   {
@@ -45,6 +46,7 @@ export default function PortalLayout({
 
   return (
     <div className="min-h-screen bg-[#0A0A0F] pt-20">
+      <PortalNavbar />
       {/* Desktop Sidebar + Content */}
       <div className="flex">
         {/* Sidebar — Desktop */}
