@@ -1,9 +1,11 @@
 "use client";
 
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { Check, Sparkles, ChevronDown, ArrowRight, Rocket, Building2, Crown, Puzzle, Shield, TrendingUp, Zap, Gift, RefreshCw, Star } from "lucide-react";
+import { Check, Sparkles, ChevronDown, ArrowRight, Rocket, Building2, Crown, Puzzle, Shield, TrendingUp, Zap, Gift, RefreshCw, Star, Loader2 } from "lucide-react";
 import { useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,6 +18,7 @@ const pricingTiers = [
     price: "$0",
     period: "one-time",
     description: "Get started at no cost",
+    stripePackageKey: null,
     features: [
       "1 basic page",
       "Subdomain only (business.kuvoco.com)",
@@ -43,6 +46,7 @@ const pricingTiers = [
     price: "$399",
     period: "one-time",
     description: "Perfect for getting started online",
+    stripePackageKey: "starter" as const,
     features: [
       "1 page website",
       "Custom domain included",
@@ -71,6 +75,7 @@ const pricingTiers = [
     price: "$699",
     period: "one-time",
     description: "Most popular for local businesses",
+    stripePackageKey: "business" as const,
     features: [
       "Up to 3 pages",
       "Custom domain included",
@@ -100,6 +105,7 @@ const pricingTiers = [
     price: "$999",
     period: "one-time",
     description: "For businesses that need more",
+    stripePackageKey: "professional" as const,
     features: [
       "Up to 5 pages",
       "Custom domain included",
@@ -130,6 +136,7 @@ const pricingTiers = [
     price: "Let's Talk",
     period: "",
     description: "Complete digital transformation",
+    stripePackageKey: null,
     features: [
       "Multi-page web application",
       "Your dedicated tech partner",
@@ -158,6 +165,7 @@ const maintenancePlans = [
     icon: Shield,
     name: "Basic",
     description: "Essential maintenance for your website",
+    stripeSubscriptionKey: "basic" as const,
     basePrice: 29,
     features: [
       "2 content changes/month",
@@ -185,6 +193,7 @@ const maintenancePlans = [
     icon: TrendingUp,
     name: "Growth",
     description: "For businesses ready to scale",
+    stripeSubscriptionKey: "growth" as const,
     basePrice: 59,
     features: [
       "5 content changes/month",
@@ -212,6 +221,7 @@ const maintenancePlans = [
     icon: Zap,
     name: "Pro",
     description: "Maximum performance and support",
+    stripeSubscriptionKey: "pro" as const,
     basePrice: 149,
     features: [
       "12 content changes/month",
@@ -361,7 +371,68 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
 
 export default function PricingContent() {
   const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>("annual");
+  const [loadingTier, setLoadingTier] = useState<string | null>(null);
   const currentDiscount = billingOptions.find(opt => opt.key === billingPeriod)?.discount || 0;
+  const { isSignedIn } = useAuth();
+  const router = useRouter();
+
+  async function handleCheckout(packageKey: string, tierName: string) {
+    if (!isSignedIn) {
+      router.push("/sign-up");
+      return;
+    }
+
+    setLoadingTier(tierName);
+    try {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          packageName: packageKey,
+          mode: "payment",
+        }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.error || "Something went wrong. Please try again.");
+        setLoadingTier(null);
+      }
+    } catch {
+      alert("Something went wrong. Please try again.");
+      setLoadingTier(null);
+    }
+  }
+
+  async function handleSubscription(subscriptionKey: string, planName: string) {
+    if (!isSignedIn) {
+      router.push("/sign-up");
+      return;
+    }
+
+    setLoadingTier(planName);
+    try {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          subscriptionName: subscriptionKey,
+          mode: "subscription",
+        }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.error || "Something went wrong. Please try again.");
+        setLoadingTier(null);
+      }
+    } catch {
+      alert("Something went wrong. Please try again.");
+      setLoadingTier(null);
+    }
+  }
 
   return (
     <main className="bg-[#0A0A0F] min-h-screen pt-32 pb-20">
@@ -484,21 +555,44 @@ export default function PricingContent() {
                       </ul>
                     </CardContent>
                     <CardFooter className={cn("pt-0", tier.isEnterprise && "relative")}>
-                      <Link href="/contact" className="w-full">
+                      {tier.stripePackageKey ? (
                         <Button
+                          onClick={() => handleCheckout(tier.stripePackageKey!, tier.name)}
+                          disabled={loadingTier === tier.name}
                           className={cn(
                             "w-full font-semibold text-sm",
-                            tier.popular || tier.isEnterprise
-                              ? tier.colorTheme.buttonBg
-                              : tier.colorTheme.buttonBg
+                            tier.colorTheme.buttonBg
                           )}
-                          variant={tier.popular || tier.isEnterprise ? "default" : "outline"}
+                          variant={tier.popular ? "default" : "outline"}
                           size="sm"
                         >
-                          {tier.cta}
-                          <ArrowRight className="w-3 h-3 ml-1" />
+                          {loadingTier === tier.name ? (
+                            <>
+                              <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                              Loading...
+                            </>
+                          ) : (
+                            <>
+                              {tier.cta}
+                              <ArrowRight className="w-3 h-3 ml-1" />
+                            </>
+                          )}
                         </Button>
-                      </Link>
+                      ) : (
+                        <Link href="/contact" className="w-full">
+                          <Button
+                            className={cn(
+                              "w-full font-semibold text-sm",
+                              tier.colorTheme.buttonBg
+                            )}
+                            variant={tier.isEnterprise ? "default" : "outline"}
+                            size="sm"
+                          >
+                            {tier.cta}
+                            <ArrowRight className="w-3 h-3 ml-1" />
+                          </Button>
+                        </Link>
+                      )}
                     </CardFooter>
                   </Card>
                 </motion.div>
@@ -640,19 +734,28 @@ export default function PricingContent() {
                           </li>
                         ))}
                       </ul>
-                      <Link href="/contact" className="w-full mt-auto">
-                        <Button
-                          className={cn(
-                            "w-full font-semibold text-sm",
-                            plan.colorTheme.buttonBg
-                          )}
-                          variant={plan.name === "Pro" ? "default" : "outline"}
-                          size="sm"
-                        >
-                          {plan.cta}
-                          <ArrowRight className="w-3 h-3 ml-1" />
-                        </Button>
-                      </Link>
+                      <Button
+                        onClick={() => handleSubscription(plan.stripeSubscriptionKey, plan.name)}
+                        disabled={loadingTier === plan.name}
+                        className={cn(
+                          "w-full font-semibold text-sm mt-auto",
+                          plan.colorTheme.buttonBg
+                        )}
+                        variant={plan.name === "Pro" ? "default" : "outline"}
+                        size="sm"
+                      >
+                        {loadingTier === plan.name ? (
+                          <>
+                            <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                            Loading...
+                          </>
+                        ) : (
+                          <>
+                            {plan.cta}
+                            <ArrowRight className="w-3 h-3 ml-1" />
+                          </>
+                        )}
+                      </Button>
                     </div>
                   </Card>
                 </motion.div>
