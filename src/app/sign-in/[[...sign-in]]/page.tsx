@@ -10,13 +10,7 @@ export const metadata: Metadata = {
 export default function SignInPage() {
   return (
     <main className="min-h-screen bg-zinc-950 flex items-center justify-center px-4 pt-24 pb-20">
-      <div className="w-full max-w-md mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-          <p className="text-[#9CA3AF]">
-            Sign in to access your client portal
-          </p>
-        </div>
+      <div className="w-full">
         <SignIn
           routing="path"
           path="/sign-in"
@@ -33,7 +27,9 @@ export default function SignInPage() {
               colorTextSecondary: "#9CA3AF",
             },
             elements: {
-              card: "bg-[#1A1A2E] border border-white/10",
+              card: "bg-[#1A1A2E] border border-white/10 w-full max-w-none",
+              rootBox: "w-full",
+              cardBox: "w-full",
               formButtonPrimary:
                 "bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90",
               footerActionLink: "text-[#3B82F6] hover:text-[#06B6D4]",

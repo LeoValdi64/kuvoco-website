@@ -10,13 +10,7 @@ export const metadata: Metadata = {
 export default function SignUpPage() {
   return (
     <main className="min-h-screen bg-zinc-950 flex items-center justify-center px-4 pt-24 pb-20">
-      <div className="w-full max-w-md mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Get Started</h1>
-          <p className="text-[#9CA3AF]">
-            Create your account to access your client portal
-          </p>
-        </div>
+      <div className="w-full">
         <SignUp
           routing="path"
           path="/sign-up"
@@ -33,7 +27,9 @@ export default function SignUpPage() {
               colorTextSecondary: "#9CA3AF",
             },
             elements: {
-              card: "bg-[#1A1A2E] border border-white/10",
+              card: "bg-[#1A1A2E] border border-white/10 w-full max-w-none",
+              rootBox: "w-full",
+              cardBox: "w-full",
               formButtonPrimary:
                 "bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90",
               footerActionLink: "text-[#3B82F6] hover:text-[#06B6D4]",
