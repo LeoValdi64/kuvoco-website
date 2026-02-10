@@ -45,30 +45,12 @@ export default function PortalLayout({
   const pathname = usePathname();
 
   return (
-    <div className="min-h-screen bg-[#0A0A0F] pt-20">
+    <div className="min-h-screen bg-[#0A0A0F]">
       <PortalNavbar />
       {/* Desktop Sidebar + Content */}
       <div className="flex">
         {/* Sidebar — Desktop */}
-        <aside className="hidden md:flex w-64 flex-col fixed top-20 left-0 bottom-0 border-r border-white/5 bg-[#0A0A0F]/95 backdrop-blur-sm z-40">
-          <div className="flex items-center gap-3 px-6 py-5 border-b border-white/5">
-            <UserButton
-              appearance={{
-                elements: {
-                  avatarBox: "w-9 h-9",
-                },
-              }}
-            />
-            <div className="min-w-0">
-              <p className="text-sm font-medium text-white truncate">
-                Client Portal
-              </p>
-              <p className="text-xs text-[#9CA3AF] truncate">
-                Manage your account
-              </p>
-            </div>
-          </div>
-
+        <aside className="hidden md:flex w-64 flex-col min-h-[calc(100vh-4rem)] border-r border-white/5 bg-[#0A0A0F]/95 backdrop-blur-sm z-40 flex-shrink-0">
           <nav className="flex-1 px-3 py-4 space-y-1">
             {sidebarLinks.map((link) => {
               const isActive =
@@ -114,7 +96,7 @@ export default function PortalLayout({
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 md:ml-64 min-h-[calc(100vh-5rem)] pb-20 md:pb-0">
+        <main className="flex-1 min-h-[calc(100vh-5rem)] pb-20 md:pb-0">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

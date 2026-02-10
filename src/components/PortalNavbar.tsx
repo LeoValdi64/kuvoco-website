@@ -7,7 +7,7 @@ import { UserButton } from "@clerk/nextjs";
 
 export default function PortalNavbar() {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[9998] bg-[#0A0A0F]/80 backdrop-blur-xl border-b border-white/5">
+    <nav className="w-full bg-[#0A0A0F]/80 backdrop-blur-xl border-b border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
