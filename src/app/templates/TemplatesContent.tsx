@@ -9,8 +9,8 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  Globe,
   ExternalLink,
+  Sparkles,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -285,7 +285,7 @@ export default function TemplatesContent() {
         </div>
       </section>
 
-      {/* Modal Viewer */}
+      {/* Fullscreen Modal Viewer */}
       <AnimatePresence>
         {selectedTemplate && selectedIndex !== null && (
           <motion.div
@@ -294,46 +294,65 @@ export default function TemplatesContent() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex flex-col"
-            onClick={(e) => {
-              if (e.target === e.currentTarget) close();
-            }}
+            className="fixed inset-0 z-[100] bg-zinc-950 flex flex-col"
           >
-            {/* Top Bar */}
-            <div className="flex-shrink-0 bg-zinc-950/95 border-b border-white/10 px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3 min-w-0">
-                <h2 className="text-white font-semibold text-sm sm:text-base truncate">
+            {/* Premium Top Bar */}
+            <div className="flex-shrink-0 h-16 bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800 px-4 sm:px-6 flex items-center justify-between gap-4">
+              {/* Left: Back */}
+              <button
+                onClick={close}
+                className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors flex-shrink-0"
+              >
+                <ChevronLeft className="w-5 h-5" />
+                <span className="hidden sm:inline text-sm font-medium">Back to Templates</span>
+              </button>
+
+              {/* Center: Name + Badge */}
+              <div className="flex items-center gap-3 min-w-0 justify-center">
+                <h2 className="text-white font-bold text-sm sm:text-base truncate">
                   {selectedTemplate.name}
                 </h2>
                 <Badge
-                  className={`text-[10px] flex-shrink-0 ${categoryColors[selectedTemplate.category]}`}
+                  className={`text-[10px] flex-shrink-0 hidden sm:inline-flex ${categoryColors[selectedTemplate.category]}`}
                 >
                   {selectedTemplate.category}
                 </Badge>
               </div>
-              <div className="flex items-center gap-3 flex-shrink-0">
+
+              {/* Right: Actions */}
+              <div className="flex items-center gap-2 flex-shrink-0">
                 <Link
                   href={`/contact?template=${encodeURIComponent(selectedTemplate.name)}`}
+                  className="hidden sm:block"
                 >
                   <Button
                     size="sm"
-                    className="bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90 text-white text-xs"
+                    className="bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90 text-white text-xs font-semibold rounded-full px-5"
                   >
+                    <Sparkles className="w-3.5 h-3.5 mr-1.5" />
                     I Want This
-                    <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
                   </Button>
                 </Link>
+                <a
+                  href={`https://${selectedTemplate.subdomain}.kuvoco.com`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hidden sm:flex w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 items-center justify-center transition-colors"
+                  title="Open in new tab"
+                >
+                  <ExternalLink className="w-4 h-4 text-zinc-400" />
+                </a>
                 <button
                   onClick={close}
-                  className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
+                  className="sm:hidden w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
                 >
                   <X className="w-4 h-4 text-white" />
                 </button>
               </div>
             </div>
 
-            {/* Content Area */}
-            <div className="flex-1 overflow-y-auto relative">
+            {/* Content: Full iframe */}
+            <div className="flex-1 relative">
               {/* Navigation Arrows — Desktop */}
               {selectedIndex > 0 && (
                 <button
@@ -341,9 +360,9 @@ export default function TemplatesContent() {
                     e.stopPropagation();
                     goTo(-1);
                   }}
-                  className="hidden md:flex fixed left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 items-center justify-center transition-colors"
+                  className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-black/50 hover:bg-black/80 items-center justify-center transition-all"
                 >
-                  <ChevronLeft className="w-5 h-5 text-white" />
+                  <ChevronLeft className="w-6 h-6 text-white" />
                 </button>
               )}
               {selectedIndex < filtered.length - 1 && (
@@ -352,109 +371,88 @@ export default function TemplatesContent() {
                     e.stopPropagation();
                     goTo(1);
                   }}
-                  className="hidden md:flex fixed right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 items-center justify-center transition-colors"
+                  className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-black/50 hover:bg-black/80 items-center justify-center transition-all"
                 >
-                  <ChevronRight className="w-5 h-5 text-white" />
+                  <ChevronRight className="w-6 h-6 text-white" />
                 </button>
               )}
 
-              <AnimatePresence mode="wait" custom={direction}>
-                <motion.div
-                  key={selectedTemplate.subdomain}
-                  custom={direction}
-                  variants={slideVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{ duration: 0.25, ease: "easeInOut" }}
-                  className="max-w-5xl mx-auto px-4 sm:px-6 py-6"
-                >
-                  {/* Hero Screenshot */}
-                  <div className="relative aspect-video rounded-xl overflow-hidden mb-8">
-                    <Image
-                      src={`/portfolio/${selectedTemplate.subdomain}.jpg`}
-                      alt={`${selectedTemplate.name} template preview`}
-                      fill
-                      className="object-cover object-top"
-                      sizes="(max-width: 1024px) 100vw, 80vw"
-                      priority
-                    />
-                  </div>
-
-                  {/* Live Preview Divider */}
-                  <div className="flex items-center gap-3 mb-6">
-                    <Globe className="w-4 h-4 text-[#06B6D4]" />
-                    <span className="text-sm font-medium text-[#9CA3AF]">
-                      Live Preview
-                    </span>
-                    <div className="flex-1 h-px bg-white/10" />
-                    <a
-                      href={`https://${selectedTemplate.subdomain}.kuvoco.com`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 text-xs text-[#3B82F6] hover:text-[#06B6D4] transition-colors"
-                    >
-                      Open in new tab
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </div>
-
-                  {/* Iframe — hidden on very small screens */}
-                  <div className="hidden sm:block rounded-xl overflow-hidden border border-white/10">
+              {/* Iframe — tablet and up */}
+              <div className="hidden sm:block w-full h-full">
+                <AnimatePresence mode="wait" custom={direction}>
+                  <motion.div
+                    key={selectedTemplate.subdomain}
+                    custom={direction}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                    className="w-full h-full"
+                  >
                     <iframe
                       src={`https://${selectedTemplate.subdomain}.kuvoco.com`}
                       title={`${selectedTemplate.name} live preview`}
                       className="w-full bg-white"
-                      style={{ height: "80vh" }}
+                      style={{ height: "calc(100vh - 4rem)" }}
                       loading="lazy"
                     />
-                  </div>
-
-                  {/* Mobile fallback */}
-                  <div className="sm:hidden text-center py-8">
-                    <p className="text-[#9CA3AF] text-sm mb-4">
-                      For the best preview experience, view on a larger screen.
-                    </p>
-                    <a
-                      href={`https://${selectedTemplate.subdomain}.kuvoco.com`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="border-white/10 bg-white/5 text-white hover:bg-white/10"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
-                        Open Live Site
-                      </Button>
-                    </a>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-
-              {/* Mobile Navigation — Bottom */}
-              <div className="md:hidden sticky bottom-0 bg-zinc-950/95 border-t border-white/10 px-4 py-3 flex items-center justify-between">
-                <button
-                  onClick={() => goTo(-1)}
-                  disabled={selectedIndex === 0}
-                  className="flex items-center gap-1.5 text-sm text-white disabled:opacity-30 transition-opacity"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                  Prev
-                </button>
-                <span className="text-xs text-[#9CA3AF]">
-                  {selectedIndex + 1} / {filtered.length}
-                </span>
-                <button
-                  onClick={() => goTo(1)}
-                  disabled={selectedIndex === filtered.length - 1}
-                  className="flex items-center gap-1.5 text-sm text-white disabled:opacity-30 transition-opacity"
-                >
-                  Next
-                  <ChevronRight className="w-4 h-4" />
-                </button>
+                  </motion.div>
+                </AnimatePresence>
               </div>
+
+              {/* Mobile fallback */}
+              <div className="sm:hidden flex flex-col items-center justify-center h-full px-6 text-center gap-6">
+                <p className="text-zinc-400 text-sm">
+                  For the best preview experience, view on a larger screen.
+                </p>
+                <a
+                  href={`https://${selectedTemplate.subdomain}.kuvoco.com`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="border-white/10 bg-white/5 text-white hover:bg-white/10 rounded-full"
+                  >
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Open Live Site
+                  </Button>
+                </a>
+              </div>
+            </div>
+
+            {/* Mobile Bottom Bar */}
+            <div className="sm:hidden flex-shrink-0 bg-zinc-950/90 backdrop-blur-xl border-t border-zinc-800 px-4 py-3 flex items-center justify-between gap-3">
+              <button
+                onClick={() => goTo(-1)}
+                disabled={selectedIndex === 0}
+                className="flex items-center gap-1.5 text-sm text-white disabled:opacity-30 transition-opacity"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Prev
+              </button>
+              <Link
+                href={`/contact?template=${encodeURIComponent(selectedTemplate.name)}`}
+                className="flex-1 max-w-[200px]"
+              >
+                <Button
+                  size="sm"
+                  className="w-full bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90 text-white text-xs font-semibold rounded-full"
+                >
+                  <Sparkles className="w-3.5 h-3.5 mr-1.5" />
+                  I Want This
+                </Button>
+              </Link>
+              <button
+                onClick={() => goTo(1)}
+                disabled={selectedIndex === filtered.length - 1}
+                className="flex items-center gap-1.5 text-sm text-white disabled:opacity-30 transition-opacity"
+              >
+                Next
+                <ChevronRight className="w-4 h-4" />
+              </button>
             </div>
           </motion.div>
         )}
