@@ -1,8 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Eye, ArrowRight, Search, Paintbrush } from "lucide-react";
+import {
+  ArrowRight,
+  Search,
+  Paintbrush,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Globe,
+  ExternalLink,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -83,11 +92,66 @@ const categoryColors: Record<Category, string> = {
 
 export default function TemplatesContent() {
   const [activeCategory, setActiveCategory] = useState<Category>("All");
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [direction, setDirection] = useState(0);
 
   const filtered =
     activeCategory === "All"
       ? TEMPLATES
       : TEMPLATES.filter((t) => t.category === activeCategory);
+
+  const selectedTemplate =
+    selectedIndex !== null ? filtered[selectedIndex] : null;
+
+  const goTo = useCallback(
+    (dir: -1 | 1) => {
+      if (selectedIndex === null) return;
+      const next = selectedIndex + dir;
+      if (next < 0 || next >= filtered.length) return;
+      setDirection(dir);
+      setSelectedIndex(next);
+    },
+    [selectedIndex, filtered.length]
+  );
+
+  const close = useCallback(() => {
+    setSelectedIndex(null);
+  }, []);
+
+  useEffect(() => {
+    if (selectedIndex === null) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") goTo(-1);
+      if (e.key === "ArrowRight") goTo(1);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [selectedIndex, goTo, close]);
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (selectedIndex !== null) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedIndex]);
+
+  const slideVariants = {
+    enter: (d: number) => ({
+      x: d > 0 ? 300 : -300,
+      opacity: 0,
+    }),
+    center: { x: 0, opacity: 1 },
+    exit: (d: number) => ({
+      x: d > 0 ? -300 : 300,
+      opacity: 0,
+    }),
+  };
 
   return (
     <main className="bg-[#0A0A0F] min-h-screen">
@@ -115,7 +179,6 @@ export default function TemplatesContent() {
             </p>
           </motion.div>
 
-          {/* Intro Banner */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -168,9 +231,12 @@ export default function TemplatesContent() {
       {/* Template Grid */}
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div
+            layout
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             <AnimatePresence mode="popLayout">
-              {filtered.map((template) => (
+              {filtered.map((template, idx) => (
                 <motion.div
                   key={template.subdomain}
                   layout
@@ -178,7 +244,11 @@ export default function TemplatesContent() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
-                  className="group relative bg-white/[0.02] border border-white/5 rounded-xl overflow-hidden hover:border-[#3B82F6]/30 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(59,130,246,0.1)] transition-all duration-300"
+                  onClick={() => {
+                    setDirection(0);
+                    setSelectedIndex(idx);
+                  }}
+                  className="group relative bg-white/[0.02] border border-white/5 rounded-xl overflow-hidden cursor-pointer hover:border-[#3B82F6]/30 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(59,130,246,0.1)] transition-all duration-300"
                 >
                   {/* Screenshot */}
                   <div className="relative aspect-video overflow-hidden">
@@ -186,55 +256,27 @@ export default function TemplatesContent() {
                       src={`/portfolio/${template.subdomain}.jpg`}
                       alt={`${template.name} website template`}
                       fill
-                      className="object-cover object-top transition-transform duration-500 group-hover:scale-110"
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
+                      <span className="text-white font-medium text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 tracking-wide">
+                        View Template
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Info */}
-                  <div className="p-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-white font-semibold text-sm">
-                        {template.name}
-                      </h3>
-                      <Badge
-                        className={`text-[10px] ${categoryColors[template.category]}`}
-                      >
-                        {template.category}
-                      </Badge>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex gap-2">
-                      <a
-                        href={`https://${template.subdomain}.kuvoco.com`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1"
-                      >
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="w-full border-white/10 bg-white/5 text-[#9CA3AF] hover:text-white hover:bg-white/10 hover:border-white/20 text-xs"
-                        >
-                          <Eye className="w-3.5 h-3.5 mr-1.5" />
-                          Preview
-                        </Button>
-                      </a>
-                      <Link
-                        href={`/contact?template=${encodeURIComponent(template.name)}`}
-                        className="flex-1"
-                      >
-                        <Button
-                          size="sm"
-                          className="w-full bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90 text-white text-xs"
-                        >
-                          I Want This
-                          <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
-                        </Button>
-                      </Link>
-                    </div>
+                  {/* Info — minimal */}
+                  <div className="p-4 flex items-center justify-between">
+                    <h3 className="text-white font-semibold text-sm">
+                      {template.name}
+                    </h3>
+                    <Badge
+                      className={`text-[10px] ${categoryColors[template.category]}`}
+                    >
+                      {template.category}
+                    </Badge>
                   </div>
                 </motion.div>
               ))}
@@ -242,6 +284,181 @@ export default function TemplatesContent() {
           </motion.div>
         </div>
       </section>
+
+      {/* Modal Viewer */}
+      <AnimatePresence>
+        {selectedTemplate && selectedIndex !== null && (
+          <motion.div
+            key="modal-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex flex-col"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) close();
+            }}
+          >
+            {/* Top Bar */}
+            <div className="flex-shrink-0 bg-zinc-950/95 border-b border-white/10 px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3 min-w-0">
+                <h2 className="text-white font-semibold text-sm sm:text-base truncate">
+                  {selectedTemplate.name}
+                </h2>
+                <Badge
+                  className={`text-[10px] flex-shrink-0 ${categoryColors[selectedTemplate.category]}`}
+                >
+                  {selectedTemplate.category}
+                </Badge>
+              </div>
+              <div className="flex items-center gap-3 flex-shrink-0">
+                <Link
+                  href={`/contact?template=${encodeURIComponent(selectedTemplate.name)}`}
+                >
+                  <Button
+                    size="sm"
+                    className="bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90 text-white text-xs"
+                  >
+                    I Want This
+                    <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+                  </Button>
+                </Link>
+                <button
+                  onClick={close}
+                  className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
+                >
+                  <X className="w-4 h-4 text-white" />
+                </button>
+              </div>
+            </div>
+
+            {/* Content Area */}
+            <div className="flex-1 overflow-y-auto relative">
+              {/* Navigation Arrows — Desktop */}
+              {selectedIndex > 0 && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goTo(-1);
+                  }}
+                  className="hidden md:flex fixed left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 items-center justify-center transition-colors"
+                >
+                  <ChevronLeft className="w-5 h-5 text-white" />
+                </button>
+              )}
+              {selectedIndex < filtered.length - 1 && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goTo(1);
+                  }}
+                  className="hidden md:flex fixed right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 items-center justify-center transition-colors"
+                >
+                  <ChevronRight className="w-5 h-5 text-white" />
+                </button>
+              )}
+
+              <AnimatePresence mode="wait" custom={direction}>
+                <motion.div
+                  key={selectedTemplate.subdomain}
+                  custom={direction}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.25, ease: "easeInOut" }}
+                  className="max-w-5xl mx-auto px-4 sm:px-6 py-6"
+                >
+                  {/* Hero Screenshot */}
+                  <div className="relative aspect-video rounded-xl overflow-hidden mb-8">
+                    <Image
+                      src={`/portfolio/${selectedTemplate.subdomain}.jpg`}
+                      alt={`${selectedTemplate.name} template preview`}
+                      fill
+                      className="object-cover object-top"
+                      sizes="(max-width: 1024px) 100vw, 80vw"
+                      priority
+                    />
+                  </div>
+
+                  {/* Live Preview Divider */}
+                  <div className="flex items-center gap-3 mb-6">
+                    <Globe className="w-4 h-4 text-[#06B6D4]" />
+                    <span className="text-sm font-medium text-[#9CA3AF]">
+                      Live Preview
+                    </span>
+                    <div className="flex-1 h-px bg-white/10" />
+                    <a
+                      href={`https://${selectedTemplate.subdomain}.kuvoco.com`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-xs text-[#3B82F6] hover:text-[#06B6D4] transition-colors"
+                    >
+                      Open in new tab
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+
+                  {/* Iframe — hidden on very small screens */}
+                  <div className="hidden sm:block rounded-xl overflow-hidden border border-white/10">
+                    <iframe
+                      src={`https://${selectedTemplate.subdomain}.kuvoco.com`}
+                      title={`${selectedTemplate.name} live preview`}
+                      className="w-full bg-white"
+                      style={{ height: "80vh" }}
+                      loading="lazy"
+                    />
+                  </div>
+
+                  {/* Mobile fallback */}
+                  <div className="sm:hidden text-center py-8">
+                    <p className="text-[#9CA3AF] text-sm mb-4">
+                      For the best preview experience, view on a larger screen.
+                    </p>
+                    <a
+                      href={`https://${selectedTemplate.subdomain}.kuvoco.com`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="border-white/10 bg-white/5 text-white hover:bg-white/10"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
+                        Open Live Site
+                      </Button>
+                    </a>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Mobile Navigation — Bottom */}
+              <div className="md:hidden sticky bottom-0 bg-zinc-950/95 border-t border-white/10 px-4 py-3 flex items-center justify-between">
+                <button
+                  onClick={() => goTo(-1)}
+                  disabled={selectedIndex === 0}
+                  className="flex items-center gap-1.5 text-sm text-white disabled:opacity-30 transition-opacity"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  Prev
+                </button>
+                <span className="text-xs text-[#9CA3AF]">
+                  {selectedIndex + 1} / {filtered.length}
+                </span>
+                <button
+                  onClick={() => goTo(1)}
+                  disabled={selectedIndex === filtered.length - 1}
+                  className="flex items-center gap-1.5 text-sm text-white disabled:opacity-30 transition-opacity"
+                >
+                  Next
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Bottom CTA */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
