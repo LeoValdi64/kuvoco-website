@@ -2,6 +2,7 @@ export interface OnboardingData {
   // Step 1: Plan
   plan: 'starter' | 'business' | 'professional' | null;
   billingCycle: 'monthly' | 'annual';
+  subscriptionPlan: 'basic' | 'growth' | 'pro' | null;
 
   // Step 2: Business Info
   businessName: string;
@@ -60,6 +61,7 @@ export const TOTAL_STEPS = ONBOARDING_STEPS.length;
 export const DEFAULT_ONBOARDING_DATA: OnboardingData = {
   plan: null,
   billingCycle: 'monthly',
+  subscriptionPlan: null,
   businessName: '',
   industry: '',
   description: '',
