@@ -2,43 +2,14 @@ import type { Metadata } from "next";
 import PortfolioContent from "./PortfolioContent";
 
 export const metadata: Metadata = {
-  title: "Portfolio — 90+ Websites Built for Local Businesses",
+  title: "Portfolio — 50+ Websites Built for Local Businesses",
   description:
-    "Browse our portfolio of 90+ professional websites built for local businesses. See real examples of our web design and development work in Everett, Seattle, and beyond.",
-  keywords: [
-    "web design portfolio",
-    "website examples",
-    "local business websites",
-    "web development work samples",
-    "everett web designer portfolio",
-    "seattle website examples",
-  ],
+    "Browse our portfolio of 50+ custom websites built for restaurants, contractors, medical offices, salons, and more. Each site is modern, responsive, and optimized.",
   openGraph: {
-    title: "Our Portfolio — 90+ Websites Delivered | Kuvo Co.",
+    title: "Kuvo Co. Portfolio — 50+ Websites Built",
     description:
-      "See real examples of websites we've built for local businesses. 90+ projects delivered with 100% satisfaction.",
+      "Browse our portfolio of 50+ custom websites built for local businesses across every industry.",
     url: "https://kuvoco.com/portfolio",
-    siteName: "Kuvo Co.",
-    type: "website",
-    locale: "en_US",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1280,
-        height: 720,
-        alt: "Kuvo Co. Portfolio - 90+ Websites",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Our Portfolio — 90+ Websites Delivered | Kuvo Co.",
-    description:
-      "See real examples of websites we've built for local businesses.",
-    images: ["/og-image.jpg"],
-  },
-  alternates: {
-    canonical: "https://kuvoco.com/portfolio",
   },
 };
 
