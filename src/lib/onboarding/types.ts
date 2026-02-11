@@ -35,7 +35,7 @@ export interface OnboardingData {
   visionNotes: string;
 
   // Step 6: Assets
-  uploadedFiles: { name: string; type: string; url: string }[];
+  uploadedFiles: { name: string; type: string; size: number; url: string }[];
   hasOwnContent: boolean | null;
   contentNotes: string;
   needsContentCreation: boolean;
