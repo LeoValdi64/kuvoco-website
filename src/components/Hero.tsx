@@ -108,8 +108,8 @@ export default function Hero() {
             asChild
             className="group px-7 py-3.5 text-sm font-medium text-[#9CA3AF] border-white/10 rounded-lg hover:text-white hover:border-white/20 hover:bg-white/5 transition-all duration-300"
           >
-            <Link href="/portfolio">
-              View Our Work
+            <Link href="/templates">
+              Browse Templates
               <ChevronRight
                 size={16}
                 className="transition-transform group-hover:translate-x-1"

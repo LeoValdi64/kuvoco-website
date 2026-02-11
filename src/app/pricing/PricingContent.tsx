@@ -913,13 +913,13 @@ export default function PricingContent() {
                     Start Your Project
                   </Button>
                 </Link>
-                <Link href="/portfolio">
+                <Link href="/templates">
                   <Button
                     size="lg"
                     variant="outline"
                     className="border-white/20 hover:bg-white/5 text-white font-semibold px-8 py-6 text-lg"
                   >
-                    View Portfolio
+                    Browse Templates
                   </Button>
                 </Link>
               </div>

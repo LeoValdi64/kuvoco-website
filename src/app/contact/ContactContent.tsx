@@ -342,12 +342,12 @@ export default function ContactContent() {
                 From concept to launch, we&apos;re here to help your business succeed online.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-                <Link href="/portfolio">
+                <Link href="/templates">
                   <Button
                     size="lg"
                     className="bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90 text-white font-semibold px-8 py-6 text-lg"
                   >
-                    View Our Work
+                    Browse Templates
                   </Button>
                 </Link>
                 <Link href="/pricing">

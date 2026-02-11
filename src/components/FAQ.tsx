@@ -48,7 +48,7 @@ const faqs = [
   {
     question: "Can I see examples of your previous work?",
     answer:
-      "Check out our portfolio section above for a selection of recent projects. We also provide live links so you can experience the sites firsthand. Contact us for additional examples in your industry.",
+      "Check out our templates section above for a selection of designs. We also provide live preview links so you can experience the sites firsthand. Contact us for additional examples in your industry.",
   },
 ];
 
