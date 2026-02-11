@@ -91,7 +91,7 @@ export default function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: isHidden && !isOpen ? -100 : 0 }}
         transition={{ duration: 0.15, ease: "easeOut" }}
-        className={`fixed top-0 left-0 right-0 z-[9998] transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
             ? "bg-[#0A0A0F]/80 backdrop-blur-xl border-b border-white/5"
             : "bg-transparent"
@@ -158,7 +158,7 @@ export default function Navbar() {
             {/* Mobile Menu Toggle - simple icon only, no background */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden relative z-[9999] p-0 bg-transparent border-none text-[#9CA3AF] hover:text-white transition-colors"
+              className="md:hidden relative z-[60] p-0 bg-transparent border-none text-[#9CA3AF] hover:text-white transition-colors"
               aria-label="Toggle menu"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
