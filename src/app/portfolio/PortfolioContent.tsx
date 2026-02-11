@@ -29,7 +29,6 @@ const PROJECTS: Project[] = [
   { subdomain: "pizzeria", name: "Pizzeria", category: "Restaurants" },
   { subdomain: "steakhouse", name: "Steakhouse", category: "Restaurants" },
   { subdomain: "sushi", name: "Sushi Restaurant", category: "Restaurants" },
-  { subdomain: "bakery", name: "Bakery", category: "Restaurants" },
   { subdomain: "coffee", name: "Coffee Shop", category: "Restaurants" },
   { subdomain: "cafe", name: "Café", category: "Restaurants" },
   { subdomain: "agave", name: "Agave Cocina", category: "Restaurants" },
@@ -38,14 +37,10 @@ const PROJECTS: Project[] = [
   { subdomain: "yoga", name: "Yoga Studio", category: "Beauty" },
   { subdomain: "tattoo", name: "Tattoo Shop", category: "Beauty" },
   { subdomain: "nailsalon", name: "Nail Salon", category: "Beauty" },
-  { subdomain: "makeup", name: "Makeup Artist", category: "Beauty" },
   { subdomain: "petgrooming", name: "Pet Grooming", category: "Beauty" },
   { subdomain: "gym", name: "Fitness Center", category: "Health" },
   { subdomain: "veterinary", name: "Veterinary Clinic", category: "Health" },
   { subdomain: "dental", name: "Dental Clinic", category: "Health" },
-  { subdomain: "pharmacy", name: "Pharmacy", category: "Health" },
-  { subdomain: "chiropractic", name: "Chiropractic", category: "Health" },
-  { subdomain: "physicaltherapy", name: "Physical Therapy", category: "Health" },
   { subdomain: "optometrist", name: "Optometrist", category: "Health" },
   { subdomain: "roofing", name: "Roofing", category: "Home Services" },
   { subdomain: "hvac", name: "HVAC", category: "Home Services" },
@@ -53,23 +48,18 @@ const PROJECTS: Project[] = [
   { subdomain: "electrician", name: "Electrician", category: "Home Services" },
   { subdomain: "construction", name: "Construction", category: "Home Services" },
   { subdomain: "painting", name: "Painting", category: "Home Services" },
-  { subdomain: "flooring", name: "Flooring", category: "Home Services" },
   { subdomain: "landscaping", name: "Landscaping", category: "Home Services" },
   { subdomain: "pool", name: "Pool Builder", category: "Home Services" },
-  { subdomain: "architecture", name: "Architecture", category: "Home Services" },
   { subdomain: "interiordesign", name: "Interior Design", category: "Home Services" },
   { subdomain: "cleaning", name: "Cleaning", category: "Home Services" },
   { subdomain: "locksmith", name: "Locksmith", category: "Home Services" },
   { subdomain: "carwash", name: "Car Wash", category: "Automotive" },
   { subdomain: "autodetailing", name: "Auto Detailing", category: "Automotive" },
-  { subdomain: "tireshop", name: "Tire Shop", category: "Automotive" },
   { subdomain: "mechanic", name: "Mechanic", category: "Automotive" },
   { subdomain: "towing", name: "Towing", category: "Automotive" },
   { subdomain: "lawfirm", name: "Law Firm", category: "Professional" },
   { subdomain: "insurance", name: "Insurance", category: "Professional" },
   { subdomain: "realtor", name: "Realtor", category: "Professional" },
-  { subdomain: "consulting", name: "Consulting", category: "Professional" },
-  { subdomain: "marketing", name: "Marketing Agency", category: "Professional" },
   { subdomain: "photographer", name: "Photographer", category: "Professional" },
   { subdomain: "wedding", name: "Wedding Planner", category: "Events & Other" },
   { subdomain: "eventvenue", name: "Event Venue", category: "Events & Other" },
@@ -110,7 +100,7 @@ export default function PortfolioContent() {
             Our Portfolio
           </h1>
           <p className="text-lg text-[#9CA3AF] max-w-2xl mx-auto">
-            50+ websites built for local businesses across every industry.
+            40+ websites built for local businesses across every industry.
             Each one custom-designed, mobile-responsive, and optimized for
             performance.
           </p>
