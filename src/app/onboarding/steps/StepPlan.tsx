@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Check,
   Sparkles,
-  ArrowRight,
   Rocket,
   Building2,
   Crown,
@@ -17,7 +16,6 @@ import {
 } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { useOnboarding } from "@/lib/onboarding/context";
 import type { BillingPeriod } from "@/lib/onboarding/types";
 import { cn } from "@/lib/utils";
@@ -302,52 +300,31 @@ export function StepPlan() {
             : "Your website needs care to keep running, secure, and performing"}
         </p>
 
-        {/* Sub-step indicator */}
-        <div className="flex items-center justify-center gap-3 mt-4">
-          <div className="flex items-center gap-2">
-            <div
+        {/* Tab toggle */}
+        <div className="flex justify-center mt-4">
+          <div className="inline-flex bg-[#1A1A2E]/50 rounded-xl p-1 gap-1">
+            <button
+              onClick={() => setStepPlanView("onetime")}
               className={cn(
-                "w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all",
+                "px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200",
                 stepPlanView === "onetime"
-                  ? "bg-[#3B82F6] text-white"
-                  : "bg-[#3B82F6]/20 text-[#3B82F6]"
+                  ? "bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] text-white shadow-lg shadow-[#3B82F6]/25"
+                  : "text-zinc-400 hover:text-white hover:bg-white/5"
               )}
             >
-              {stepPlanView === "monthly" ? (
-                <Check className="w-4 h-4" />
-              ) : (
-                "1"
-              )}
-            </div>
-            <span
+              One-Time Build
+            </button>
+            <button
+              onClick={() => handleContinueToMonthly()}
               className={cn(
-                "text-xs font-medium",
-                stepPlanView === "onetime" ? "text-white" : "text-[#3B82F6]"
-              )}
-            >
-              Build Plan
-            </span>
-          </div>
-          <div className="w-8 h-px bg-zinc-700" />
-          <div className="flex items-center gap-2">
-            <div
-              className={cn(
-                "w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all",
+                "px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200",
                 stepPlanView === "monthly"
-                  ? "bg-[#3B82F6] text-white"
-                  : "bg-zinc-800 text-zinc-500"
+                  ? "bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] text-white shadow-lg shadow-[#3B82F6]/25"
+                  : "text-zinc-400 hover:text-white hover:bg-white/5"
               )}
             >
-              2
-            </div>
-            <span
-              className={cn(
-                "text-xs font-medium",
-                stepPlanView === "monthly" ? "text-white" : "text-zinc-500"
-              )}
-            >
-              Monthly Plan
-            </span>
+              Monthly Plans
+            </button>
           </div>
         </div>
       </div>
@@ -469,23 +446,6 @@ export function StepPlan() {
               })}
             </div>
 
-            {/* Continue to Monthly Plans button */}
-            {selectedPlan && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-8 text-center"
-              >
-                <Button
-                  onClick={handleContinueToMonthly}
-                  size="lg"
-                  className="bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90 text-white font-semibold px-8"
-                >
-                  Next: Choose Your Monthly Plan
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </motion.div>
-            )}
           </motion.div>
         ) : (
           <motion.div
