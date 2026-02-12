@@ -25,9 +25,10 @@ export default function Navbar() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname();
   const isPortal = pathname.startsWith("/portal");
+  const isOnboarding = pathname.startsWith("/onboarding");
 
   useEffect(() => {
-    if (isPortal) return;
+    if (isPortal || isOnboarding) return;
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -83,7 +84,7 @@ export default function Navbar() {
   }, [isOpen]);
 
   // Don't render the main navbar on portal pages
-  if (isPortal) return null;
+  if (isPortal || isOnboarding) return null;
 
   return (
     <>
