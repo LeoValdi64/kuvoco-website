@@ -29,7 +29,7 @@ const STEPS = [
 ];
 
 export default function OnboardingPage() {
-  const { currentStep, nextStep, prevStep, direction, updateData, stepPlanView } = useOnboarding();
+  const { currentStep, nextStep, prevStep, goToStep, direction, updateData, stepPlanView } = useOnboarding();
   const searchParams = useSearchParams();
   const hasAppliedPlanParam = useRef(false);
   const StepComponent = STEPS[currentStep - 1].component;
@@ -40,7 +40,7 @@ export default function OnboardingPage() {
     const planParam = searchParams.get("plan");
     if (!planParam) return;
 
-    const validPlans = ["free", "starter", "business", "professional", "enterprise"] as const;
+    const validPlans = ["free", "starter", "business", "professional"] as const;
     type PlanType = (typeof validPlans)[number];
 
     if (validPlans.includes(planParam as PlanType)) {
@@ -84,9 +84,11 @@ export default function OnboardingPage() {
         {/* Step dots */}
         <div className="hidden sm:flex items-center justify-between px-1">
           {STEPS.map((step) => (
-            <div
+            <button
               key={step.id}
-              className="flex flex-col items-center gap-1"
+              type="button"
+              onClick={() => goToStep(step.id)}
+              className="flex flex-col items-center gap-1 cursor-pointer hover:opacity-80 transition-opacity"
             >
               <div
                 className={`w-2.5 h-2.5 rounded-full transition-colors duration-200 ${
@@ -106,7 +108,7 @@ export default function OnboardingPage() {
               >
                 {step.label}
               </span>
-            </div>
+            </button>
           ))}
         </div>
       </div>

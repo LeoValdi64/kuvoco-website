@@ -2,9 +2,9 @@ export type BillingPeriod = 'monthly' | 'quarterly' | 'semiannual' | 'annual';
 
 export interface OnboardingData {
   // Step 1: Plan
-  plan: 'free' | 'starter' | 'business' | 'professional' | 'enterprise' | null;
+  plan: 'free' | 'starter' | 'business' | 'professional' | null;
   billingPeriod: BillingPeriod;
-  subscriptionPlan: 'basic' | 'growth' | 'pro' | 'enterprise' | null;
+  subscriptionPlan: 'basic' | 'growth' | 'pro' | null;
 
   // Step 2: Business Info
   businessName: string;

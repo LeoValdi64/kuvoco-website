@@ -8,7 +8,6 @@ import {
   Rocket,
   Building2,
   Crown,
-  Puzzle,
   Gift,
   Shield,
   TrendingUp,
@@ -142,35 +141,6 @@ const pricingTiers = [
       priceColor: "text-violet-400",
     },
   },
-  {
-    id: "enterprise" as const,
-    icon: Puzzle,
-    name: "Enterprise",
-    price: "Let's Talk",
-    period: "",
-    description: "Complete digital transformation",
-    features: [
-      "Multi-page web application",
-      "Custom domain included",
-      "Design preview before deploy",
-      "Your dedicated tech partner",
-      "Custom integrations & APIs",
-      "Ongoing strategic support",
-      "Priority development queue",
-    ],
-    popular: false,
-    isFree: false,
-    includesGrowth: true,
-    isEnterprise: true,
-    colorTheme: {
-      iconBg: "bg-gradient-to-br from-amber-500/20 to-yellow-500/20",
-      iconColor: "text-amber-400",
-      borderGlow: "border-amber-500/30 hover:border-amber-500/50",
-      selectedBorder: "border-amber-500 shadow-[0_0_25px_rgba(245,158,11,0.2)]",
-      checkColor: "text-amber-500",
-      priceColor: "bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent",
-    },
-  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -253,31 +223,6 @@ const maintenancePlans = [
       cardBg: "bg-[#1A1A2E]/50",
     },
   },
-  {
-    id: "enterprise" as const,
-    icon: Crown,
-    name: "Enterprise",
-    description: "We become your tech team",
-    basePrice: 349,
-    features: [
-      "30+ content changes/month",
-      "Dedicated account manager",
-      "Custom integrations",
-      "SLA guarantee",
-      "Priority 24hr response",
-      "Unlimited consultations",
-    ],
-    isMinimum: false,
-    colorTheme: {
-      iconBg: "bg-gradient-to-br from-amber-500/20 to-yellow-500/20",
-      iconColor: "text-amber-400",
-      borderColor: "border-amber-500/30 hover:border-amber-500/50",
-      selectedBorder: "border-amber-500 shadow-[0_0_25px_rgba(245,158,11,0.2)]",
-      dotColor: "bg-amber-400",
-      priceColor: "bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent",
-      cardBg: "bg-gradient-to-br from-[#1A1A2E]/70 via-[#1A1A2E]/50 to-amber-900/20",
-    },
-  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -335,10 +280,6 @@ export function StepPlan() {
     if (selectedSubscription === "pro") {
       const diff = 149 - 59;
       return `First 3 months at $${diff}/mo (Pro upgrade from included Growth). Then full $149/mo.`;
-    }
-    if (selectedSubscription === "enterprise") {
-      const diff = 349 - 59;
-      return `First 3 months at $${diff}/mo (Enterprise upgrade from included Growth). Then full $349/mo.`;
     }
     if (selectedSubscription === "growth") {
       return "Included FREE for 3 months with your build plan! ($177 value)";
@@ -429,7 +370,7 @@ export function StepPlan() {
             </div>
 
             {/* One-Time Build Tier Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {pricingTiers.map((tier, index) => {
                 const Icon = tier.icon;
                 const isSelected = selectedPlan === tier.id;
@@ -449,12 +390,7 @@ export function StepPlan() {
                         Most Popular
                       </Badge>
                     )}
-                    {tier.isEnterprise && (
-                      <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-0 px-3 py-1 text-xs shadow-lg shadow-amber-500/25">
-                        Premium
-                      </Badge>
-                    )}
-                    {tier.includesGrowth && !tier.popular && !tier.isEnterprise && (
+                    {tier.includesGrowth && !tier.popular && (
                       <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-emerald-500 text-white border-0 px-2 py-1 text-xs shadow-lg shadow-emerald-500/25">
                         3mo Growth FREE
                       </Badge>
@@ -464,17 +400,13 @@ export function StepPlan() {
                       onClick={() => updateData({ plan: tier.id })}
                       className={cn(
                         "cursor-pointer border rounded-2xl overflow-hidden transition-all duration-200 h-full flex flex-col",
-                        tier.isEnterprise && "bg-gradient-to-br from-[#1A1A2E]/70 via-[#1A1A2E]/50 to-amber-900/20",
                         tier.popular && "bg-[#1A1A2E]/70",
                         tier.isFree && "bg-[#1A1A2E]/30",
-                        !tier.popular && !tier.isFree && !tier.isEnterprise && "bg-[#1A1A2E]/50",
+                        !tier.popular && !tier.isFree && "bg-[#1A1A2E]/50",
                         isSelected ? tier.colorTheme.selectedBorder : tier.colorTheme.borderGlow
                       )}
                     >
-                      {tier.isEnterprise && (
-                        <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-yellow-500/5" />
-                      )}
-                      <CardHeader className={cn("text-center pb-2 pt-5", tier.isEnterprise && "relative")}>
+                      <CardHeader className="text-center pb-2 pt-5">
                         <div
                           className={cn(
                             "w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-2",
@@ -501,7 +433,7 @@ export function StepPlan() {
                         </p>
                       </CardHeader>
 
-                      <CardContent className={cn("flex-1 pt-0 pb-3", tier.isEnterprise && "relative")}>
+                      <CardContent className="flex-1 pt-0 pb-3">
                         <ul className="space-y-1.5">
                           {tier.features.map((feature) => (
                             <li key={feature} className="flex items-start gap-2">
@@ -519,7 +451,7 @@ export function StepPlan() {
                         </ul>
                       </CardContent>
 
-                      <CardFooter className={cn("pt-0 pb-4", tier.isEnterprise && "relative")}>
+                      <CardFooter className="pt-0 pb-4">
                         <div
                           className={cn(
                             "w-full py-2 rounded-lg text-sm font-medium text-center transition-colors",
@@ -606,13 +538,12 @@ export function StepPlan() {
             )}
 
             {/* Monthly Plan Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {maintenancePlans.map((plan, index) => {
                 const Icon = plan.icon;
                 const isSelected = selectedSubscription === plan.id;
                 const discountedPrice = calculateDiscountedPrice(plan.basePrice, currentDiscount);
                 const showDiscount = currentDiscount > 0;
-                const isEnterprisePlan = plan.id === "enterprise";
 
                 // Badge logic
                 let badgeContent: React.ReactNode = null;
@@ -627,12 +558,6 @@ export function StepPlan() {
                     <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-emerald-500 text-white border-0 px-2 py-1 text-xs shadow-lg shadow-emerald-500/25">
                       <Star className="w-3 h-3 mr-1 inline" />
                       FREE for 3 months
-                    </Badge>
-                  );
-                } else if (isEnterprisePlan) {
-                  badgeContent = (
-                    <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-0 px-3 py-1 text-xs shadow-lg shadow-amber-500/25">
-                      Premium
                     </Badge>
                   );
                 }
@@ -652,14 +577,10 @@ export function StepPlan() {
                       className={cn(
                         "cursor-pointer border rounded-2xl p-5 transition-all duration-200 h-full",
                         plan.colorTheme.cardBg,
-                        isSelected ? plan.colorTheme.selectedBorder : plan.colorTheme.borderColor,
-                        isEnterprisePlan && "relative overflow-hidden"
+                        isSelected ? plan.colorTheme.selectedBorder : plan.colorTheme.borderColor
                       )}
                     >
-                      {isEnterprisePlan && (
-                        <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-yellow-500/5" />
-                      )}
-                      <div className={cn("flex flex-col h-full", isEnterprisePlan && "relative")}>
+                      <div className="flex flex-col h-full">
                         <div
                           className={cn(
                             "w-10 h-10 rounded-xl flex items-center justify-center mb-3",
@@ -683,7 +604,7 @@ export function StepPlan() {
                             </div>
                           )}
                           <span className={cn("text-2xl font-bold", plan.colorTheme.priceColor)}>
-                            {isEnterprisePlan ? `$${discountedPrice}+` : `$${discountedPrice}`}
+                            ${discountedPrice}
                           </span>
                           <span className="text-[#9CA3AF] text-sm ml-1">/mo</span>
                         </div>
