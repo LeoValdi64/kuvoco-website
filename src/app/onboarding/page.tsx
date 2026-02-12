@@ -29,7 +29,7 @@ const STEPS = [
 ];
 
 export default function OnboardingPage() {
-  const { currentStep, nextStep, prevStep, direction, updateData } = useOnboarding();
+  const { currentStep, nextStep, prevStep, direction, updateData, stepPlanView } = useOnboarding();
   const searchParams = useSearchParams();
   const hasAppliedPlanParam = useRef(false);
   const StepComponent = STEPS[currentStep - 1].component;
@@ -40,14 +40,11 @@ export default function OnboardingPage() {
     const planParam = searchParams.get("plan");
     if (!planParam) return;
 
-    const validPlans = ["starter", "business", "professional"] as const;
+    const validPlans = ["free", "starter", "business", "professional", "enterprise"] as const;
     type PlanType = (typeof validPlans)[number];
 
     if (validPlans.includes(planParam as PlanType)) {
       updateData({ plan: planParam as PlanType });
-    } else if (planParam === "free") {
-      // Free tier — no plan to select, but user enters onboarding
-      updateData({ plan: null });
     }
     hasAppliedPlanParam.current = true;
   }, [searchParams, updateData]);
@@ -148,7 +145,9 @@ export default function OnboardingPage() {
             onClick={nextStep}
             className="bg-[#3B82F6] hover:bg-[#2563EB] text-white px-6"
           >
-            Next
+            {currentStep === 1 && stepPlanView === "onetime"
+              ? "Choose Monthly Plan"
+              : "Next"}
             <ChevronRight className="w-4 h-4 ml-1" />
           </Button>
         )}

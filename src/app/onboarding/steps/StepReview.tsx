@@ -26,16 +26,19 @@ import { useOnboarding } from "@/lib/onboarding/context";
 /*  Plan data (mirrored from StepPlan for display)                     */
 /* ------------------------------------------------------------------ */
 
-const PLANS: Record<string, { name: string; price: number }> = {
+const PLANS: Record<string, { name: string; price: number | null }> = {
+  free: { name: "Free", price: 0 },
   starter: { name: "Starter", price: 399 },
   business: { name: "Business", price: 699 },
   professional: { name: "Professional", price: 999 },
+  enterprise: { name: "Enterprise", price: null },
 };
 
-const SUBSCRIPTIONS: Record<string, { name: string; price: number }> = {
+const SUBSCRIPTIONS: Record<string, { name: string; price: number | null }> = {
   basic: { name: "Basic", price: 29 },
   growth: { name: "Growth", price: 59 },
   pro: { name: "Pro", price: 149 },
+  enterprise: { name: "Enterprise", price: null },
 };
 
 const DOMAIN_LABELS: Record<string, string> = {
