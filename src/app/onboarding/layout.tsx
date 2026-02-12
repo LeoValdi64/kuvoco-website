@@ -1,22 +1,18 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { OnboardingProvider } from "@/lib/onboarding/context";
 
-export default function OnboardingLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function AuthGate({ children }: { children: React.ReactNode }) {
   const { isSignedIn, isLoaded } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
 
   if (isLoaded && !isSignedIn) {
-    // Preserve the ?plan param through the sign-in redirect
     const planParam = searchParams.get("plan");
     const redirectUrl = planParam
       ? `/onboarding?plan=${planParam}`
@@ -25,7 +21,18 @@ export default function OnboardingLayout({
     return null;
   }
 
+  return <>{children}</>;
+}
+
+export default function OnboardingLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+
   return (
+    <Suspense fallback={null}>
+    <AuthGate>
     <OnboardingProvider>
       <div className="min-h-screen bg-zinc-950">
         {/* Minimal Header */}
@@ -59,5 +66,7 @@ export default function OnboardingLayout({
         </main>
       </div>
     </OnboardingProvider>
+    </AuthGate>
+    </Suspense>
   );
 }
