@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useAuth } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { OnboardingProvider } from "@/lib/onboarding/context";
 
 export default function OnboardingLayout({
@@ -12,9 +12,17 @@ export default function OnboardingLayout({
   children: React.ReactNode;
 }) {
   const { isSignedIn, isLoaded } = useAuth();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   if (isLoaded && !isSignedIn) {
-    redirect("/sign-in?redirect_url=/onboarding");
+    // Preserve the ?plan param through the sign-in redirect
+    const planParam = searchParams.get("plan");
+    const redirectUrl = planParam
+      ? `/onboarding?plan=${planParam}`
+      : "/onboarding";
+    router.push(`/sign-in?redirect_url=${encodeURIComponent(redirectUrl)}`);
+    return null;
   }
 
   return (

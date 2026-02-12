@@ -376,33 +376,13 @@ export default function PricingContent() {
   const { isSignedIn } = useAuth();
   const router = useRouter();
 
-  async function handleCheckout(packageKey: string, tierName: string) {
+  function handleCheckout(packageKey: string) {
+    const onboardingUrl = `/onboarding?plan=${packageKey}`;
     if (!isSignedIn) {
-      router.push("/sign-up");
+      router.push(`/sign-up?redirect_url=${encodeURIComponent(onboardingUrl)}`);
       return;
     }
-
-    setLoadingTier(tierName);
-    try {
-      const res = await fetch("/api/stripe/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          packageName: packageKey,
-          mode: "payment",
-        }),
-      });
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert(data.error || "Something went wrong. Please try again.");
-        setLoadingTier(null);
-      }
-    } catch {
-      alert("Something went wrong. Please try again.");
-      setLoadingTier(null);
-    }
+    router.push(onboardingUrl);
   }
 
   async function handleSubscription(subscriptionKey: string, planName: string) {
@@ -557,8 +537,7 @@ export default function PricingContent() {
                     <CardFooter className={cn("pt-0", tier.isEnterprise && "relative")}>
                       {tier.stripePackageKey ? (
                         <Button
-                          onClick={() => handleCheckout(tier.stripePackageKey!, tier.name)}
-                          disabled={loadingTier === tier.name}
+                          onClick={() => handleCheckout(tier.stripePackageKey!)}
                           className={cn(
                             "w-full font-semibold text-sm",
                             tier.colorTheme.buttonBg
@@ -566,17 +545,21 @@ export default function PricingContent() {
                           variant={tier.popular ? "default" : "outline"}
                           size="sm"
                         >
-                          {loadingTier === tier.name ? (
-                            <>
-                              <Loader2 className="w-3 h-3 mr-1 animate-spin" />
-                              Loading...
-                            </>
-                          ) : (
-                            <>
-                              {tier.cta}
-                              <ArrowRight className="w-3 h-3 ml-1" />
-                            </>
+                          {tier.cta}
+                          <ArrowRight className="w-3 h-3 ml-1" />
+                        </Button>
+                      ) : tier.isFree ? (
+                        <Button
+                          onClick={() => handleCheckout("free")}
+                          className={cn(
+                            "w-full font-semibold text-sm",
+                            tier.colorTheme.buttonBg
                           )}
+                          variant="outline"
+                          size="sm"
+                        >
+                          {tier.cta}
+                          <ArrowRight className="w-3 h-3 ml-1" />
                         </Button>
                       ) : (
                         <Link href="/contact" className="w-full">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion, type Variants } from "framer-motion";
 import {
   ClipboardCheck,
@@ -13,6 +14,7 @@ import {
   FolderUp,
   MessageSquare,
   Check,
+  Loader2,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -137,12 +139,61 @@ function EmptyState({ text }: { text: string }) {
 export function StepReview() {
   const { data, goToStep } = useOnboarding();
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   // Derived values
   const plan = data.plan ? PLANS[data.plan] : null;
   const subscription = data.subscriptionPlan
     ? SUBSCRIPTIONS[data.subscriptionPlan]
     : null;
+
+  async function handleSubmitAndPay() {
+    setIsSubmitting(true);
+    try {
+      // Determine checkout mode and payload based on selection
+      if (data.plan) {
+        // One-time package purchase → Stripe checkout
+        const res = await fetch("/api/stripe/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            packageName: data.plan,
+            mode: "payment",
+          }),
+        });
+        const result = await res.json();
+        if (result.url) {
+          window.location.href = result.url;
+          return;
+        }
+        alert(result.error || "Something went wrong. Please try again.");
+      } else if (data.subscriptionPlan) {
+        // Monthly subscription → Stripe checkout
+        const res = await fetch("/api/stripe/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            subscriptionName: data.subscriptionPlan,
+            mode: "subscription",
+          }),
+        });
+        const result = await res.json();
+        if (result.url) {
+          window.location.href = result.url;
+          return;
+        }
+        alert(result.error || "Something went wrong. Please try again.");
+      } else {
+        // No plan selected (free tier or missing) — go to portal directly
+        router.push("/portal");
+        return;
+      }
+    } catch {
+      alert("Something went wrong. Please try again.");
+    }
+    setIsSubmitting(false);
+  }
 
   const domainValue =
     data.domainOption === "own"
@@ -470,11 +521,21 @@ export function StepReview() {
 
         {/* Submit button */}
         <Button
-          disabled={!agreedToTerms}
+          disabled={!agreedToTerms || isSubmitting}
+          onClick={handleSubmitAndPay}
           className="w-full h-12 text-base font-semibold bg-gradient-to-r from-blue-600 to-cyan-500 hover:opacity-90 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
         >
-          <Check className="w-4 h-4 mr-2" />
-          Submit & Pay
+          {isSubmitting ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Processing...
+            </>
+          ) : (
+            <>
+              <Check className="w-4 h-4 mr-2" />
+              Submit & Pay
+            </>
+          )}
         </Button>
       </motion.div>
     </motion.div>

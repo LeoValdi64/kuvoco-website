@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -27,8 +29,28 @@ const STEPS = [
 ];
 
 export default function OnboardingPage() {
-  const { currentStep, nextStep, prevStep, direction } = useOnboarding();
+  const { currentStep, nextStep, prevStep, direction, updateData } = useOnboarding();
+  const searchParams = useSearchParams();
+  const hasAppliedPlanParam = useRef(false);
   const StepComponent = STEPS[currentStep - 1].component;
+
+  // Pre-select plan from URL query param (e.g., /onboarding?plan=starter)
+  useEffect(() => {
+    if (hasAppliedPlanParam.current) return;
+    const planParam = searchParams.get("plan");
+    if (!planParam) return;
+
+    const validPlans = ["starter", "business", "professional"] as const;
+    type PlanType = (typeof validPlans)[number];
+
+    if (validPlans.includes(planParam as PlanType)) {
+      updateData({ plan: planParam as PlanType });
+    } else if (planParam === "free") {
+      // Free tier — no plan to select, but user enters onboarding
+      updateData({ plan: null });
+    }
+    hasAppliedPlanParam.current = true;
+  }, [searchParams, updateData]);
 
   const variants = {
     enter: (dir: number) => ({
@@ -121,17 +143,13 @@ export default function OnboardingPage() {
           Back
         </Button>
 
-        {currentStep < STEPS.length ? (
+        {currentStep < STEPS.length && (
           <Button
             onClick={nextStep}
             className="bg-[#3B82F6] hover:bg-[#2563EB] text-white px-6"
           >
             Next
             <ChevronRight className="w-4 h-4 ml-1" />
-          </Button>
-        ) : (
-          <Button className="bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90 text-white px-8">
-            Submit & Pay
           </Button>
         )}
       </div>
