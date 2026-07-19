@@ -55,7 +55,7 @@ export default function Portfolio() {
             <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl">See the work, not a generic promise.</h2>
             <p className="mt-5 text-lg leading-8 text-slate-400">These isolated portfolio demos include rebranded adaptations and original concepts. The demo domains do not represent operating businesses or claimed client results.</p>
           </div>
-          <Link href="/contact" className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 hover:text-cyan-200">
+          <Link href="/#contact" className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 hover:text-cyan-200">
             Ask for a concept in your industry <ArrowUpRight className="h-4 w-4" />
           </Link>
         </div>

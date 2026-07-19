@@ -7,11 +7,10 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const links = [
-  { label: "Services", href: "/#services" },
   { label: "Work", href: "/#work" },
-  { label: "Process", href: "/#process" },
-  { label: "Pricing", href: "/#pricing" },
-  { label: "FAQ", href: "/#faq" },
+  { label: "How it works", href: "/#process" },
+  { label: "Investment", href: "/#pricing" },
+  { label: "Questions", href: "/#faq" },
 ];
 
 export default function Navbar() {
@@ -57,7 +56,7 @@ export default function Navbar() {
             </Link>
           ))}
           <Button asChild className="bg-cyan-500 text-slate-950 hover:bg-cyan-400">
-            <Link href="/contact">Request a preview</Link>
+            <Link href="/#contact">Start your preview</Link>
           </Button>
         </div>
 
@@ -81,7 +80,7 @@ export default function Navbar() {
               </Link>
             ))}
             <Button asChild className="mt-3 bg-cyan-500 text-slate-950 hover:bg-cyan-400">
-              <Link href="/contact" onClick={() => setOpen(false)}>Request a preview</Link>
+              <Link href="/#contact" onClick={() => setOpen(false)}>Start your preview</Link>
             </Button>
           </div>
         </div>
