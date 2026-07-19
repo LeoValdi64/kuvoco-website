@@ -5,7 +5,7 @@ import Services from "@/components/Services";
 import Portfolio from "@/components/Portfolio";
 import Process from "@/components/Process";
 import FAQ from "@/components/FAQ";
-import CTA from "@/components/CTA";
+import ContactSection from "@/components/ContactSection";
 import { Button } from "@/components/ui/button";
 
 const included = [
@@ -56,7 +56,7 @@ function Offer() {
             ))}
           </ul>
           <Button asChild size="lg" className="mt-8 w-full bg-cyan-500 text-slate-950 hover:bg-cyan-400">
-            <Link href="/contact">
+            <Link href="/#contact">
               Request a project review
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
@@ -76,7 +76,7 @@ export default function Home() {
       <Process />
       <Offer />
       <FAQ />
-      <CTA />
+      <ContactSection />
     </main>
   );
 }

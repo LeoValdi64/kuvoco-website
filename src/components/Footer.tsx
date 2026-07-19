@@ -21,7 +21,7 @@ export default function Footer() {
           <Link href="/#services" className="hover:text-white">Services</Link>
           <Link href="/#work" className="hover:text-white">Work</Link>
           <Link href="/#pricing" className="hover:text-white">Pricing</Link>
-          <Link href="/contact" className="hover:text-white">Contact</Link>
+          <Link href="/#contact" className="hover:text-white">Contact</Link>
         </div>
       </div>
       <div className="border-t border-white/5 px-4 py-5 text-center text-xs text-slate-600">© 2026 Kuvoco. All rights reserved.</div>

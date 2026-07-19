@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
-import ContactContent from "./ContactContent";
+import { permanentRedirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Request a Website Review",
-  description: "Tell Kuvoco about your Washington service business and request a website review by email. No meeting required.",
-  alternates: { canonical: "https://kuvoco.com/contact" },
-};
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ demo?: string | string[] }>;
+}) {
+  const params = await searchParams;
+  const rawDemo = Array.isArray(params.demo) ? params.demo[0] : params.demo;
+  const demo = rawDemo?.replace(/[^a-z0-9-]/gi, "").slice(0, 40);
 
-export default function ContactPage() {
-  return <ContactContent />;
+  permanentRedirect(demo ? `/?demo=${encodeURIComponent(demo)}#contact` : "/#contact");
 }
