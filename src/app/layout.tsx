@@ -34,7 +34,11 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Kuvoco", url: "https://kuvoco.com" }],
   alternates: { canonical: "https://kuvoco.com" },
-  icons: { icon: "/logo.png", apple: "/logo.png" },
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: ["/icon.svg"],
+    apple: [{ url: "/logo.png", type: "image/png" }],
+  },
   openGraph: {
     title: "Kuvoco — Websites Built to Win Local Customers",
     description:
