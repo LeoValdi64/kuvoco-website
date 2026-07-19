@@ -1,78 +1,46 @@
-"use client";
-
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { Palette, Code, Shield, TrendingUp } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Gauge, MapPinned, MessageSquareText, PanelsTopLeft } from "lucide-react";
 
 const services = [
   {
-    icon: Palette,
-    title: "Web Design",
-    description: "Custom designs that convert visitors into customers",
+    icon: PanelsTopLeft,
+    title: "Lead-focused design",
+    description: "A clear message, strong calls to action, and a structure that helps customers understand why they should contact you.",
   },
   {
-    icon: Code,
-    title: "Web Development",
-    description: "Fast, responsive, SEO-optimized websites",
+    icon: Gauge,
+    title: "Fast modern development",
+    description: "Responsive Next.js websites built for speed, reliability, and a polished experience on every screen.",
   },
   {
-    icon: Shield,
-    title: "Maintenance Plans",
-    description: "Monthly support, updates, and monitoring",
+    icon: MapPinned,
+    title: "Local SEO foundation",
+    description: "Location, service, metadata, and search foundations designed for the Washington markets you actually serve.",
   },
   {
-    icon: TrendingUp,
-    title: "SEO & Performance",
-    description: "Search engine visibility and speed optimization",
+    icon: MessageSquareText,
+    title: "Contact that feels easy",
+    description: "Forms, email, and quote paths designed to reduce friction — without forcing your customers into a meeting.",
   },
 ];
 
 export default function Services() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section id="services" className="relative py-24 sm:py-32">
-      <div ref={ref} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.3 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
-            What We Do
-          </h2>
-          <p className="text-[#9CA3AF] max-w-2xl mx-auto">
-            End-to-end web solutions tailored for your business needs
-          </p>
-        </motion.div>
-
-        {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((service, index) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.25, delay: index * 0.05 }}
-            >
-              <Card className="group relative p-0 border-white/5 bg-[#1A1A2E]/50 hover:border-[#3B82F6]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(59,130,246,0.1)]">
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 rounded-lg bg-[#3B82F6]/10 flex items-center justify-center mb-5 group-hover:bg-[#3B82F6]/20 transition-colors">
-                    <service.icon size={24} className="text-[#3B82F6]" />
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2">
-                    {service.title}
-                  </h3>
-                  <p className="text-sm text-[#9CA3AF] leading-relaxed">
-                    {service.description}
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
+    <section id="services" className="scroll-mt-20 border-y border-white/5 bg-white/[0.025] py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="max-w-2xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-400">What your website needs to do</p>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl">Turn attention into a real inquiry.</h2>
+          <p className="mt-5 text-lg leading-8 text-slate-400">A beautiful site matters, but the business result matters more. Every decision should make it easier to trust you, understand the offer, and take the next step.</p>
+        </div>
+        <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {services.map((service) => (
+            <article key={service.title} className="rounded-2xl border border-white/10 bg-[#0d1320]/80 p-6">
+              <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-300">
+                <service.icon className="h-5 w-5" />
+              </div>
+              <h3 className="text-lg font-semibold">{service.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-slate-400">{service.description}</p>
+            </article>
           ))}
         </div>
       </div>

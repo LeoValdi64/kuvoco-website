@@ -1,372 +1,130 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { Mail, MapPin, Phone, Clock, ArrowRight } from "lucide-react";
-import { useRef, useState } from "react";
-import Link from "next/link";
-import { Card } from "@/components/ui/card";
+import { FormEvent, useState } from "react";
+import { ArrowRight, Mail, MapPin, MessageSquareText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { cn } from "@/lib/utils";
+import { Textarea } from "@/components/ui/textarea";
 
-function FadeIn({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+type FormState = {
+  name: string;
+  email: string;
+  business: string;
+  website: string;
+  priority: string;
+  message: string;
+};
 
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.25, delay }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
+const initialState: FormState = {
+  name: "",
+  email: "",
+  business: "",
+  website: "",
+  priority: "",
+  message: "",
+};
 
 export default function ContactContent() {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    businessType: "",
-    budgetRange: "",
-    message: "",
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [form, setForm] = useState<FormState>(initialState);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    setIsSubmitted(true);
-    setIsSubmitting(false);
+  const update = (field: keyof FormState, value: string) => {
+    setForm((current) => ({ ...current, [field]: value }));
   };
 
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const demoSource = new URLSearchParams(window.location.search).get("demo");
+    const sourceLabel = demoSource
+      ? demoSource.replace(/[^a-z0-9-]/gi, "").slice(0, 40)
+      : "direct";
+    const subject = `Website review request - ${form.business || form.name}`;
+    const body = [
+      `Name: ${form.name}`,
+      `Email: ${form.email}`,
+      `Business: ${form.business}`,
+      `Source: ${sourceLabel}`,
+      `Current website: ${form.website || "None"}`,
+      `Main priority: ${form.priority || "Not specified"}`,
+      "",
+      "Project notes:",
+      form.message || "No additional notes.",
+    ].join("\n");
+
+    window.location.href = `mailto:hello@kuvoco.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
   return (
-    <main className="bg-[#0A0A0F] min-h-screen pt-32 pb-20">
-      {/* Hero Section */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-        <div className="absolute inset-0 -top-32 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#3B82F6]/5 via-[#06B6D4]/5 to-transparent" />
-          <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[#3B82F6]/10 rounded-full blur-[120px]" />
-        </div>
+    <main className="min-h-screen pb-24 pt-36 sm:pb-32 sm:pt-44">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-16">
+          <section>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-400">No meeting required</p>
+            <h1 className="mt-4 text-4xl font-bold tracking-tight sm:text-6xl">Tell us what the website needs to accomplish.</h1>
+            <p className="mt-6 text-lg leading-8 text-slate-400">Send the business, current website if one exists, and the service you most want customers to request. This form opens a prepared email in your email app so you stay in control of what is sent.</p>
 
-        <FadeIn>
-          <div className="text-center relative">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] rounded-full -translate-y-8" />
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
-              Get In{" "}
-              <span className="gradient-text">Touch</span>
-            </h1>
-            <p className="text-xl sm:text-2xl text-[#9CA3AF] max-w-2xl mx-auto">
-              Ready to launch your business online? Let&apos;s talk about your project.
-            </p>
-          </div>
-        </FadeIn>
-      </section>
-
-      {/* Two Column Layout */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Side - Contact Form (2/3 width) */}
-          <FadeIn delay={0.1} className="lg:col-span-2">
-            <div className="relative bg-[#1A1A2E]/30 backdrop-blur-xl border border-white/10 rounded-2xl p-8 sm:p-10 overflow-hidden">
-              {/* Gradient blur blobs */}
-              <div className="absolute top-0 right-0 w-40 h-40 bg-[#3B82F6]/10 rounded-full blur-3xl" />
-              <div className="absolute bottom-0 left-0 w-40 h-40 bg-[#06B6D4]/10 rounded-full blur-3xl" />
-
-              <div className="relative z-10">
-                {!isSubmitted ? (
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                      <Label htmlFor="fullName" className="text-white text-sm font-medium mb-2 block">
-                        Full Name
-                      </Label>
-                      <Input
-                        id="fullName"
-                        type="text"
-                        required
-                        value={formData.fullName}
-                        onChange={(e) => handleChange("fullName", e.target.value)}
-                        placeholder="John Doe"
-                        className="bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30"
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="email" className="text-white text-sm font-medium mb-2 block">
-                        Email Address
-                      </Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        required
-                        value={formData.email}
-                        onChange={(e) => handleChange("email", e.target.value)}
-                        placeholder="john@example.com"
-                        className="bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30"
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="phone" className="text-white text-sm font-medium mb-2 block">
-                        Phone Number
-                      </Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        value={formData.phone}
-                        onChange={(e) => handleChange("phone", e.target.value)}
-                        placeholder="(425) 555-0123"
-                        className="bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30"
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="businessType" className="text-white text-sm font-medium mb-2 block">
-                        Business Type
-                      </Label>
-                      <Select
-                        value={formData.businessType}
-                        onValueChange={(value) => handleChange("businessType", value)}
-                      >
-                        <SelectTrigger
-                          id="businessType"
-                          className="w-full bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30"
-                        >
-                          <SelectValue placeholder="Select your business type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="restaurant">Restaurant</SelectItem>
-                          <SelectItem value="healthcare">Healthcare</SelectItem>
-                          <SelectItem value="home-services">Home Services</SelectItem>
-                          <SelectItem value="automotive">Automotive</SelectItem>
-                          <SelectItem value="professional-services">Professional Services</SelectItem>
-                          <SelectItem value="retail">Retail</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="budgetRange" className="text-white text-sm font-medium mb-2 block">
-                        Budget Range
-                      </Label>
-                      <Select
-                        value={formData.budgetRange}
-                        onValueChange={(value) => handleChange("budgetRange", value)}
-                      >
-                        <SelectTrigger
-                          id="budgetRange"
-                          className="w-full bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30"
-                        >
-                          <SelectValue placeholder="Select your budget range" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="starter">Starter ($399)</SelectItem>
-                          <SelectItem value="business">Business ($699)</SelectItem>
-                          <SelectItem value="professional">Professional ($999)</SelectItem>
-                          <SelectItem value="custom">Custom (Let&apos;s Talk)</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="message" className="text-white text-sm font-medium mb-2 block">
-                        Message
-                      </Label>
-                      <Textarea
-                        id="message"
-                        required
-                        rows={5}
-                        value={formData.message}
-                        onChange={(e) => handleChange("message", e.target.value)}
-                        placeholder="Tell us about your project..."
-                        className="bg-[#111827] border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-[#6B7280] focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/30 resize-none"
-                      />
-                    </div>
-
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:from-[#2563EB] hover:to-[#0891B2] text-white font-semibold px-8 py-6 text-lg rounded-lg transition-all duration-300"
-                    >
-                      {isSubmitting ? "Sending..." : "Send Message"}
-                    </Button>
-                  </form>
-                ) : (
-                  <Card className="bg-[#1A1A2E]/50 border-white/5 p-8 text-center">
-                    <div className="w-16 h-16 rounded-full bg-[#3B82F6]/10 flex items-center justify-center mx-auto mb-4">
-                      <Mail className="w-8 h-8 text-[#3B82F6]" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-2">Thank You!</h3>
-                    <p className="text-[#9CA3AF] mb-6">
-                      We&apos;ve received your message and will get back to you within 24 hours.
-                    </p>
-                    <Button
-                      onClick={() => setIsSubmitted(false)}
-                      variant="outline"
-                      className="border-white/20 hover:bg-white/5 text-white"
-                    >
-                      Send Another Message
-                    </Button>
-                  </Card>
-                )}
+            <div className="mt-10 grid gap-4 text-sm text-slate-300">
+              <a href="mailto:hello@kuvoco.com" className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.025] p-4 hover:border-cyan-400/30">
+                <Mail className="h-5 w-5 text-cyan-400" />
+                <span><strong className="block text-white">Email</strong>hello@kuvoco.com</span>
+              </a>
+              <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.025] p-4">
+                <MapPin className="h-5 w-5 text-cyan-400" />
+                <span><strong className="block text-white">Based in</strong>Mount Vernon, Washington</span>
+              </div>
+              <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.025] p-4">
+                <MessageSquareText className="h-5 w-5 text-cyan-400" />
+                <span><strong className="block text-white">Communication</strong>Email and message first</span>
               </div>
             </div>
-          </FadeIn>
+          </section>
 
-          {/* Right Side - Contact Info (1/3 width) */}
-          <div className="space-y-6">
-            <FadeIn delay={0.2}>
-              <div className="relative bg-[#1A1A2E]/50 border border-white/5 rounded-2xl p-8 overflow-hidden">
-                {/* Gradient blur blobs */}
-                <div className="absolute top-0 right-0 w-40 h-40 bg-[#3B82F6]/10 rounded-full blur-3xl" />
-                <div className="absolute bottom-0 left-0 w-40 h-40 bg-[#06B6D4]/10 rounded-full blur-3xl" />
+          <section className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 sm:p-9">
+            <h2 className="text-2xl font-semibold">Request a project review</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-400">No payment and no obligation. We will reply with the next useful step.</p>
 
-                <div className="relative z-10 space-y-6">
-                  {/* Email */}
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-[#3B82F6]/10 flex items-center justify-center flex-shrink-0">
-                      <Mail className="w-6 h-6 text-[#3B82F6]" />
-                    </div>
-                    <div>
-                      <h3 className="text-white font-semibold mb-1">Email Us</h3>
-                      <a
-                        href="mailto:hello@kuvoco.com"
-                        className="text-sm text-[#9CA3AF] hover:text-[#3B82F6] transition-colors"
-                      >
-                        hello@kuvoco.com
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="h-px bg-white/5" />
-
-                  {/* Location */}
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-[#06B6D4]/10 flex items-center justify-center flex-shrink-0">
-                      <MapPin className="w-6 h-6 text-[#06B6D4]" />
-                    </div>
-                    <div>
-                      <h3 className="text-white font-semibold mb-1">Our Location</h3>
-                      <p className="text-sm text-[#9CA3AF]">Everett, WA</p>
-                    </div>
-                  </div>
-
-                  <div className="h-px bg-white/5" />
-
-                  {/* Phone */}
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center flex-shrink-0">
-                      <Phone className="w-6 h-6 text-[#8B5CF6]" />
-                    </div>
-                    <div>
-                      <h3 className="text-white font-semibold mb-1">Call Us</h3>
-                      <a
-                        href="tel:+14255550123"
-                        className="text-sm text-[#9CA3AF] hover:text-[#8B5CF6] transition-colors"
-                      >
-                        (425) 555-0123
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="h-px bg-white/5" />
-
-                  {/* Business Hours */}
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-[#F59E0B]/10 flex items-center justify-center flex-shrink-0">
-                      <Clock className="w-6 h-6 text-[#F59E0B]" />
-                    </div>
-                    <div>
-                      <h3 className="text-white font-semibold mb-1">Business Hours</h3>
-                      <p className="text-sm text-[#9CA3AF]">Mon-Fri: 9am - 6pm PST</p>
-                    </div>
-                  </div>
+            <form onSubmit={handleSubmit} className="mt-8 grid gap-5">
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div className="grid gap-2">
+                  <Label htmlFor="name">Your name</Label>
+                  <Input id="name" required value={form.name} onChange={(event) => update("name", event.target.value)} className="border-white/10 bg-slate-950/60" />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="email">Your email</Label>
+                  <Input id="email" type="email" required value={form.email} onChange={(event) => update("email", event.target.value)} className="border-white/10 bg-slate-950/60" />
                 </div>
               </div>
-            </FadeIn>
 
-            {/* Quick Quote CTA */}
-            <FadeIn delay={0.3}>
-              <div className="relative bg-gradient-to-br from-[#3B82F6]/10 to-[#06B6D4]/10 border border-[#3B82F6]/20 rounded-2xl p-6 overflow-hidden">
-                <h3 className="text-white font-semibold mb-2">Need a Quick Quote?</h3>
-                <p className="text-sm text-[#9CA3AF] mb-4">
-                  Check out our transparent pricing plans to see what fits your needs.
-                </p>
-                <Link href="/pricing">
-                  <Button className="w-full bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:from-[#2563EB] hover:to-[#0891B2] text-white font-semibold">
-                    View Pricing
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div className="grid gap-2">
+                  <Label htmlFor="business">Business name</Label>
+                  <Input id="business" required value={form.business} onChange={(event) => update("business", event.target.value)} className="border-white/10 bg-slate-950/60" />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="website">Current website <span className="text-slate-500">(optional)</span></Label>
+                  <Input id="website" type="url" placeholder="https://" value={form.website} onChange={(event) => update("website", event.target.value)} className="border-white/10 bg-slate-950/60" />
+                </div>
               </div>
-            </FadeIn>
-          </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="priority">What should the website help customers request?</Label>
+                <Input id="priority" placeholder="Example: roofing estimates, consultations, service calls" value={form.priority} onChange={(event) => update("priority", event.target.value)} className="border-white/10 bg-slate-950/60" />
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="message">Anything else we should know?</Label>
+                <Textarea id="message" rows={6} value={form.message} onChange={(event) => update("message", event.target.value)} className="resize-none border-white/10 bg-slate-950/60" />
+              </div>
+
+              <Button type="submit" size="lg" className="mt-2 h-12 bg-cyan-500 text-slate-950 hover:bg-cyan-400">
+                Open prepared email <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+              <p className="text-center text-xs leading-5 text-slate-500">Your information is not silently submitted. Your email app opens first so you can review and send it.</p>
+            </form>
+          </section>
         </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <FadeIn delay={0.4}>
-          <div className="relative overflow-hidden bg-gradient-to-br from-[#1A1A2E]/80 to-[#1A1A2E]/40 border border-white/10 rounded-3xl p-12 text-center">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#3B82F6]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#06B6D4]/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-
-            <div className="relative z-10">
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-                Let&apos;s Build Something Amazing
-              </h2>
-              <p className="text-lg text-[#9CA3AF] mb-6 max-w-2xl mx-auto">
-                From concept to launch, we&apos;re here to help your business succeed online.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-                <Link href="/templates">
-                  <Button
-                    size="lg"
-                    className="bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90 text-white font-semibold px-8 py-6 text-lg"
-                  >
-                    Browse Templates
-                  </Button>
-                </Link>
-                <Link href="/pricing">
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="border-white/20 hover:bg-white/5 text-white font-semibold px-8 py-6 text-lg"
-                  >
-                    See Pricing
-                  </Button>
-                </Link>
-              </div>
-              <p className="text-sm text-[#6B7280]">
-                We typically respond within 24 hours.
-              </p>
-            </div>
-          </div>
-        </FadeIn>
-      </section>
+      </div>
     </main>
   );
 }

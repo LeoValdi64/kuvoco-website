@@ -1,126 +1,57 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { ArrowRight, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+
+const highlights = [
+  "First working preview in 1–2 business days",
+  "Local SEO and conversion foundations",
+  "Async-first — no meeting required",
+];
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated background */}
-      <div className="absolute inset-0 bg-[#0A0A0F]">
-        {/* Grid pattern */}
-        <div className="absolute inset-0 grid-pattern" />
+    <section className="relative overflow-hidden pb-24 pt-36 sm:pb-32 sm:pt-44">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_20%,rgba(6,182,212,.16),transparent_34%),radial-gradient(circle_at_80%_30%,rgba(59,130,246,.14),transparent_32%)]" />
+      <div className="absolute inset-0 -z-10 grid-pattern opacity-40" />
 
-        {/* Gradient orbs */}
-        <div
-          className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full opacity-20"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(59,130,246,0.3) 0%, transparent 70%)",
-            animation: "float 8s ease-in-out infinite",
-          }}
-        />
-        <div
-          className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full opacity-15"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(6,182,212,0.3) 0%, transparent 70%)",
-            animation: "float 10s ease-in-out infinite 2s",
-          }}
-        />
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-10"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(59,130,246,0.2) 0%, transparent 60%)",
-            animation: "pulse-glow 6s ease-in-out infinite",
-          }}
-        />
-
-        {/* Top gradient fade */}
-        <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#0A0A0F] to-transparent" />
-      </div>
-
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-        >
-          <Badge
-            variant="outline"
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border-white/10 bg-white/5 mb-8 text-[#9CA3AF]"
-          >
-            <span className="w-2 h-2 rounded-full bg-[#3B82F6] animate-pulse" />
-            Trusted by 90+ businesses
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl">
+          <Badge variant="outline" className="mb-7 border-cyan-400/20 bg-cyan-400/5 px-4 py-2 text-cyan-300">
+            Mount Vernon · Serving businesses across Washington
           </Badge>
-        </motion.div>
+          <h1 className="max-w-4xl text-5xl font-bold tracking-[-0.04em] sm:text-6xl lg:text-7xl">
+            A website that helps local customers
+            <span className="block bg-gradient-to-r from-cyan-300 via-sky-400 to-blue-500 bg-clip-text text-transparent">
+              choose your business.
+            </span>
+          </h1>
+          <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-400 sm:text-xl">
+            Kuvoco builds fast, conversion-focused websites for service businesses. Clear scope, one-time project pricing, and no mandatory monthly contract.
+          </p>
 
-        {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, delay: 0.15 }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6"
-        >
-          Professional Websites.
-          <br />
-          <span className="gradient-text">Built Fast.</span>{" "}
-          <span className="text-white">Built Right.</span>
-        </motion.h1>
+          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+            <Button asChild size="lg" className="h-12 bg-cyan-500 px-7 text-slate-950 hover:bg-cyan-400">
+              <Link href="/contact">
+                Request a free preview
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="h-12 border-white/15 bg-white/5 px-7 text-white hover:bg-white/10">
+              <Link href="/#work">See demo concepts</Link>
+            </Button>
+          </div>
 
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-          className="text-lg sm:text-xl text-[#9CA3AF] max-w-2xl mx-auto mb-10 leading-relaxed"
-        >
-          We design and develop stunning websites for local businesses. Launch
-          in as little as 48 hours.
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.15 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <Button
-            asChild
-            className="group px-7 py-3.5 text-sm font-medium bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.4)]"
-          >
-            <Link href="/contact">
-              Get Started
-              <ArrowRight
-                size={16}
-                className="transition-transform group-hover:translate-x-1"
-              />
-            </Link>
-          </Button>
-          <Button
-            variant="outline"
-            asChild
-            className="group px-7 py-3.5 text-sm font-medium text-[#9CA3AF] border-white/10 rounded-lg hover:text-white hover:border-white/20 hover:bg-white/5 transition-all duration-300"
-          >
-            <Link href="/templates">
-              Browse Templates
-              <ChevronRight
-                size={16}
-                className="transition-transform group-hover:translate-x-1"
-              />
-            </Link>
-          </Button>
-        </motion.div>
+          <div className="mt-10 grid gap-3 sm:grid-cols-3">
+            {highlights.map((item) => (
+              <div key={item} className="flex items-start gap-2 text-sm leading-6 text-slate-300">
+                <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-cyan-400" />
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-
-      {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#0A0A0F] to-transparent z-10" />
     </section>
   );
 }

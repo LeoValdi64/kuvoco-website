@@ -1,158 +1,82 @@
-"use client";
-
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { Eye, ArrowRight } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
-const featuredTemplates = [
+const projects = [
   {
-    subdomain: "pizzeria",
-    name: "Pizzeria",
-    category: "Restaurants",
-    categoryColor: "bg-orange-500/20 text-orange-400",
+    slug: "paving",
+    name: "Cascade Surfaceworks",
+    category: "Paving & concrete",
+    label: "Rebranded concept",
+    url: "https://paving.kuvoco.com",
+    image: "/portfolio/paving.png",
   },
   {
-    subdomain: "dental",
-    name: "Dental Clinic",
-    category: "Health",
-    categoryColor: "bg-green-500/20 text-green-400",
+    slug: "construction",
+    name: "Rainline Siteworks",
+    category: "Construction & sitework",
+    label: "Rebranded concept",
+    url: "https://construction.kuvoco.com",
+    image: "/portfolio/construction.png",
   },
   {
-    subdomain: "roofing",
-    name: "Roofing",
-    category: "Home Services",
-    categoryColor: "bg-yellow-500/20 text-yellow-400",
+    slug: "venue",
+    name: "Alder & Ivory Estate",
+    category: "Event venue",
+    label: "Concept website",
+    url: "https://venue.kuvoco.com",
+    image: "/portfolio/venue.png",
   },
   {
-    subdomain: "autodetailing",
-    name: "Auto Detailing",
-    category: "Automotive",
-    categoryColor: "bg-red-500/20 text-red-400",
+    slug: "weddings",
+    name: "Cedarlume Weddings",
+    category: "Wedding planning",
+    label: "Concept website",
+    url: "https://weddings.kuvoco.com",
+    image: "/portfolio/weddings.png",
   },
   {
-    subdomain: "nailsalon",
-    name: "Nail Salon",
-    category: "Beauty",
-    categoryColor: "bg-pink-500/20 text-pink-400",
-  },
-  {
-    subdomain: "lawfirm",
-    name: "Law Firm",
-    category: "Professional",
-    categoryColor: "bg-blue-500/20 text-blue-400",
+    slug: "photography",
+    name: "Northline Photo",
+    category: "Creative portfolio",
+    label: "Concept website",
+    url: "https://photography.kuvoco.com",
+    image: "/portfolio/photography.png",
   },
 ];
 
 export default function Portfolio() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section id="templates" className="relative py-24 sm:py-32 bg-[#111827]/30">
-      <div ref={ref} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.3 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
-            Website Templates
-          </h2>
-          <p className="text-[#9CA3AF] max-w-2xl mx-auto">
-            Browse our collection of professionally designed templates.
-            Pick one you love, and we will customize it for your brand.
-          </p>
-        </motion.div>
-
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredTemplates.map((template, index) => (
-            <motion.div
-              key={template.subdomain}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.25, delay: index * 0.05 }}
-              className="group relative bg-white/[0.02] border border-white/5 rounded-xl overflow-hidden hover:border-[#3B82F6]/30 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(59,130,246,0.1)] transition-all duration-300"
-            >
-              {/* Screenshot */}
-              <div className="relative aspect-video overflow-hidden">
-                <Image
-                  src={`/portfolio/${template.subdomain}.jpg`}
-                  alt={`${template.name} website template`}
-                  fill
-                  className="object-cover object-top transition-transform duration-500 group-hover:scale-110"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              </div>
-
-              {/* Info */}
-              <div className="p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-white font-semibold text-sm">
-                    {template.name}
-                  </h3>
-                  <Badge className={`text-[10px] ${template.categoryColor}`}>
-                    {template.category}
-                  </Badge>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex gap-2">
-                  <a
-                    href={`https://${template.subdomain}.kuvoco.com`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1"
-                  >
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-full border-white/10 bg-white/5 text-[#9CA3AF] hover:text-white hover:bg-white/10 hover:border-white/20 text-xs"
-                    >
-                      <Eye className="w-3.5 h-3.5 mr-1.5" />
-                      Preview
-                    </Button>
-                  </a>
-                  <Link
-                    href={`/contact?template=${encodeURIComponent(template.name)}`}
-                    className="flex-1"
-                  >
-                    <Button
-                      size="sm"
-                      className="w-full bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:opacity-90 text-white text-xs"
-                    >
-                      I Want This
-                      <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+    <section id="work" className="scroll-mt-20 py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-400">Selected builds</p>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl">See the work, not a generic promise.</h2>
+            <p className="mt-5 text-lg leading-8 text-slate-400">These isolated portfolio demos include rebranded adaptations and original concepts. The demo domains do not represent operating businesses or claimed client results.</p>
+          </div>
+          <Link href="/contact" className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 hover:text-cyan-200">
+            Ask for a concept in your industry <ArrowUpRight className="h-4 w-4" />
+          </Link>
         </div>
 
-        {/* Browse All */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.3, delay: 0.15 }}
-          className="text-center mt-12"
-        >
-          <Link
-            href="/templates"
-            className="inline-flex items-center gap-2 text-sm text-[#3B82F6] hover:text-[#06B6D4] transition-colors"
-          >
-            Browse All Templates
-            <ArrowRight size={16} />
-          </Link>
-        </motion.div>
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project) => (
+            <a key={project.slug} href={project.url} target="_blank" rel="noopener noreferrer" className="group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.025] transition hover:-translate-y-1 hover:border-cyan-400/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-4 focus-visible:ring-offset-[#080b12]">
+              <div className="relative aspect-[16/10] overflow-hidden">
+                <Image src={project.image} alt="" fill className="object-cover object-top transition duration-500 group-hover:scale-105" sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw" />
+                <div className="absolute left-4 top-4 rounded-full border border-white/15 bg-slate-950/80 px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-slate-200 backdrop-blur">{project.label}</div>
+              </div>
+              <div className="flex items-center justify-between p-5">
+                <div>
+                  <h3 className="font-semibold">{project.name}<span className="sr-only"> (opens in a new tab)</span></h3>
+                  <p className="mt-1 text-xs text-slate-500">{project.category}</p>
+                </div>
+                <ArrowUpRight className="h-5 w-5 text-slate-500 transition group-hover:text-cyan-300" />
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
     </section>
   );
